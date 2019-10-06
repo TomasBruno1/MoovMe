@@ -52,7 +52,7 @@ public class OperadorDeUsuarios {
         }throw new IOException("Nombre no encontrado");
     }
 
-    public void agregarAdmin (String nombre, String contrasena){
+    public void agregarAdmin (String nombre, String contrasena) {
         //todo verificar que ya no exista
         Administrador nuevoAdmin = new Administrador(nombre, contrasena);
         usuarios.add(nuevoAdmin);

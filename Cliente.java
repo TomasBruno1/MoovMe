@@ -1,26 +1,24 @@
-import java.util.*;
+import java.util.ArrayList;
 
-public class Cliente {
-
-    public Cliente(String apodo){
-
-    puntosMios= 0;
-    activosUsados= null;
-    activoEnUso = null;
-    multa = null;
-    isBlocked = false;
-    this.apodo = apodo;
-
-    }
-
+public class Cliente extends Usuario {
     Multa multa;
     int puntosMios;
     Boolean isBlocked;
     ArrayList<Activo> activosUsados;
     Activo activoEnUso;
     String apodo;
+    int numeroDeTelefono;
 
-    //--------Métodos
+    public Cliente(String apodo){
+
+        puntosMios= 0;
+        activosUsados= null;
+        activoEnUso = null;
+        multa = null;
+        isBlocked = false;
+        this.apodo = apodo;
+
+    }
 
     public void registrarse(){
 
@@ -39,11 +37,10 @@ public class Cliente {
     }
 
     public void pagarMulta(){
-      //------------------------  multa.estaPagada = null;
+        //------------------------  multa.estaPagada = null;
     }
 
     public int obtenerPrecioPorUso(int minutos){
         return activoEnUso.precioFijo + activoEnUso.tarifaMin* minutos;
     }
-
 }

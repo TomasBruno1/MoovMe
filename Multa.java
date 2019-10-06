@@ -1,3 +1,4 @@
+
 public class Multa {
 
     public Multa(Cliente c) {
