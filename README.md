@@ -1,6 +1,13 @@
 # MoovMe
 Tp de Prog 2
 
+Consola principal:
+
+Cuando se inicia el programa muestra las opciones principales, y comienza un loop que solo se corta con la opción "salir". Cada una de las opciones inician un método que en algunos casos pide información al usuario, y luego delega la responsabilidad al operador de usuarios. Al iniciar sesión como administrador, se muestra una nueva pantalla que también esta en un loop, con todas las opciones que puede realizar, las cuales inician metodos que delegan al operador de usuarios.
+
+Operador de usuarios:
+
+Cada operador al ser creado conoce una lista de usuarios vacía, a la cual por default se le agrega un único administrador. Tiene métodos "getters" de la lista de usuarios y según tipo (Admin/Cliente). Al querer iniciar sesión como administrador, se reciben nombre y contraseña, y el método "adminCheck", verifica si existe el nombre de usuario en la lista (sino tira una exception) y si la contraseña es la del administrador (sino también tira una exception). Para crear un administrador, recibe nombre y constraseña, e inicializa una instancia de Administrador con esos datos, para después agregarlo a la lista. Para eliminar un administrador, busca por nombre si existe en la lista (sino tira una exception) y lo elimina.
 
 Cálculo de precio total de uso de activo:
 
