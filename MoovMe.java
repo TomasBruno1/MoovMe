@@ -1,7 +1,7 @@
 import java.io.IOException;
 
 public class MoovMe {
-    static OperadorDeUsuarios joe = new OperadorDeUsuarios();
+    static OperadorDeUsuarios operadorDeUsuarios = new OperadorDeUsuarios();
 
     public static void main(String[] args) {
         while(true){
@@ -37,7 +37,7 @@ public class MoovMe {
         String nombreIngresado = Scanner.getString("Ingrese su nombre de usuario: ");
         String contrasenaIngresada = Scanner.getString("Ingrese su contraseña: ");
         try {
-            joe.adminCheck(nombreIngresado, contrasenaIngresada);
+            operadorDeUsuarios.adminCheck(nombreIngresado, contrasenaIngresada);
             showAdminScreen();
         } catch (ContrasenaIncorrectaException e) {
             System.out.println("La contraseña es incorrecta.");
@@ -89,13 +89,13 @@ public class MoovMe {
     }
 
     private static void verListaClientes() {
-        for (Cliente cliente: joe.getClientes()) {
+        for (Cliente cliente: operadorDeUsuarios.getClientes()) {
             System.out.println("-" + cliente.getNombreDeUsuario());
         }
     }
 
     private static void verListaAdmins() {
-        for (Administrador admin: joe.getAdmins()) {
+        for (Administrador admin: operadorDeUsuarios.getAdmins()) {
             System.out.println("-" + admin.getNombreDeUsuario());
         }
     }
@@ -110,7 +110,7 @@ public class MoovMe {
         String nombreIngresado = Scanner.getString("Ingrese un nombre de usuario: ");
 
         try {
-            joe.eliminarAdmin(nombreIngresado);
+            operadorDeUsuarios.eliminarAdmin(nombreIngresado);
             System.out.println("Admin eliminado");
         } catch (IOException e) {
             System.out.println("Nombre no encontrado");
@@ -120,7 +120,7 @@ public class MoovMe {
     private static void crearAdmin() {
         String nombreIngresado = Scanner.getString("Ingrese un nombre de usuario: ");
         String contrasenaIngresada = Scanner.getString("Ingrese una contraseña: ");
-        joe.agregarAdmin(nombreIngresado, contrasenaIngresada);
+        operadorDeUsuarios.agregarAdmin(nombreIngresado, contrasenaIngresada);
         System.out.println("Admin agregado");
     }
 
