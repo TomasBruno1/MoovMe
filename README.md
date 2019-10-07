@@ -19,7 +19,7 @@ El precio total va a ser la suma del precio fijo con el producto de la tarifa po
 Multas y bloqueo de clientes por estar fuera de zona:
 
 Cada activo va a tener una zona de origen, en caso de que esta zona de origen no sea la misma que la actual ( estaEnZona sea false) el administrador puede generar una multa a dicho cliente cuyo precio va a variar según el tipo de activo. La multa también tiene un estado de pago.
-Además las cuentas de los clientes tienen dos estados: bloqueada (isBlocked = true) o no bloqueada (isBlocked = false). El administrador es el único que puede bloquear o desbloquear las cuentas. 
+Además las cuentas de los clientes tienen dos estados: bloqueada (isBlocked = true) o no bloqueada (isBlocked = false) dependiendo de si tiene o no multas impagas. El administrador es el único que puede bloquear o desbloquear las cuentas. 
 
 Suma de puntos por uso de activo:
 
