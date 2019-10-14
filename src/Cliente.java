@@ -35,7 +35,11 @@ public class Cliente extends Usuario {
     public Activo getActivoEnUso(){
         return activoEnUso;
     }
-
+    
+    public void setActivoEnUso(Activo activoEnUso) {
+        this.activoEnUso = activoEnUso;
+    }
+    
     public void bloquearme(){
         isBlocked = true;
     }
