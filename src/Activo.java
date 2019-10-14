@@ -1,4 +1,4 @@
-public abstract class Activo {
+public class Activo {
     public Activo(TipoDeActivo nombre, Zona zonaDeOrigen, int precio, int tarifaMin) {
         this.nombre = nombre;
         this.zonaDeOrigen = zonaDeOrigen;

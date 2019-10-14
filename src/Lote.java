@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Lote {
@@ -19,12 +20,12 @@ public class Lote {
         return codigoReal;
     }
 
-    public Activo getActivoPorCodigo(int codigo){
+    public Activo getActivoPorCodigo(int codigo) throws IOException {
         for(int i= 0; i<this.activosDelLote.size(); i++){
             if(activosDelLote.get(i).getCodigo()== codigo){
                 return activosDelLote.get(i);
             }
-        }return null;
+        }throw new IOException("Activo no encontrado");
     }
 
     public Zona getZona(){

@@ -1,4 +1,4 @@
-
+import java.util.ArrayList;
 
 public class Administrador extends Usuario {
     public Administrador(String nombre, String contrasena){
@@ -29,6 +29,7 @@ public class Administrador extends Usuario {
         ArrayList<Activo> activos = this.crearActivosParaLote(nombre, cantidad, zona, precio, tarifa);
         return new Lote(activos, zona, nombreDelLote);
     }
+
 
     public void adjudicarActivoAlCliente(Cliente c, TipoDeActivo tipodeactivo, Lote lote){
         c.setActivoEnUso(lote.activosDelLote.get(1)); //Codigo a cambiar, solo para probar

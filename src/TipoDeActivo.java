@@ -3,4 +3,8 @@ public class TipoDeActivo {
     public TipoDeActivo(String tipo){
         nombre= tipo;
     }
+
+    public String getNombre() {
+        return nombre;
+    }
 }
