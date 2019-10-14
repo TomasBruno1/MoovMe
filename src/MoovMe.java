@@ -111,7 +111,7 @@ public class MoovMe {
                 "MOOVME ADMIN" + "\n" +
                 usuarioActivo.getNombreDeUsuario() +
                 "Desbloquear Cliente"+ "\n"+
-                "1. Ingresar nombre del cliente para bloquear" + "\n" +
+                "1. Ingresar nombre del cliente para desbloquear" + "\n" +
                 "2. Volver" + "\n");
 
         while (true) {
@@ -206,6 +206,7 @@ public class MoovMe {
     }
 
     private static void showClientScreen() {
+        System.out.println("Inicio de sesion exitosa");
         while (true){
         System.out.println("\n" + "------------------------------------" + "\n" +
                 "MOOVME CLIENTE" + "\n" +

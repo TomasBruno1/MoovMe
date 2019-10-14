@@ -91,7 +91,7 @@ public class OperadorDeUsuarios {
 
     public void agregarAdmin (String nombre, String contrasena) throws IOException {
         for (Usuario usuario: usuarios) {
-            if(usuario.getNombreDeUsuario().equals(nombre)) throw new IOException("El admin ya existe");
+            if(usuario.getNombreDeUsuario().equals(nombre)) throw new IOException("El nombre ya fue utilizado");
         }
         Administrador nuevoAdmin = new Administrador(nombre, contrasena);
         usuarios.add(nuevoAdmin);

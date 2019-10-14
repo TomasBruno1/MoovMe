@@ -13,7 +13,7 @@ public class Cliente extends Usuario {
 
         puntosMios= 0;
         puntosTotales = 0;
-        activosUsados= null;
+        activosUsados= new ArrayList<>();
         activoEnUso = null;
         multa = null;
         isBlocked = false;
@@ -23,9 +23,6 @@ public class Cliente extends Usuario {
 
     }
 
-    public void registrarse(){
-
-    }
 
     public int getNumeroDeTelefono() {
         return numeroDeTelefono;
