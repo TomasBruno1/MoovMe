@@ -1,9 +1,13 @@
 public abstract class Activo {
-    public Activo(Zona zonaDeOrigen) {
+    public Activo(TipoDeActivo nombre, Zona zonaDeOrigen, int precio, int tarifaMin) {
+        this.nombre = nombre;
         this.zonaDeOrigen = zonaDeOrigen;
         this.zonaActualDeEncuentro = zonaDeOrigen;
         estaEnZona = true;
-        tarifaMin = 0;
+        this.tarifaMin = tarifaMin;
+        precioFijo= precio;
+        valorDeMulta= precio/2;
+        codigoReal = this.codigo++;
     }
 
     int puntos;
@@ -12,9 +16,10 @@ public abstract class Activo {
     Zona zonaActualDeEncuentro;
     int valorDeMulta;
     boolean estaEnZona;
-    int ponderacion;
+    public static int codigo = 1;
+    int codigoReal;
     int precioFijo;
-
+    TipoDeActivo nombre;
 
     //Metodos
 
@@ -29,9 +34,10 @@ public abstract class Activo {
         }return true;
     }
 
-    public void setPrecioDeTarifa(){
-        tarifaMin = zonaDeOrigen.getValor()*ponderacion;
+    public int getCodigo(){
+        return codigoReal;
     }
+
 
     public int getPrecioDeTarifa(){
         return this.tarifaMin;
