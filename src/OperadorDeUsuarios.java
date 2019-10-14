@@ -22,9 +22,27 @@ public class OperadorDeUsuarios {
         }throw new UsuarioIncorrectoException();
     }
 
+    public void clienteCheck (String nombreIngresado, int numeroDeTelefonoIngresado, String contrasenaIngresada) throws IOException {
+        for (Usuario usuario : usuarios) {
+            if (usuario instanceof Cliente) {
+                if (usuario.getNombreDeUsuario().equals(nombreIngresado) && usuario.getContrasena().equals(contrasenaIngresada) && (((Cliente) usuario).getNumeroDeTelefono() == numeroDeTelefonoIngresado)) {
+                    return;
+                }
+            }
+        }throw new IOException("Cliente invalido");
+
+}
+
     public ArrayList<Usuario> getUsuarios() {
         return usuarios;
     }
+
+    public Usuario getUsuario (String nombre) throws IOException {
+        for (Usuario usuario: usuarios) {
+            if (usuario.getNombreDeUsuario().equals(nombre)) return usuario;
+        } throw new IOException("Usuario no encontrado");
+    }
+
     public ArrayList<Administrador> getAdmins(){
         ArrayList<Administrador> administradores = new ArrayList<>();
         for (Usuario usuario: usuarios) {
@@ -40,6 +58,25 @@ public class OperadorDeUsuarios {
         return  clientes;
     }
 
+    public void agregarCliente (String nombre, int numeroDeTelefono, String contrasena) throws IOException {
+        for (Usuario usuario: usuarios) {
+            if(usuario.getNombreDeUsuario().equals(nombre)) throw new IOException("El nombre ya fue utilizado");
+        }
+        Cliente nuevoCliente = new Cliente(nombre, numeroDeTelefono, contrasena);
+        usuarios.add(nuevoCliente);
+    }
+
+    public void eliminarCliente (String nombre) throws IOException {
+        for (Usuario usuario: usuarios) {
+            if (usuario instanceof Cliente){
+                if (usuario.getNombreDeUsuario().equals(nombre)){
+                    usuarios.remove(usuario);
+                    return;
+                }
+            }
+        }throw new IOException("Nombre no encontrado");
+    }
+
     public void eliminarAdmin (String nombre) throws IOException {
         //todo verificar que por lo menos quede 1 admin
         for (Usuario usuario: usuarios) {
@@ -52,8 +89,10 @@ public class OperadorDeUsuarios {
         }throw new IOException("Nombre no encontrado");
     }
 
-    public void agregarAdmin (String nombre, String contrasena) {
-        //todo verificar que ya no exista
+    public void agregarAdmin (String nombre, String contrasena) throws IOException {
+        for (Usuario usuario: usuarios) {
+            if(usuario.getNombreDeUsuario().equals(nombre)) throw new IOException("El admin ya existe");
+        }
         Administrador nuevoAdmin = new Administrador(nombre, contrasena);
         usuarios.add(nuevoAdmin);
 

@@ -3,25 +3,32 @@ import java.util.ArrayList;
 public class Cliente extends Usuario {
     Multa multa;
     int puntosMios;
+    int puntosTotales;
     Boolean isBlocked;
     ArrayList<Activo> activosUsados;
     Activo activoEnUso;
-    String apodo;
     int numeroDeTelefono;
 
-    public Cliente(String apodo){
+    public Cliente(String nombre, int numeroDeTelefono, String contrasena){
 
         puntosMios= 0;
+        puntosTotales = 0;
         activosUsados= null;
         activoEnUso = null;
         multa = null;
         isBlocked = false;
-        this.apodo = apodo;
+        this.nombreDeUsuario = nombre;
+        this.numeroDeTelefono = numeroDeTelefono;
+        this.contrasena = contrasena;
 
     }
 
     public void registrarse(){
 
+    }
+
+    public int getNumeroDeTelefono() {
+        return numeroDeTelefono;
     }
 
     public void usarActivo(Activo activo){
