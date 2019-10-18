@@ -46,6 +46,6 @@ public class Cliente extends Usuario {
     }
 
     public int obtenerPrecioPorUso(int minutos){
-        return activoEnUso.precioFijo + activoEnUso.tarifaMin* minutos;
+        return activoEnUso.getPrecioFijo + activoEnUso.getPrecioDeTarifa* minutos;
     }
 }
