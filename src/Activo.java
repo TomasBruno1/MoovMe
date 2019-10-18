@@ -26,7 +26,11 @@ public class Activo {
     public int getValorDeMulta(){
         return valorDeMulta;
     }
-
+    
+    public int getPrecioFijo(){
+        return precioFijo;
+    }
+    
     public boolean estaEnZona(){
         if(!this.zonaActualDeEncuentro.equals(this.zonaDeOrigen)){
             estaEnZona = false;
