@@ -282,6 +282,8 @@ public class MoovMe {
     }
 
     private static void showClientScreen() {
+        
+        // ver pantalla si el cliente esta bloqueado, agregar opcion de pago 
         System.out.println("Inicio de sesion exitosa");
         while (true){
         System.out.println("\n" + "------------------------------------" + "\n" +
