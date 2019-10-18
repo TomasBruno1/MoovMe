@@ -42,7 +42,7 @@ public class Cliente extends Usuario {
     
 
     public void pagarMulta(){
-        //------------------------  multa.estaPagada = null;
+      multa.estaPagada = true;
     }
 
     public int obtenerPrecioPorUso(int minutos){
