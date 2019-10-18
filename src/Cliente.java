@@ -40,9 +40,6 @@ public class Cliente extends Usuario {
         this.activoEnUso = activoEnUso;
     }
     
-    public void bloquearme(){
-        isBlocked = true;
-    }
 
     public void pagarMulta(){
         //------------------------  multa.estaPagada = null;
