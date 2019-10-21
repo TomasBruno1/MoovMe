@@ -9,7 +9,6 @@ public class Activo {
         valorDeMulta= precio/2;
         codigoReal = this.codigo++;
     }
-
     int puntos;
     int tarifaMin;
     Zona zonaDeOrigen;
@@ -20,40 +19,32 @@ public class Activo {
     int codigoReal;
     int precioFijo;
     TipoDeActivo nombre;
-
     //Metodos
-
     public int getValorDeMulta(){
         return valorDeMulta;
     }
-    
+
+
     public int getPrecioFijo(){
         return precioFijo;
     }
-    
+
     public boolean estaEnZona(){
         if(!this.zonaActualDeEncuentro.equals(this.zonaDeOrigen)){
             estaEnZona = false;
             return false;
         }return true;
     }
-
     public int getCodigo(){
         return codigoReal;
     }
-
-
     public int getPrecioDeTarifa(){
         return this.tarifaMin;
     }
-
     public int getPuntos(){
         return this.puntos;
     }
-
     public boolean getSiEstaEnZona(){
         return estaEnZona;
     }
-
-
 }

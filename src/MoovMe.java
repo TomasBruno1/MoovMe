@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class MoovMe {
     static OperadorDeUsuarios operadorDeUsuarios = new OperadorDeUsuarios();
@@ -115,16 +114,16 @@ public class MoovMe {
         while (true) {
             switch (Scanner.getInt("Ingrese una opcion: ")) {
                 case 1:
-                    String nombreLote = Scanner.getString("Ingrese el nombre del lote");
-                    String tipoActivoNombre = Scanner.getString("Ingrese el tipo del activo");
-                    int cantidad = Scanner.getInt("Ingrese el cantidad de activos");
-                    String nombreZona = Scanner.getString("Ingrese el nombre de la zona");
-                    int precio = Scanner.getInt("Ingrese el precio");
-                    int tarifa = Scanner.getInt("Ingrese la tarifa");
+                    String nombreLote = Scanner.getString("Ingrese el nombre del lote: ");
+                    String tipoActivoNombre = Scanner.getString("Ingrese el tipo del activo: ");
+                    int cantidad = Scanner.getInt("Ingrese la cantidad de activos: ");
+                    String nombreZona = Scanner.getString("Ingrese el nombre de la zona: ");
+                    int precio = Scanner.getInt("Ingrese el precio: ");
+                    int tarifa = Scanner.getInt("Ingrese la tarifa: ");
 
-                    try {
+                    try{
                         TipoDeActivo tipoDeActivo =  operadorDeZonas.getTipoActivo(tipoActivoNombre);
-                        Zona suZona = operadorDeZonas.getZona(nombreZona);//todo corregir creacion de lote, da invalido
+                        Zona suZona = operadorDeZonas.getZona(nombreZona);
                         operadorDeZonas.agregarLoteAZona(((Administrador)usuarioActivo).crearLoteDeCompraDeActivos(nombreLote, tipoDeActivo, cantidad, suZona, precio, tarifa), suZona.getNombre());
                         System.out.println("Lote agregado a "+ nombreZona);
                         return;
@@ -283,7 +282,7 @@ public class MoovMe {
 
     private static void showClientScreen() {
         
-        // ver pantalla si el cliente esta bloqueado, agregar opcion de pago 
+        //todo ver pantalla si el cliente esta bloqueado, agregar opcion de pago
         System.out.println("Inicio de sesion exitosa");
         while (true){
         System.out.println("\n" + "------------------------------------" + "\n" +

@@ -42,10 +42,10 @@ public class Cliente extends Usuario {
     
 
     public void pagarMulta(){
-      multa.estaPagada = true;
+      multa.estoyPagada = true;
     }
 
     public int obtenerPrecioPorUso(int minutos){
-        return activoEnUso.getPrecioFijo + activoEnUso.getPrecioDeTarifa* minutos;
+        return activoEnUso.getPrecioFijo() + activoEnUso.getPrecioDeTarifa()* minutos;
     }
 }

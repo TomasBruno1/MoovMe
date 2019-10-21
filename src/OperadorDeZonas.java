@@ -58,6 +58,7 @@ public class OperadorDeZonas {
         for (Zona zona: zonas) {
             if (zona.getNombre().equals(nombreZona)){
                 zona.agregarLote(unLote);
+                return;
             }
         }throw new IOException("Zona no encontrada");
     }
