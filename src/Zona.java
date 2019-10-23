@@ -17,6 +17,28 @@ ArrayList<Lote> lotes;
         lotes.remove(unLote);
     }
 
+    public ArrayList<Lote> getLotes() {
+        return lotes;
+    }
+
+    public ArrayList<Activo>  activosDeZona(){
+        ArrayList<Activo> activos = new ArrayList<>();
+        for (Lote lote : lotes) {
+            for (Activo activo :
+                    lote.getActivosDelLote()){
+                activos.add(activo);
+            }
+        }
+        return activos;
+    }
+
+    public void mostrarActivosDeZona() {
+        for (Activo activo :
+                activosDeZona()) {
+            System.out.println(activo.getNombre().getNombre());
+        }
+    }
+
     public int getValor(){
     return valor;
 }

@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Cliente extends Usuario {
@@ -32,8 +33,9 @@ public class Cliente extends Usuario {
         puntosMios++;
     }
 
-    public Activo getActivoEnUso(){
-        return activoEnUso;
+    public Activo getActivoEnUso() throws IOException {
+        if(activoEnUso == null) throw new IOException("No se encontro un activo asociado.");
+        else return activoEnUso;
     }
     
     public void setActivoEnUso(Activo activoEnUso) {
@@ -43,9 +45,14 @@ public class Cliente extends Usuario {
 
     public void pagarMulta(){
       multa.estoyPagada = true;
+      isBlocked = false;
     }
 
     public int obtenerPrecioPorUso(int minutos){
         return activoEnUso.getPrecioFijo() + activoEnUso.getPrecioDeTarifa()* minutos;
+    }
+
+    public Boolean getBlocked() {
+        return isBlocked;
     }
 }

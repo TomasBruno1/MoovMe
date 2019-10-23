@@ -1,14 +1,4 @@
 public class Activo {
-    public Activo(TipoDeActivo nombre, Zona zonaDeOrigen, int precio, int tarifaMin) {
-        this.nombre = nombre;
-        this.zonaDeOrigen = zonaDeOrigen;
-        this.zonaActualDeEncuentro = zonaDeOrigen;
-        estaEnZona = true;
-        this.tarifaMin = tarifaMin;
-        precioFijo= precio;
-        valorDeMulta= precio/2;
-        codigoReal = this.codigo++;
-    }
     int puntos;
     int tarifaMin;
     Zona zonaDeOrigen;
@@ -19,6 +9,17 @@ public class Activo {
     int codigoReal;
     int precioFijo;
     TipoDeActivo nombre;
+
+    public Activo(TipoDeActivo nombre, Zona zonaDeOrigen, int precio, int tarifaMin) {
+        this.nombre = nombre;
+        this.zonaDeOrigen = zonaDeOrigen;
+        this.zonaActualDeEncuentro = zonaDeOrigen;
+        estaEnZona = true;
+        this.tarifaMin = tarifaMin;
+        precioFijo= precio;
+        valorDeMulta= precio/2;
+        codigoReal = this.codigo++;
+    }
     //Metodos
     public int getValorDeMulta(){
         return valorDeMulta;
@@ -46,5 +47,8 @@ public class Activo {
     }
     public boolean getSiEstaEnZona(){
         return estaEnZona;
+    }
+    public TipoDeActivo getNombre() {
+        return nombre;
     }
 }

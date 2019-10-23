@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Administrador extends Usuario {
@@ -6,8 +7,10 @@ public class Administrador extends Usuario {
         this.contrasena = contrasena;
     }
 
-    public void bloquearCliente(Cliente c){
+    public void bloquearCliente(Cliente c) throws IOException {
+        if(c.getActivoEnUso() == null) return;
         c.isBlocked = true;
+        multarCliente(c);
     }
 
     public void desbloquearCliente(Cliente c){

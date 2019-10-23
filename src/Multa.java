@@ -1,15 +1,20 @@
+import java.io.IOException;
 
 public class Multa {
-
-    public Multa(Cliente c) {
-        estoyPagada = false;
-        activoAsociado = c.getActivoEnUso();
-        valor = this.setValorDeMulta();
-    }
 
     Activo activoAsociado;
     int valor;
     boolean estoyPagada;
+
+    public Multa(Cliente c) {
+        estoyPagada = false;
+        try {
+            activoAsociado = c.getActivoEnUso();
+            valor = this.setValorDeMulta();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     public int setValorDeMulta(){
         return this.activoAsociado.getValorDeMulta();

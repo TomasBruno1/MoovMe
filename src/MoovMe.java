@@ -60,7 +60,7 @@ public class MoovMe {
                     "\n" +
                     "1. Crear Nuevo Admin" + "\n" +
                     "2. Eliminar Admin" + "\n" +
-                    "3. Bloquear Cliente (Declarar robo)" + "\n" +
+                    "3. Reportar Robo" + "\n" +
                     "4. Desbloquear Cliente" + "\n" +
                     "5. Ver lista Admins" + "\n" +
                     "6. Ver lista Clientes" + "\n" +
@@ -212,33 +212,32 @@ public class MoovMe {
 
     private static void bloquearCliente() {
         System.out.println("\n" + "------------------------------------" + "\n" +
-                "MOOVME ADMIN" + "\n" +
-                usuarioActivo.getNombreDeUsuario() +"\n"+
-                "Bloquear Cliente"+ "\n"+
-                "1. Ingresar nombre del cliente para bloquear" + "\n" +
-                "2. Volver" + "\n");
+                    "MOOVME ADMIN" + "\n" +
+                    usuarioActivo.getNombreDeUsuario() +"\n"+
+                    "Bloquear Cliente"+ "\n"+
+                    "1. Ingresar nombre del cliente para bloquear" + "\n" +
+                    "2. Volver" + "\n");
 
-        while (true){
-            switch  (Scanner.getInt("Ingrese una opcion: ")){
-            case 1:
-                String nombreCliente = Scanner.getString("Ingrese el nombre del cliente a bloquear");
-                try {
-                    ((Administrador)usuarioActivo).bloquearCliente((Cliente) operadorDeUsuarios.getUsuario(nombreCliente));
-                    System.out.println("Cliente bloqueado");
-                    //todo multar al cliente
-                    return;
-                } catch (IOException e) {
-                    System.out.println("Cliente no encontrado");
+            while (true){
+                switch  (Scanner.getInt("Ingrese una opcion: ")){
+                    case 1:
+                        String nombreCliente = Scanner.getString("Ingrese el nombre del cliente a bloquear");
+                        try {
+                            ((Administrador)usuarioActivo).bloquearCliente((Cliente) operadorDeUsuarios.getUsuario(nombreCliente));
+                            System.out.println("Cliente bloqueado");
+                            return;
+                        } catch (IOException e) {
+                            System.out.println(e.getMessage());
+                        }
+                        break;
+
+                    case 2:
+                        return;
+                    default:
+                        System.out.println("Opcion invalida");
+                        break;
+
                 }
-                break;
-
-            case 2:
-                return;
-                default:
-                    System.out.println("Opcion invalida");
-                    break;
-
-            }
 
 
         }
@@ -271,25 +270,50 @@ public class MoovMe {
         String nombreIngresado = Scanner.getString("Ingrese su nombre de usuario: ");
         int numTelIngresado = Scanner.getInt("Ingrese su telefono: ");
         String contrasenaIngresada = Scanner.getString("Ingrese su contraseña: ");
+
         try {
             operadorDeUsuarios.clienteCheck(nombreIngresado, numTelIngresado, contrasenaIngresada);
             usuarioActivo = operadorDeUsuarios.getUsuario(nombreIngresado);
+            if(((Cliente)operadorDeUsuarios.getUsuario(nombreIngresado)).getBlocked()) showMultaPaymentScreen();
             showClientScreen();
         } catch (IOException e) {
-            System.out.println("El cliente es invalido.");
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private static void showMultaPaymentScreen() {
+        System.out.println("\n" + "------------------------------------" + "\n" +
+                usuarioActivo.getNombreDeUsuario() + "! TU USUARIO ESTA BLOQUADO!" + "\n" +
+                "Puedes pagar tu multa de " +
+                ((Cliente)usuarioActivo).multa.getValorDeMulta() + " pesos para desbloquearte." + "\n"+
+                "1. Pagar Multa" + "\n" +
+                "2. Cancelar" + "\n");
+
+        while (true) {
+            switch (Scanner.getInt("Ingrese una opcion: ")) {
+                case 1:
+                    ((Cliente) usuarioActivo).pagarMulta();
+
+                case 2:
+                    main(new String[0]);//todo hmm no anda ni ahi (testear)
+                default:
+                    System.out.println("Opcion invalida");
+                    break;
+
+            }
         }
     }
 
     private static void showClientScreen() {
-        
-        //todo ver pantalla si el cliente esta bloqueado, agregar opcion de pago
+
         System.out.println("Inicio de sesion exitosa");
         while (true){
         System.out.println("\n" + "------------------------------------" + "\n" +
                 "MOOVME CLIENTE" + "\n" +
                 usuarioActivo.getNombreDeUsuario() +"\n"+
                 "1. Ver Activos Disponibles" + "\n"+
-                "2. Cerrar sesion" + "\n");
+                "2. Alquilar Activo" + "\n"+
+                "3. Cerrar sesion" + "\n");
 
             switch  (Scanner.getInt("Ingrese una opcion: ")){
 
@@ -298,6 +322,10 @@ public class MoovMe {
                     break;
 
                 case 2:
+                    showAlquilarActivoScreen();
+
+
+                case 3:
                     usuarioActivo = null;
                     return;
                 default:
@@ -309,9 +337,38 @@ public class MoovMe {
         }
     }
 
+    private static void showAlquilarActivoScreen() {
+        System.out.println("\n" + "------------------------------------" + "\n" +
+                "ALQUILER DE ACTIVOS" + "\n" +
+                usuarioActivo.getNombreDeUsuario() + "\n");
+        showActivosDisponibles();
+        System.out.println("1. Ingresar tipo de activo: " + "\n" +
+                "2. Volver: " + "\n");
+
+        while (true) {
+            switch (Scanner.getInt("Ingrese una opcion: ")) {
+                case 1:
+                    //todo Alquilar activo
+                    break;
+                case 2:
+                    return;
+                default:
+                    System.out.println("Opcion invalida");
+            }
+        }
+    }
+
     private static void showActivosDisponibles() {
+        String nombreDeZona = Scanner.getString("En que zona se encuentra: ");
+
         System.out.println("Estos son los activos");
         //todo mostrar activos
+        try {
+            Zona suZona = operadorDeZonas.getZona(nombreDeZona);
+            suZona.mostrarActivosDeZona();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private static void register() {
