@@ -5,33 +5,50 @@ import java.util.ArrayList;
 
 public class OperadorDeUsuarios {
     ArrayList<Usuario> usuarios;
+    Usuario usuarioActivo;
+
     public OperadorDeUsuarios(){
         usuarios = new ArrayList<>();
         usuarios.add(new Administrador("admin", "admin"));
+        usuarioActivo = null;
     }
 
-    public void adminCheck(String nombreIngresado, String contrasenaIngresada) throws ContrasenaIncorrectaException, UsuarioIncorrectoException {
+    public void adminCheck(String nombreIngresado, String contrasenaIngresada) throws IOException {
+        //todo ver si se puede reutilizar codigo con clienteCheck
         for (Usuario usuario : usuarios) {
             if(usuario instanceof Administrador){
                 if (usuario.getNombreDeUsuario().equals(nombreIngresado) && usuario.getContrasena().equals(contrasenaIngresada)){
+                    usuarioActivo = usuario;
                     return;
                 }else if (usuario.getNombreDeUsuario().equals(nombreIngresado)&& !usuario.getContrasena().equals(contrasenaIngresada)){
-                    throw new ContrasenaIncorrectaException();
+                    throw new IOException("Contraseña incorrecta");
                 }
             }
-        }throw new UsuarioIncorrectoException();
+        }throw new IOException("Nombre de usuario incorrecto");
     }
 
-    public void clienteCheck (String nombreIngresado, int numeroDeTelefonoIngresado, String contrasenaIngresada) throws IOException {
+    public void clienteCheck (String nombreIngresado, String contrasenaIngresada) throws IOException {
         for (Usuario usuario : usuarios) {
             if (usuario instanceof Cliente) {
-                if (usuario.getNombreDeUsuario().equals(nombreIngresado) && usuario.getContrasena().equals(contrasenaIngresada) && (((Cliente) usuario).getNumeroDeTelefono() == numeroDeTelefonoIngresado)) {
+                if (usuario.getNombreDeUsuario().equals(nombreIngresado) && usuario.getContrasena().equals(contrasenaIngresada)){
+                    usuarioActivo = usuario;
                     return;
+                }else if (usuario.getNombreDeUsuario().equals(nombreIngresado)&& !usuario.getContrasena().equals(contrasenaIngresada)){
+                    throw new IOException("Contraseña incorrecta");
                 }
             }
-        }throw new IOException("Cliente invalido");
+        }throw new IOException("Nombre de usuario incorrecto");
 
-}
+    }
+
+    public void cerrarSesion (){
+        usuarioActivo = null;
+    }
+
+    public Usuario getUsuarioActivo()  {
+        return usuarioActivo;
+
+    }
 
     public ArrayList<Usuario> getUsuarios() {
         return usuarios;
@@ -78,10 +95,10 @@ public class OperadorDeUsuarios {
     }
 
     public void eliminarAdmin (String nombre) throws IOException {
-        //todo verificar que por lo menos quede 1 admin
         for (Usuario usuario: usuarios) {
             if (usuario instanceof Administrador){
                 if (usuario.getNombreDeUsuario().equals(nombre)){
+                    if (getAdmins().size() == 1) throw new IOException("No se pueden eliminar todos los admins");
                     usuarios.remove(usuario);
                     return;
                 }

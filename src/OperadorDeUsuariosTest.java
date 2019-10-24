@@ -72,7 +72,7 @@ public class OperadorDeUsuariosTest {
     }
 
     @org.junit.Test
-    public void testAdminCheck() throws UsuarioIncorrectoException, ContrasenaIncorrectaException, IOException {
+    public void testAdminCheck() throws IOException {
         String unNombre = "Name";
         String unaContrasena = "1234";
 
