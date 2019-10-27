@@ -16,6 +16,10 @@ public class Lote {
         codigoReal = this.codigo++;
     }
 
+    public String getNombreDelLote() {
+        return nombreDelLote;
+    }
+
     public int getCodigo(){
         return codigoReal;
     }

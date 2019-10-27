@@ -41,7 +41,10 @@ public class Cliente extends Usuario {
     public void setActivoEnUso(Activo activoEnUso) {
         this.activoEnUso = activoEnUso;
     }
-    
+
+    public Multa getMulta() {
+        return multa;
+    }
 
     public void pagarMulta(){
       multa.estoyPagada = true;

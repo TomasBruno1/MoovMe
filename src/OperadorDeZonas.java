@@ -27,6 +27,16 @@ public class OperadorDeZonas {
         tipoDeActivos.add(new TipoDeActivo(nombreTipoDeActivo));
     }
 
+    public void eliminarTipoDeActivo (String nombreTipoDeActivo) throws IOException {
+        for (TipoDeActivo tipodeactivo: tipoDeActivos) {
+            if (tipodeactivo.getNombre().equals(nombreTipoDeActivo)) {
+                tipoDeActivos.remove(tipodeactivo);
+                return;
+            }
+        }throw new IOException("Tipo de activo no encontrado");
+    }
+
+
     public void checkTipoActivo (String nombre) throws IOException {
         for (TipoDeActivo tipodeactivo: tipoDeActivos) {
             if (tipodeactivo.getNombre().equals(nombre)) return;
@@ -44,15 +54,16 @@ public class OperadorDeZonas {
         return zonas;
     }
 
+    public ArrayList<TipoDeActivo> getTipoDeActivos() {
+        return tipoDeActivos;
+    }
+
     public Zona getZona (String nombre) throws IOException {
         for (Zona zona: zonas) {
             if (zona.getNombre().equals(nombre))return zona;
         }throw new IOException("Zona no encontrada");
     }
 
-    public void eliminarTipoDeActivo (TipoDeActivo unTipoDeActivo){
-        tipoDeActivos.remove(unTipoDeActivo);
-    }
 
     public void agregarLoteAZona (Lote unLote, String nombreZona) throws IOException {
         for (Zona zona: zonas) {

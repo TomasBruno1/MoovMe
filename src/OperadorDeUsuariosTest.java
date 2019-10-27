@@ -73,13 +73,50 @@ public class OperadorDeUsuariosTest {
 
     @org.junit.Test
     public void testAdminCheck() throws IOException {
+        //setup
         String unNombre = "Name";
         String unaContrasena = "1234";
 
         operadorUsuarios.agregarAdmin(unNombre, unaContrasena);
 
+        //actions
         operadorUsuarios.adminCheck(unNombre,unaContrasena);
 
     }
+
+    @org.junit.Test
+    public void testClienteCheck() throws IOException {
+        //setup
+        Cliente clienteParaCheckear = new Cliente("Nombre",1234, "contrasena");
+        operadorUsuarios.agregarCliente(clienteParaCheckear.getNombreDeUsuario(),clienteParaCheckear.getNumeroDeTelefono() , clienteParaCheckear.getContrasena());
+
+        //action
+        operadorUsuarios.clienteCheck(clienteParaCheckear.getNombreDeUsuario(), clienteParaCheckear.getContrasena());
+
+    }
+
+    @org.junit.Test
+    public void testGetUsuario() throws IOException {
+        //setup
+        Cliente unCliente = new Cliente("NombreC",1234, "contrasenaC");
+        operadorUsuarios.agregarCliente(unCliente.getNombreDeUsuario(),unCliente.getNumeroDeTelefono() , unCliente.getContrasena());
+        Administrador unAdmin = new Administrador("NombreA", "contrasenaA");
+        operadorUsuarios.agregarAdmin(unAdmin.getNombreDeUsuario(), unAdmin.getContrasena());
+
+        //action
+        Cliente clienteEncontrado = (Cliente)operadorUsuarios.getUsuario(unCliente.getNombreDeUsuario());
+        Administrador adminEncontrado = (Administrador) operadorUsuarios.getUsuario(unAdmin.getNombreDeUsuario());
+
+        //assertion
+        Assert.assertEquals("NombreC", clienteEncontrado.getNombreDeUsuario());
+        Assert.assertEquals("contrasenaC", clienteEncontrado.getContrasena());
+        Assert.assertEquals("NombreA", adminEncontrado.getNombreDeUsuario());
+        Assert.assertEquals("contrasenaA", adminEncontrado.getContrasena());
+
+
+    }
+
+
+
 
 }
