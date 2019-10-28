@@ -30,9 +30,16 @@ public class Administrador extends Usuario {
 
     public Lote crearLoteDeCompraDeActivos(String nombreDelLote, TipoDeActivo nombre, int cantidad, Zona zona, int precio, int tarifa){
         ArrayList<Activo> activos = this.crearActivosParaLote(nombre, cantidad, zona, precio, tarifa);
-        return new Lote(activos, zona, nombreDelLote);
+        Lote lote = new Lote(activos, zona, nombreDelLote);
+        for (int i = 0; i<activos.size(); i++){
+            this.adjudicarLoteAlActivo(lote, activos.get(i));
+        }
+        return lote;
     }
 
+    private void adjudicarLoteAlActivo(Lote lote, Activo activo) {
+        activo.cambiarLote(lote);
+    }
 
     public void adjudicarActivoAlCliente(Cliente c, TipoDeActivo tipodeactivo, Lote lote){
         c.setActivoEnUso(lote.activosDelLote.get(1)); //Codigo a cambiar, solo para probar

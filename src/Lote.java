@@ -39,4 +39,8 @@ public class Lote {
     public ArrayList<Activo> getActivosDelLote() {
         return activosDelLote;
     }
+
+    public int getCantidadDeActivos(){
+        return getActivosDelLote().size();
+    }
 }

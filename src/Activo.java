@@ -9,6 +9,7 @@ public class Activo {
     int codigoReal;
     int precioFijo;
     TipoDeActivo nombre;
+    Lote lote;
 
     public Activo(TipoDeActivo nombre, Zona zonaDeOrigen, int precio, int tarifaMin) {
         this.nombre = nombre;
@@ -19,6 +20,7 @@ public class Activo {
         precioFijo= precio;
         valorDeMulta= precio/2;
         codigoReal = this.codigo++;
+        this.lote = null;
     }
     //Metodos
     public int getValorDeMulta(){
@@ -50,5 +52,12 @@ public class Activo {
     }
     public TipoDeActivo getNombre() {
         return nombre;
+    }
+
+    public Lote getLote() {
+        return lote;
+    }
+    public void cambiarLote (Lote lote){
+        this.lote = lote;
     }
 }
