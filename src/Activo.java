@@ -1,8 +1,8 @@
 public class Activo {
     int puntos;
     int tarifaMin;
-    Zona zonaDeOrigen;
-    Zona zonaActualDeEncuentro;
+    Terminal terminalDeOrigen;
+    Terminal terminalActual;
     int valorDeMulta;
     boolean estaEnZona;
     public static int codigo = 1;
@@ -11,10 +11,10 @@ public class Activo {
     TipoDeActivo nombre;
     Lote lote;
 
-    public Activo(TipoDeActivo nombre, Zona zonaDeOrigen, int precio, int tarifaMin) {
+    public Activo(TipoDeActivo nombre, Terminal terminalDeOrigen, int precio, int tarifaMin) {
         this.nombre = nombre;
-        this.zonaDeOrigen = zonaDeOrigen;
-        this.zonaActualDeEncuentro = zonaDeOrigen;
+        this.terminalDeOrigen = terminalDeOrigen;
+        this.terminalActual = terminalDeOrigen;
         estaEnZona = true;
         this.tarifaMin = tarifaMin;
         precioFijo= precio;
@@ -33,7 +33,7 @@ public class Activo {
     }
 
     public boolean estaEnZona(){
-        if(!this.zonaActualDeEncuentro.equals(this.zonaDeOrigen)){
+        if(!this.terminalActual.equals(this.terminalDeOrigen)){
             estaEnZona = false;
             return false;
         }return true;

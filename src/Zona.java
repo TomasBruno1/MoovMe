@@ -5,6 +5,7 @@ public abstract class Zona {
 String nombre;
 int valor;
 ArrayList<Lote> lotes;
+HashSet<Terminal> terminales;
 
     public String getNombre() {
         return nombre;
@@ -45,4 +46,12 @@ ArrayList<Lote> lotes;
     public int getValor(){
     return valor;
 }
+
+    public void agregarTerminal(Terminal terminal){
+        terminales.add(terminal);
+    }
+
+    public void eliminarTerminal(Terminal terminal){
+        terminales.remove(terminal);
+    }
 }

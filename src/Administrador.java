@@ -21,15 +21,15 @@ public class Administrador extends Usuario {
         Multa multa = new Multa(c);
         c.multa = multa;
     }
-    public ArrayList<Activo> crearActivosParaLote(TipoDeActivo nombre, int cantidad, Zona zona, int precio, int tarifa){
+    public ArrayList<Activo> crearActivosParaLote(TipoDeActivo nombre, int cantidad, Terminal terminal, int precio, int tarifa){
         ArrayList<Activo> activos = new ArrayList<>();
         for (int i= 0; i<cantidad; i++){
-            activos.add(new Activo(nombre, zona, precio, tarifa));
+            activos.add(new Activo(nombre, terminal, precio, tarifa));
         }return activos;
     }
 
-    public Lote crearLoteDeCompraDeActivos(String nombreDelLote, TipoDeActivo nombre, int cantidad, Zona zona, int precio, int tarifa){
-        ArrayList<Activo> activos = this.crearActivosParaLote(nombre, cantidad, zona, precio, tarifa);
+    public Lote crearLoteDeCompraDeActivos(String nombreDelLote, TipoDeActivo nombre, int cantidad, Terminal terminal, int precio, int tarifa){
+        ArrayList<Activo> activos = this.crearActivosParaLote(nombre, cantidad, terminal, precio, tarifa);
         Lote lote = new Lote(activos, zona, nombreDelLote);
         for (int i = 0; i<activos.size(); i++){
             this.adjudicarLoteAlActivo(lote, activos.get(i));
