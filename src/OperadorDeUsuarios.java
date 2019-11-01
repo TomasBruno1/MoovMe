@@ -21,10 +21,10 @@ public class OperadorDeUsuarios {
                     usuarioActivo = usuario;
                     return;
                 }else if (usuario.getNombreDeUsuario().equals(nombreIngresado)&& !usuario.getContrasena().equals(contrasenaIngresada)){
-                    throw new IOException("Contraseña incorrecta");
+                    throw new IOException("Contraseña incorrecta. ");
                 }
             }
-        }throw new IOException("Nombre de usuario incorrecto");
+        }throw new IOException("Nombre de usuario incorrecto. ");
     }
 
     public void clienteCheck (String nombreIngresado, String contrasenaIngresada) throws IOException {
@@ -34,10 +34,10 @@ public class OperadorDeUsuarios {
                     usuarioActivo = usuario;
                     return;
                 }else if (usuario.getNombreDeUsuario().equals(nombreIngresado)&& !usuario.getContrasena().equals(contrasenaIngresada)){
-                    throw new IOException("Contraseña incorrecta");
+                    throw new IOException("Contraseña incorrecta. ");
                 }
             }
-        }throw new IOException("Nombre de usuario incorrecto");
+        }throw new IOException("Nombre de usuario incorrecto. ");
 
     }
 
@@ -57,7 +57,7 @@ public class OperadorDeUsuarios {
     public Usuario getUsuario (String nombre) throws IOException {
         for (Usuario usuario: usuarios) {
             if (usuario.getNombreDeUsuario().equals(nombre)) return usuario;
-        } throw new IOException("Usuario no encontrado");
+        } throw new IOException("Usuario no encontrado. ");
     }
 
     public ArrayList<Administrador> getAdmins(){
@@ -77,7 +77,7 @@ public class OperadorDeUsuarios {
 
     public void agregarCliente (String nombre, int numeroDeTelefono, String contrasena) throws IOException {
         for (Usuario usuario: usuarios) {
-            if(usuario.getNombreDeUsuario().equals(nombre)) throw new IOException("El nombre ya fue utilizado");
+            if(usuario.getNombreDeUsuario().equals(nombre)) throw new IOException("El nombre ya fue utilizado. ");
         }
         Cliente nuevoCliente = new Cliente(nombre, numeroDeTelefono, contrasena);
         usuarios.add(nuevoCliente);
@@ -91,24 +91,25 @@ public class OperadorDeUsuarios {
                     return;
                 }
             }
-        }throw new IOException("Nombre no encontrado");
+        }throw new IOException("Nombre no encontrado. ");
     }
 
     public void eliminarAdmin (String nombre) throws IOException {
         for (Usuario usuario: usuarios) {
             if (usuario instanceof Administrador){
                 if (usuario.getNombreDeUsuario().equals(nombre)){
-                    if (getAdmins().size() == 1) throw new IOException("No se pueden eliminar todos los admins");
+                    if (getAdmins().size() == 1) throw new IOException("No se pueden eliminar todos los admins. ");
+                    if (usuarioActivo.getNombreDeUsuario().equals(nombre)) throw new IOException("No te puedes eliminar a ti mismo. ");
                     usuarios.remove(usuario);
                     return;
                 }
             }
-        }throw new IOException("Nombre no encontrado");
+        }throw new IOException("Nombre no encontrado. ");
     }
 
     public void agregarAdmin (String nombre, String contrasena) throws IOException {
         for (Usuario usuario: usuarios) {
-            if(usuario.getNombreDeUsuario().equals(nombre)) throw new IOException("El nombre ya fue utilizado");
+            if(usuario.getNombreDeUsuario().equals(nombre)) throw new IOException("El nombre ya fue utilizado. ");
         }
         Administrador nuevoAdmin = new Administrador(nombre, contrasena);
         usuarios.add(nuevoAdmin);

@@ -5,6 +5,10 @@ public class MoovMe {
     static OperadorDeZonas operadorDeZonas = new OperadorDeZonas();
 
     public static void main(String[] args) {
+        homeScreen();
+    }
+
+    private static void homeScreen() {
         while(true){
 
             System.out.println("\n" + "------------------------------------" + "\n" +
@@ -237,7 +241,6 @@ public class MoovMe {
 
     private static void eliminarAdmin() {
         String nombreIngresado = Scanner.getString("Ingrese un nombre de usuario: ");
-        //todo si el admin se elimina a si mismo que cierre sesion
         try {
             operadorDeUsuarios.eliminarAdmin(nombreIngresado);
             System.out.println("Admin eliminado");
@@ -285,7 +288,7 @@ public class MoovMe {
                     ((Cliente) operadorDeUsuarios.getUsuarioActivo()).pagarMulta();
 
                 case 2:
-                    main(new String[0]);//todo hmm no anda ni ahi (testear)
+                    homeScreen();
                 default:
                     System.out.println("Opcion invalida");
                     break;
@@ -350,11 +353,9 @@ public class MoovMe {
 
     private static void showActivosDisponibles() {
         String nombreDeZona = Scanner.getString("En que zona se encuentra: ");
-
-        System.out.println("Estos son los activos");
-        //todo mostrar activos
         try {
             Zona suZona = operadorDeZonas.getZona(nombreDeZona);
+            System.out.println("Estos son los activos: ");
             suZona.mostrarActivosDeZona();
         } catch (IOException e) {
             System.out.println(e.getMessage());

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public abstract class Zona {
 String nombre;
@@ -33,10 +34,12 @@ ArrayList<Lote> lotes;
     }
 
     public void mostrarActivosDeZona() {
+        HashSet<String> nombresDeTipoDeActivo = new HashSet<String>();
         for (Activo activo :
                 activosDeZona()) {
-            System.out.println(activo.getNombre().getNombre());
+            nombresDeTipoDeActivo.add(activo.getNombre().getNombre());
         }
+        System.out.println(nombresDeTipoDeActivo.toString());
     }
 
     public int getValor(){
