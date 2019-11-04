@@ -4,14 +4,14 @@ import java.util.ArrayList;
 public class Lote {
 
     ArrayList<Activo> activosDelLote;
-    Zona zona;
+    Terminal terminal;
     String nombreDelLote;
     public static int codigo = 1;
     int codigoReal;
 
-    public Lote(ArrayList<Activo> activos, Zona zona, String nombre){
+    public Lote(ArrayList<Activo> activos, Terminal terminal, String nombre){
         activosDelLote = activos;
-        this.zona = zona;
+        this.terminal = terminal;
         nombreDelLote = nombre;
         codigoReal = this.codigo++;
     }
@@ -32,8 +32,8 @@ public class Lote {
         }throw new IOException("Activo no encontrado");
     }
 
-    public Zona getZona(){
-        return zona;
+    public Terminal getTerminal(){
+        return terminal;
     }
 
     public ArrayList<Activo> getActivosDelLote() {

@@ -1,11 +1,52 @@
-import java.io.IOException;
+import java.io.*;
+import java.util.Iterator;
 
 public class MoovMe {
     static OperadorDeUsuarios operadorDeUsuarios = new OperadorDeUsuarios();
     static OperadorDeZonas operadorDeZonas = new OperadorDeZonas();
 
     public static void main(String[] args) {
+        loadFiles();
         homeScreen();
+        saveFiles();
+    }
+
+    private static void saveFiles() {
+        try
+        {
+            FileOutputStream fileOut = new FileOutputStream("Repositorio.ser");//creates a serial file in output stream
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);//routs an object into the output stream.
+            out.writeObject(operadorDeUsuarios);// we designate our user operator to be routed
+            out.writeObject(operadorDeZonas);// we designate our zone operator to be routed
+            out.close();// closes the data paths
+            fileOut.close();// closes the data paths
+        }catch(IOException i)//exception stuff
+        {
+            i.printStackTrace();
+        }
+    }
+
+    private static void loadFiles() {
+        try //If this doesnt work throw an exception
+        {
+            FileInputStream fileIn = new FileInputStream("Repositorio.ser");// Read serial file.
+            ObjectInputStream in = new ObjectInputStream(fileIn);// input the read file.
+            operadorDeUsuarios = (OperadorDeUsuarios) in.readObject();// allocate it to the object file already instanciated.
+            operadorDeZonas = (OperadorDeZonas) in.readObject();// allocate it to the object file already instanciated.
+            in.close();//closes the input stream.
+            fileIn.close();//closes the file data stream.
+        }catch(FileNotFoundException e){
+            return;
+        }catch(IOException i)//exception stuff
+        {
+            i.printStackTrace();
+            return;
+        }catch(ClassNotFoundException c)//more exception stuff
+        {
+            System.out.println("Error");
+            c.printStackTrace();
+            return;
+        }
     }
 
     private static void homeScreen() {
@@ -29,8 +70,7 @@ public class MoovMe {
                     adminLogin();
                     break;
                 case 4:
-                    System.exit(0);
-                    break;
+                    return;
                 default:
                     System.out.println("Opcion invalida");
                     break;
@@ -122,7 +162,11 @@ public class MoovMe {
                     try{
                         TipoDeActivo tipoDeActivo =  operadorDeZonas.getTipoActivo(tipoActivoNombre);
                         Zona suZona = operadorDeZonas.getZona(nombreZona);
-                        operadorDeZonas.agregarLoteAZona(((Administrador)operadorDeUsuarios.getUsuarioActivo()).crearLoteDeCompraDeActivos(nombreLote, tipoDeActivo, cantidad, suZona, precio, tarifa), suZona.getNombre());
+                        Iterator it = operadorDeZonas.getZona(nombreZona).getTerminales().iterator();
+                        while (it.hasNext()){
+                            operadorDeZonas.agregarLoteAZona(((Administrador)operadorDeUsuarios.getUsuarioActivo()).crearLoteDeCompraDeActivos(nombreLote, tipoDeActivo, cantidad,(Terminal) it.next(), precio, tarifa), suZona.getNombre());
+
+                        }
                         System.out.println("Lote agregado a "+ nombreZona);
                         return;
                     } catch (IOException e) {

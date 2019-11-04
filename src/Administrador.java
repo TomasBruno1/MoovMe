@@ -30,7 +30,7 @@ public class Administrador extends Usuario {
 
     public Lote crearLoteDeCompraDeActivos(String nombreDelLote, TipoDeActivo nombre, int cantidad, Terminal terminal, int precio, int tarifa){
         ArrayList<Activo> activos = this.crearActivosParaLote(nombre, cantidad, terminal, precio, tarifa);
-        Lote lote = new Lote(activos, zona, nombreDelLote);
+        Lote lote = new Lote(activos, terminal, nombreDelLote);
         for (int i = 0; i<activos.size(); i++){
             this.adjudicarLoteAlActivo(lote, activos.get(i));
         }

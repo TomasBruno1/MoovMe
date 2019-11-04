@@ -1,9 +1,10 @@
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 //Provisorio. todo implementar persistencia
 
-public class OperadorDeUsuarios {
+public class OperadorDeUsuarios implements Serializable {
     ArrayList<Usuario> usuarios;
     Usuario usuarioActivo;
 

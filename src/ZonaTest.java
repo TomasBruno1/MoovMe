@@ -5,14 +5,15 @@ import java.util.ArrayList;
 
 public class ZonaTest {
     ZonaNorte unaZona = new ZonaNorte();
+    Terminal unaTerminal = new Terminal(unaZona);
 
     @Test
     public void testAgregarLote() {
         //setup
         ArrayList<Activo> activos = new ArrayList<>();
         TipoDeActivo tipoDeActivo = new TipoDeActivo("auto");
-        activos.add(new Activo(tipoDeActivo, unaZona,10,10));
-        Lote unLote = new Lote (activos, unaZona,"Lote1");
+        activos.add(new Activo(tipoDeActivo, unaTerminal,10,10));
+        Lote unLote = new Lote (activos, unaTerminal,"Lote1");
 
         //actions
         unaZona.agregarLote(unLote);
@@ -28,8 +29,8 @@ public class ZonaTest {
         //setup
         ArrayList<Activo> activos = new ArrayList<>();
         TipoDeActivo tipoDeActivo = new TipoDeActivo("auto");
-        activos.add(new Activo(tipoDeActivo, unaZona,10,10));
-        Lote unLote = new Lote (activos, unaZona,"Lote1");
+        activos.add(new Activo(tipoDeActivo, unaTerminal,10,10));
+        Lote unLote = new Lote (activos, unaTerminal,"Lote1");
         unaZona.agregarLote(unLote);
 
         //actions
@@ -45,8 +46,8 @@ public class ZonaTest {
         //setup
         ArrayList<Activo> activos = new ArrayList<>();
         TipoDeActivo tipoDeActivo = new TipoDeActivo("auto");
-        activos.add(new Activo(tipoDeActivo, unaZona,10,10));
-        Lote unLote = new Lote (activos, unaZona,"Lote1");
+        activos.add(new Activo(tipoDeActivo, unaTerminal,10,10));
+        Lote unLote = new Lote (activos, unaTerminal,"Lote1");
         unaZona.agregarLote(unLote);
         ArrayList<Activo> activosEncontrados = new ArrayList<>();
 

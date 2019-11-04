@@ -1,7 +1,8 @@
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class OperadorDeZonas {
+public class OperadorDeZonas implements Serializable {
     public ArrayList<Zona> zonas;
     public ArrayList<TipoDeActivo> tipoDeActivos;
 

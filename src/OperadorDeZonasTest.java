@@ -3,6 +3,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class OperadorDeZonasTest {
@@ -155,9 +156,17 @@ public class OperadorDeZonasTest {
         //setup
         ArrayList<Activo> activos = new ArrayList<>();
         TipoDeActivo tipoDeActivo = new TipoDeActivo("auto");
+        Iterator it = operadorDeZonas.getZonas().get(0).getTerminales().iterator();
+        Iterator it2 = operadorDeZonas.getZonas().get(0).getTerminales().iterator();
         Zona suZona = operadorDeZonas.getZonas().get(0);
-        activos.add(new Activo(tipoDeActivo, suZona,10,10));
-        Lote unLote = new Lote (activos, suZona,"Lote1");
+
+        while(it.hasNext()){
+            activos.add(new Activo(tipoDeActivo, (Terminal) it.next(),10,10));
+        }
+        Lote unLote = null;
+        while(it2.hasNext()){
+            unLote = new Lote (activos, (Terminal) it.next(),"Lote1");
+        }
 
         //actions
         try {

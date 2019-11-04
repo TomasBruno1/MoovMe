@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public abstract class Zona {
+public abstract class Zona implements Serializable {
 String nombre;
 int valor;
 ArrayList<Lote> lotes;
@@ -53,5 +54,9 @@ HashSet<Terminal> terminales;
 
     public void eliminarTerminal(Terminal terminal){
         terminales.remove(terminal);
+    }
+
+    public HashSet<Terminal> getTerminales() {
+        return terminales;
     }
 }
