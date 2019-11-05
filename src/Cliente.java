@@ -13,8 +13,8 @@ public class Cliente extends Usuario {
 
     public Cliente(String nombre, int numeroDeTelefono, String contrasena){
 
-        puntosPorZona = new HashMap<Zona, Integer>();
-        puntosPorZonaFijo = new HashMap<Zona, Integer>();
+        puntosPorZona = new HashMap<>();
+        puntosPorZonaFijo = new HashMap<>();
         activosUsados= new ArrayList<>();
         activoEnUso = null;
         multa = null;
@@ -22,7 +22,6 @@ public class Cliente extends Usuario {
         this.nombreDeUsuario = nombre;
         this.numeroDeTelefono = numeroDeTelefono;
         this.contrasena = contrasena;
-
     }
 
 
@@ -30,12 +29,12 @@ public class Cliente extends Usuario {
         return numeroDeTelefono;
     }
 
-   /* public HashMap<Zona, Integer> incluirZonas(Zona ZonaA, Zona ZonaB){
-        HashMap<Zona,Integer> hash = new HashMap<Zona, Integer>();
-        hash.put(ZonaA,0);
-        hash.put(ZonaB,0);
-        return hash;
-    }*/
+    public void agregarZonas(ArrayList<Zona> zonas){
+       for (Zona zona : zonas) {
+           puntosPorZonaFijo.put(zona, 0);
+           puntosPorZona.put(zona, 0);
+       }
+    }
 
     public void usarActivo(Activo activo){
         puntosPorZona.replace(activo.terminalDeOrigen.getZona(), puntosPorZona.get(activo.terminalDeOrigen.getZona()) + activo.getPuntos());
@@ -49,6 +48,7 @@ public class Cliente extends Usuario {
     
     public void setActivoEnUso(Activo activoEnUso) {
         this.activoEnUso = activoEnUso;
+        //todo AGREGAR QUE USA EL ACTIVO ESTADO CAMBIAR AIUDA.
     }
 
     public Multa getMulta() {

@@ -156,28 +156,21 @@ public class OperadorDeZonasTest {
         //setup
         ArrayList<Activo> activos = new ArrayList<>();
         TipoDeActivo tipoDeActivo = new TipoDeActivo("auto");
-        Iterator it = operadorDeZonas.getZonas().get(0).getTerminales().iterator();
-        Iterator it2 = operadorDeZonas.getZonas().get(0).getTerminales().iterator();
         Zona suZona = operadorDeZonas.getZonas().get(0);
-
-        while(it.hasNext()){
-            activos.add(new Activo(tipoDeActivo, (Terminal) it.next(),10,10, 10));
-        }
-        Lote unLote = null;
-        while(it2.hasNext()){
-            unLote = new Lote (activos, (Terminal) it.next(),"Lote1");
-        }
+        Terminal suTerminal = new Terminal(suZona, "Joe");
+        Lote unLote = new Lote(activos, suTerminal, "Lote1");
+        activos.add(new Activo(tipoDeActivo, suTerminal,10,10, 10));
 
         //actions
         try {
-            operadorDeZonas.agregarLoteAZona(unLote, suZona.getNombre());
+            operadorDeZonas.agregarLoteAZona(unLote, suZona.getNombre(), suTerminal);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 
         //assertion
-        Assert.assertEquals(1, operadorDeZonas.getZona(suZona.getNombre()).getLotes().size());
-        Assert.assertEquals(1, operadorDeZonas.getZona(suZona.getNombre()).getLotes().get(0).getCodigo());
-        Assert.assertEquals("Lote1", operadorDeZonas.getZona(suZona.getNombre()).getLotes().get(0).getNombreDelLote());
+        Assert.assertEquals(1, operadorDeZonas.getZona(suZona.getNombre()).getTerminal(suTerminal.getNombre()).getLotes().size());
+        Assert.assertEquals(1, operadorDeZonas.getZona(suZona.getNombre()).getTerminal(suTerminal.getNombre()).getLotes().get(0).getCodigo());
+        Assert.assertEquals("Lote1", operadorDeZonas.getZona(suZona.getNombre()).getTerminal(suTerminal.getNombre()).getLotes().get(0).getNombreDelLote());
     }
 }

@@ -87,6 +87,7 @@ public class OperadorDeUsuarios implements Serializable {
         }
         Cliente nuevoCliente = new Cliente(nombre, numeroDeTelefono, contrasena);
         usuarios.add(nuevoCliente);
+        nuevoCliente.agregarZonas(operadorDeZonas.getZonas());
     }
 
     public void eliminarCliente (String nombre) throws IOException {

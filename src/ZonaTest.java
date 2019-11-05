@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class ZonaTest {
     ZonaNorte unaZona = new ZonaNorte();
-    Terminal unaTerminal = new Terminal(unaZona);
+    Terminal unaTerminal = new Terminal(unaZona, "Joe");
 
     @Test
     public void testAgregarLote() {
@@ -16,11 +16,11 @@ public class ZonaTest {
         Lote unLote = new Lote (activos, unaTerminal,"Lote1");
 
         //actions
-        unaZona.agregarLote(unLote);
+        unaTerminal.agregarLote(unLote);
 
         //assertion
-        Assert.assertEquals(1, unaZona.getLotes().size());
-        Assert.assertEquals("Lote1", unaZona.getLotes().get(0).getNombreDelLote());
+        Assert.assertEquals(1, unaTerminal.getLotes().size());
+        Assert.assertEquals("Lote1", unaTerminal.getLotes().get(0).getNombreDelLote());
 
     }
 
@@ -31,13 +31,13 @@ public class ZonaTest {
         TipoDeActivo tipoDeActivo = new TipoDeActivo("auto");
         activos.add(new Activo(tipoDeActivo, unaTerminal,10,10,10));
         Lote unLote = new Lote (activos, unaTerminal,"Lote1");
-        unaZona.agregarLote(unLote);
+        unaTerminal.agregarLote(unLote);
 
         //actions
-        unaZona.eliminarLote(unLote);
+        unaTerminal.eliminarLote(unLote);
 
         //assertion
-        Assert.assertEquals(0, unaZona.getLotes().size());
+        Assert.assertEquals(0, unaTerminal.getLotes().size());
     }
 
 
@@ -48,11 +48,11 @@ public class ZonaTest {
         TipoDeActivo tipoDeActivo = new TipoDeActivo("auto");
         activos.add(new Activo(tipoDeActivo, unaTerminal,10,10,10));
         Lote unLote = new Lote (activos, unaTerminal,"Lote1");
-        unaZona.agregarLote(unLote);
+        unaTerminal.agregarLote(unLote);
         ArrayList<Activo> activosEncontrados = new ArrayList<>();
 
         //actions
-        activosEncontrados = unaZona.activosDeZona();
+        activosEncontrados = unaTerminal.activosDeTerminal();
 
         //assertion
         Assert.assertEquals(1, activosEncontrados.size());

@@ -4,10 +4,9 @@ import java.util.HashSet;
 public class ZonaSur extends Zona {
     public ZonaSur() {
         valor = 20;
-        lotes = new ArrayList<>();
         nombre = "ZonaSur";
         terminales = new HashSet<>();
-        terminales.add(new Terminal(this));
+        terminales.add(new Terminal(this, "Terminal 1"));
 
     }
 

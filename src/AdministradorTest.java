@@ -11,7 +11,7 @@ public class AdministradorTest {
         //setup
         Cliente unCliente = new Cliente("nomcliente", 123,"contrasena");
         TipoDeActivo unTipoDeActivo = new TipoDeActivo("auto");
-        Activo unActivo = new Activo(unTipoDeActivo, new Terminal(new ZonaSur()),10,10, 10);
+        Activo unActivo = new Activo(unTipoDeActivo, new Terminal(new ZonaSur(), "Joe"),10,10, 10);
         unCliente.setActivoEnUso(unActivo);
 
         //actions
@@ -30,7 +30,7 @@ public class AdministradorTest {
         //setup
         Cliente unCliente = new Cliente("nomcliente", 123,"contrasena");
         TipoDeActivo unTipoDeActivo = new TipoDeActivo("auto");
-        Activo unActivo = new Activo(unTipoDeActivo, new Terminal(new ZonaSur()),10,10,10);
+        Activo unActivo = new Activo(unTipoDeActivo, new Terminal(new ZonaSur(), "Joe"),10,10,10);
         unCliente.setActivoEnUso(unActivo);
         try {
             admin.bloquearCliente(unCliente);
@@ -50,7 +50,7 @@ public class AdministradorTest {
         //setup
         Cliente unCliente = new Cliente("nomcliente", 123,"contrasena");
         TipoDeActivo unTipoDeActivo = new TipoDeActivo("auto");
-        Activo unActivo = new Activo(unTipoDeActivo, new Terminal(new ZonaSur()),10,10, 10);
+        Activo unActivo = new Activo(unTipoDeActivo, new Terminal(new ZonaSur(), "Joe"),10,10, 10);
         unCliente.setActivoEnUso(unActivo);
 
         //actions
@@ -67,7 +67,7 @@ public class AdministradorTest {
         Lote unLote = null;
 
         //actions
-        unLote = admin.crearLoteDeCompraDeActivos("Lote1", tipoDeActivo, 10, new Terminal(new ZonaSur()), 10,10,10);
+        unLote = admin.crearLoteDeCompraDeActivos("Lote1", tipoDeActivo, 10, new Terminal(new ZonaSur(), "Joe"), 10,10,10);
 
         //assertion
         Assert.assertEquals("Lote1", unLote.getNombreDelLote());

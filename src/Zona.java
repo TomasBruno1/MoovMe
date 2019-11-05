@@ -1,49 +1,14 @@
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 public abstract class Zona implements Serializable {
 String nombre;
 int valor;
-ArrayList<Lote> lotes;
 HashSet<Terminal> terminales;
 
     public String getNombre() {
         return nombre;
-    }
-
-    public void agregarLote (Lote unLote){
-        lotes.add(unLote);
-    }
-
-    public void eliminarLote (Lote unLote){
-        lotes.remove(unLote);
-    }
-
-    public ArrayList<Lote> getLotes() {
-        return lotes;
-    }
-
-    public ArrayList<Activo>  activosDeZona(){
-        ArrayList<Activo> activos = new ArrayList<>();
-        for (Lote lote : lotes) {
-            for (Activo activo :
-                    lote.getActivosDelLote()){
-                activos.add(activo);
-            }
-        }
-        return activos;
-    }
-
-    public void mostrarActivosDeZona() {
-        HashSet<String> nombresDeTipoDeActivo = new HashSet<String>();
-        for (Activo activo :
-                activosDeZona()) {
-            if(activo.getStatus().getCodigoStatus()==1){
-                nombresDeTipoDeActivo.add(activo.getNombre().getNombre());
-            }
-        }
-        System.out.println(nombresDeTipoDeActivo.toString());
     }
 
     public int getValor(){
@@ -60,5 +25,11 @@ HashSet<Terminal> terminales;
 
     public HashSet<Terminal> getTerminales() {
         return terminales;
+    }
+
+    public Terminal getTerminal (String nombre) throws IOException {
+        for (Terminal terminal: terminales) {
+            if (terminal.getNombre().equals(nombre))return terminal;
+        }throw new IOException("Zona no encontrada");
     }
 }

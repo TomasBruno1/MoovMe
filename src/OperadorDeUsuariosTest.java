@@ -4,6 +4,7 @@ import java.io.IOException;
 
 public class OperadorDeUsuariosTest {
     OperadorDeUsuarios operadorUsuarios = new OperadorDeUsuarios();
+    OperadorDeZonas operadorDeZonas = new OperadorDeZonas();
 
     @org.junit.Test
     public void testAgregarAdmin() throws IOException {
@@ -26,8 +27,11 @@ public class OperadorDeUsuariosTest {
     @org.junit.Test
     public void testEliminarAdmin() throws IOException {
         //setup
+        operadorUsuarios.setOperadorDeZonas(operadorDeZonas);
+        operadorDeZonas.setOperadorDeUsuarios(operadorUsuarios);
         Administrador administradorParaEliminar = new Administrador("Nombre", "contrasena");
         operadorUsuarios.agregarAdmin(administradorParaEliminar.getNombreDeUsuario(), administradorParaEliminar.getContrasena());
+        operadorUsuarios.adminCheck("admin", "admin");
 
         //action
         operadorUsuarios.eliminarAdmin(administradorParaEliminar.getNombreDeUsuario());
@@ -43,7 +47,8 @@ public class OperadorDeUsuariosTest {
         String unNombre = "Name";
         String unaContrasena = "1234";
         int unTelefono = 1234;
-
+        operadorUsuarios.setOperadorDeZonas(operadorDeZonas);
+        operadorDeZonas.setOperadorDeUsuarios(operadorUsuarios);
         //action
 
         operadorUsuarios.agregarCliente(unNombre,unTelefono, unaContrasena);
@@ -59,9 +64,10 @@ public class OperadorDeUsuariosTest {
     @org.junit.Test
     public void testEliminarCliente() throws IOException {
         //setup
+        operadorUsuarios.setOperadorDeZonas(operadorDeZonas);
+        operadorDeZonas.setOperadorDeUsuarios(operadorUsuarios);
         Cliente clienteParaEliminar = new Cliente("Nombre",1234, "contrasena");
         operadorUsuarios.agregarCliente(clienteParaEliminar.getNombreDeUsuario(),clienteParaEliminar.getNumeroDeTelefono() , clienteParaEliminar.getContrasena());
-
         //action
         operadorUsuarios.eliminarCliente(clienteParaEliminar.getNombreDeUsuario());
 
@@ -87,9 +93,10 @@ public class OperadorDeUsuariosTest {
     @org.junit.Test
     public void testClienteCheck() throws IOException {
         //setup
+        operadorUsuarios.setOperadorDeZonas(operadorDeZonas);
+        operadorDeZonas.setOperadorDeUsuarios(operadorUsuarios);
         Cliente clienteParaCheckear = new Cliente("Nombre",1234, "contrasena");
         operadorUsuarios.agregarCliente(clienteParaCheckear.getNombreDeUsuario(),clienteParaCheckear.getNumeroDeTelefono() , clienteParaCheckear.getContrasena());
-
         //action
         operadorUsuarios.clienteCheck(clienteParaCheckear.getNombreDeUsuario(), clienteParaCheckear.getContrasena());
 
@@ -98,11 +105,12 @@ public class OperadorDeUsuariosTest {
     @org.junit.Test
     public void testGetUsuario() throws IOException {
         //setup
+        operadorUsuarios.setOperadorDeZonas(operadorDeZonas);
+        operadorDeZonas.setOperadorDeUsuarios(operadorUsuarios);
         Cliente unCliente = new Cliente("NombreC",1234, "contrasenaC");
         operadorUsuarios.agregarCliente(unCliente.getNombreDeUsuario(),unCliente.getNumeroDeTelefono() , unCliente.getContrasena());
         Administrador unAdmin = new Administrador("NombreA", "contrasenaA");
         operadorUsuarios.agregarAdmin(unAdmin.getNombreDeUsuario(), unAdmin.getContrasena());
-
         //action
         Cliente clienteEncontrado = (Cliente)operadorUsuarios.getUsuario(unCliente.getNombreDeUsuario());
         Administrador adminEncontrado = (Administrador) operadorUsuarios.getUsuario(unAdmin.getNombreDeUsuario());

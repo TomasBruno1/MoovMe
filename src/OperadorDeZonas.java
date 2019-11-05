@@ -71,10 +71,10 @@ public class OperadorDeZonas implements Serializable {
     }
 
 
-    public void agregarLoteAZona (Lote unLote, String nombreZona) throws IOException {
+    public void agregarLoteAZona (Lote unLote, String nombreZona, Terminal terminal) throws IOException {
         for (Zona zona: zonas) {
             if (zona.getNombre().equals(nombreZona)){
-                zona.agregarLote(unLote);
+                zona.getTerminal(terminal.getNombre()).agregarLote(unLote);
                 return;
             }
         }throw new IOException("Zona no encontrada");
