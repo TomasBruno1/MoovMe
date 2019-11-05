@@ -46,6 +46,10 @@ public class MoovMe {
             System.out.println("Error");
             c.printStackTrace();
             return;
+
+        }finally {
+            operadorDeUsuarios.setOperadorDeZonas(operadorDeZonas);
+            operadorDeZonas.setOperadorDeUsuarios(operadorDeUsuarios);
         }
     }
 
@@ -158,13 +162,14 @@ public class MoovMe {
                     String nombreZona = Scanner.getString("Ingrese el nombre de la zona: ");
                     int precio = Scanner.getInt("Ingrese el precio: ");
                     int tarifa = Scanner.getInt("Ingrese la tarifa: ");
+                    int puntos = Scanner.getInt("Ingrese la puntos: ");
 
                     try{
                         TipoDeActivo tipoDeActivo =  operadorDeZonas.getTipoActivo(tipoActivoNombre);
                         Zona suZona = operadorDeZonas.getZona(nombreZona);
                         Iterator it = operadorDeZonas.getZona(nombreZona).getTerminales().iterator();
                         while (it.hasNext()){
-                            operadorDeZonas.agregarLoteAZona(((Administrador)operadorDeUsuarios.getUsuarioActivo()).crearLoteDeCompraDeActivos(nombreLote, tipoDeActivo, cantidad,(Terminal) it.next(), precio, tarifa), suZona.getNombre());
+                            operadorDeZonas.agregarLoteAZona(((Administrador)operadorDeUsuarios.getUsuarioActivo()).crearLoteDeCompraDeActivos(nombreLote, tipoDeActivo, cantidad,(Terminal) it.next(), precio, tarifa,puntos), suZona.getNombre());
 
                         }
                         System.out.println("Lote agregado a "+ nombreZona);

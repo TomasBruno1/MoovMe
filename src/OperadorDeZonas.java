@@ -5,12 +5,17 @@ import java.util.ArrayList;
 public class OperadorDeZonas implements Serializable {
     public ArrayList<Zona> zonas;
     public ArrayList<TipoDeActivo> tipoDeActivos;
+    OperadorDeUsuarios operadorDeUsuarios;
 
     public OperadorDeZonas () {
         zonas = new ArrayList<>();
         zonas.add(new ZonaNorte());
         zonas.add(new ZonaSur());
         tipoDeActivos = new ArrayList<>();
+    }
+
+    public void setOperadorDeUsuarios(OperadorDeUsuarios operadorDeUsuarios) {
+        this.operadorDeUsuarios = operadorDeUsuarios;
     }
 
     public void agregarZona (Zona unaZona){

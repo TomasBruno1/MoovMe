@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 public class Activo {
     int puntos;
     int tarifaMin;
@@ -10,8 +12,9 @@ public class Activo {
     int precioFijo;
     TipoDeActivo nombre;
     Lote lote;
+    Status status;
 
-    public Activo(TipoDeActivo nombre, Terminal terminalDeOrigen, int precio, int tarifaMin) {
+    public Activo(TipoDeActivo nombre, Terminal terminalDeOrigen, int precio, int tarifaMin, int puntos) {
         this.nombre = nombre;
         this.terminalDeOrigen = terminalDeOrigen;
         this.terminalActual = terminalDeOrigen;
@@ -21,8 +24,33 @@ public class Activo {
         valorDeMulta= precio/2;
         codigoReal = this.codigo++;
         this.lote = null;
+        this.puntos= puntos;
+        status = new Disponible();
     }
+
     //Metodos
+
+    public void enUso(){
+        status = new EnUso();
+    }
+
+    public void disponible(){
+        status = new Disponible();
+    }
+
+    public void devolverActivoATerminal (Terminal unaTerminal) throws IOException {
+        terminalActual = unaTerminal;
+        status.Devolver();
+    }
+
+    public Terminal getTerminalActual() {
+        return terminalActual;
+    }
+
+    public Terminal getTerminalDeOrigen() {
+        return terminalDeOrigen;
+    }
+
     public int getValorDeMulta(){
         return valorDeMulta;
     }
@@ -33,10 +61,13 @@ public class Activo {
     }
 
     public boolean estaEnZona(){
-        if(!this.terminalActual.equals(this.terminalDeOrigen)){
+        if(!this.terminalActual.getZona().equals(this.terminalDeOrigen.getZona())){
             estaEnZona = false;
             return false;
-        }return true;
+        }else {
+            estaEnZona = true;
+            return true;
+        }
     }
     public int getCodigo(){
         return codigoReal;
@@ -60,4 +91,8 @@ public class Activo {
     public void cambiarLote (Lote lote){
         this.lote = lote;
     }
+    public Status getStatus(){
+        return this.status;
+    }
+
 }

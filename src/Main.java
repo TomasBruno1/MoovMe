@@ -8,7 +8,7 @@ public class Main {
 
         TipoDeActivo auto = new TipoDeActivo("auto");
 
-        Lote lote = admin.crearLoteDeCompraDeActivos("Lote De Zona Sur", auto, 3, new Terminal( new ZonaNorte()),1000,10 );
+        Lote lote = admin.crearLoteDeCompraDeActivos("Lote De Zona Sur", auto, 3, new Terminal( new ZonaNorte()),1000,10 , 10);
 
         Cliente tefi = new Cliente("Tefi", 1234, "contrasena");
 

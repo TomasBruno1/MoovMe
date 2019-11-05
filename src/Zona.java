@@ -39,7 +39,9 @@ HashSet<Terminal> terminales;
         HashSet<String> nombresDeTipoDeActivo = new HashSet<String>();
         for (Activo activo :
                 activosDeZona()) {
-            nombresDeTipoDeActivo.add(activo.getNombre().getNombre());
+            if(activo.getStatus().getCodigoStatus()==1){
+                nombresDeTipoDeActivo.add(activo.getNombre().getNombre());
+            }
         }
         System.out.println(nombresDeTipoDeActivo.toString());
     }

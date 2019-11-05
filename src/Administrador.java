@@ -17,19 +17,20 @@ public class Administrador extends Usuario {
         c.isBlocked = false;
     }
 
-    public void multarCliente(Cliente c){
+    public void multarCliente(Cliente c) throws IOException {
         Multa multa = new Multa(c);
         c.multa = multa;
+        c.getActivoEnUso().devolverActivoATerminal(c.getActivoEnUso().getTerminalDeOrigen());
     }
-    public ArrayList<Activo> crearActivosParaLote(TipoDeActivo nombre, int cantidad, Terminal terminal, int precio, int tarifa){
+    public ArrayList<Activo> crearActivosParaLote(TipoDeActivo nombre, int cantidad, Terminal terminal, int precio, int tarifa, int puntos){
         ArrayList<Activo> activos = new ArrayList<>();
         for (int i= 0; i<cantidad; i++){
-            activos.add(new Activo(nombre, terminal, precio, tarifa));
+            activos.add(new Activo(nombre, terminal, precio, tarifa, puntos));
         }return activos;
     }
 
-    public Lote crearLoteDeCompraDeActivos(String nombreDelLote, TipoDeActivo nombre, int cantidad, Terminal terminal, int precio, int tarifa){
-        ArrayList<Activo> activos = this.crearActivosParaLote(nombre, cantidad, terminal, precio, tarifa);
+    public Lote crearLoteDeCompraDeActivos(String nombreDelLote, TipoDeActivo nombre, int cantidad, Terminal terminal, int precio, int tarifa, int puntos){
+        ArrayList<Activo> activos = this.crearActivosParaLote(nombre, cantidad, terminal, precio, tarifa, puntos);
         Lote lote = new Lote(activos, terminal, nombreDelLote);
         for (int i = 0; i<activos.size(); i++){
             this.adjudicarLoteAlActivo(lote, activos.get(i));

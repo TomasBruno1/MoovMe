@@ -161,7 +161,7 @@ public class OperadorDeZonasTest {
         Zona suZona = operadorDeZonas.getZonas().get(0);
 
         while(it.hasNext()){
-            activos.add(new Activo(tipoDeActivo, (Terminal) it.next(),10,10));
+            activos.add(new Activo(tipoDeActivo, (Terminal) it.next(),10,10, 10));
         }
         Lote unLote = null;
         while(it2.hasNext()){

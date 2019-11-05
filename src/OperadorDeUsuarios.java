@@ -7,11 +7,16 @@ import java.util.ArrayList;
 public class OperadorDeUsuarios implements Serializable {
     ArrayList<Usuario> usuarios;
     Usuario usuarioActivo;
+    OperadorDeZonas operadorDeZonas;
 
     public OperadorDeUsuarios(){
         usuarios = new ArrayList<>();
         usuarios.add(new Administrador("admin", "admin"));
         usuarioActivo = null;
+    }
+
+    public void setOperadorDeZonas(OperadorDeZonas operadorDeZonas) {
+        this.operadorDeZonas = operadorDeZonas;
     }
 
     public void adminCheck(String nombreIngresado, String contrasenaIngresada) throws IOException {

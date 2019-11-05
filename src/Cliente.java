@@ -1,10 +1,11 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.*;
 
 public class Cliente extends Usuario {
     Multa multa;
-    int puntosMios;
-    int puntosTotales;
+    HashMap<Zona, Integer> puntosPorZona;
+    HashMap<Zona, Integer> puntosPorZonaFijo;
     Boolean isBlocked;
     ArrayList<Activo> activosUsados;
     Activo activoEnUso;
@@ -12,8 +13,8 @@ public class Cliente extends Usuario {
 
     public Cliente(String nombre, int numeroDeTelefono, String contrasena){
 
-        puntosMios= 0;
-        puntosTotales = 0;
+        puntosPorZona = new HashMap<Zona, Integer>();
+        puntosPorZonaFijo = new HashMap<Zona, Integer>();
         activosUsados= new ArrayList<>();
         activoEnUso = null;
         multa = null;
@@ -29,8 +30,16 @@ public class Cliente extends Usuario {
         return numeroDeTelefono;
     }
 
+   /* public HashMap<Zona, Integer> incluirZonas(Zona ZonaA, Zona ZonaB){
+        HashMap<Zona,Integer> hash = new HashMap<Zona, Integer>();
+        hash.put(ZonaA,0);
+        hash.put(ZonaB,0);
+        return hash;
+    }*/
+
     public void usarActivo(Activo activo){
-        puntosMios++;
+        puntosPorZona.replace(activo.terminalDeOrigen.getZona(), puntosPorZona.get(activo.terminalDeOrigen.getZona()) + activo.getPuntos());
+        puntosPorZonaFijo.replace(activo.terminalDeOrigen.getZona(), puntosPorZonaFijo.get(activo.terminalDeOrigen.getZona()) + activo.getPuntos());
     }
 
     public Activo getActivoEnUso() throws IOException {

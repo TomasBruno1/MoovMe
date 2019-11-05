@@ -6,4 +6,7 @@ public class Terminal implements Serializable {
         this.zona = zona;
         zona.agregarTerminal(this);
     }
+    public Zona getZona(){
+        return this.zona;
+    }
 }
