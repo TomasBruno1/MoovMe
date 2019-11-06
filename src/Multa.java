@@ -18,7 +18,10 @@ public class Multa {
 
     public int setValorDeMulta(){
         return this.activoAsociado.getValorDeMulta();
+    }
 
+    public void pagarMulta(){
+        estoyPagada =true;
     }
 
     public int getValorDeMulta(){

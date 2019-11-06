@@ -6,7 +6,7 @@ public class Cliente extends Usuario {
     Multa multa;
     HashMap<Zona, Integer> puntosPorZona;
     HashMap<Zona, Integer> puntosPorZonaFijo;
-    Boolean isBlocked;
+    boolean isBlocked;
     ArrayList<Activo> activosUsados;
     Activo activoEnUso;
     int numeroDeTelefono;
@@ -37,6 +37,7 @@ public class Cliente extends Usuario {
     }
 
     public void usarActivo(Activo activo){
+        //todo distintos puntos segun el tiempo de entrega
         puntosPorZona.replace(activo.terminalDeOrigen.getZona(), puntosPorZona.get(activo.terminalDeOrigen.getZona()) + activo.getPuntos());
         puntosPorZonaFijo.replace(activo.terminalDeOrigen.getZona(), puntosPorZonaFijo.get(activo.terminalDeOrigen.getZona()) + activo.getPuntos());
     }
@@ -56,15 +57,16 @@ public class Cliente extends Usuario {
     }
 
     public void pagarMulta(){
-      multa.estoyPagada = true;
+      multa.pagarMulta();
       isBlocked = false;
     }
 
     public int obtenerPrecioPorUso(int minutos){
+        //todo cambiar de resoponsabilidad al activo??
         return activoEnUso.getPrecioFijo() + activoEnUso.getPrecioDeTarifa()* minutos;
     }
 
-    public Boolean getBlocked() {
+    public boolean getBlocked() {
         return isBlocked;
     }
 }

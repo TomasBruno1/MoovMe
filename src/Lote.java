@@ -8,6 +8,7 @@ public class Lote {
     String nombreDelLote;
     public static int codigo = 1;
     int codigoReal;
+    //todo Cambiar responsabilidad del codigo al operador, por persistencia
 
     public Lote(ArrayList<Activo> activos, Terminal terminal, String nombre){
         activosDelLote = activos;

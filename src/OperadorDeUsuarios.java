@@ -2,7 +2,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-//Provisorio. todo implementar persistencia
+//todo usar polimorfismo para instanceof
 
 public class OperadorDeUsuarios implements Serializable {
     ArrayList<Usuario> usuarios;
