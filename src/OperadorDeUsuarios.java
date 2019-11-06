@@ -8,6 +8,7 @@ public class OperadorDeUsuarios implements Serializable {
     ArrayList<Usuario> usuarios;
     Usuario usuarioActivo;
     OperadorDeZonas operadorDeZonas;
+    int codigo = 0;
 
     public OperadorDeUsuarios(){
         usuarios = new ArrayList<>();
@@ -22,7 +23,7 @@ public class OperadorDeUsuarios implements Serializable {
     public void adminCheck(String nombreIngresado, String contrasenaIngresada) throws IOException {
         //todo ver si se puede reutilizar codigo con clienteCheck
         for (Usuario usuario : usuarios) {
-            if(usuario instanceof Administrador){
+            if(usuario.isAdmin()){
                 if (usuario.getNombreDeUsuario().equals(nombreIngresado) && usuario.getContrasena().equals(contrasenaIngresada)){
                     usuarioActivo = usuario;
                     return;
@@ -35,7 +36,7 @@ public class OperadorDeUsuarios implements Serializable {
 
     public void clienteCheck (String nombreIngresado, String contrasenaIngresada) throws IOException {
         for (Usuario usuario : usuarios) {
-            if (usuario instanceof Cliente) {
+            if (!usuario.isAdmin()) {
                 if (usuario.getNombreDeUsuario().equals(nombreIngresado) && usuario.getContrasena().equals(contrasenaIngresada)){
                     usuarioActivo = usuario;
                     return;
@@ -46,6 +47,7 @@ public class OperadorDeUsuarios implements Serializable {
         }throw new IOException("Nombre de usuario incorrecto. ");
 
     }
+
 
     public void cerrarSesion (){
         usuarioActivo = null;
@@ -121,5 +123,9 @@ public class OperadorDeUsuarios implements Serializable {
         Administrador nuevoAdmin = new Administrador(nombre, contrasena);
         usuarios.add(nuevoAdmin);
 
+    }
+
+    public int getCodigoActual() {
+        return codigo;
     }
 }

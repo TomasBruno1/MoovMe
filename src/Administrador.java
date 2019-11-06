@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Administrador extends Usuario {
@@ -20,7 +21,7 @@ public class Administrador extends Usuario {
     public void multarCliente(Cliente c) throws IOException {
         Multa multa = new Multa(c);
         c.multa = multa;
-        c.getActivoEnUso().devolverActivoATerminal(c.getActivoEnUso().getTerminalDeOrigen());
+        c.getActivoEnUso().devolverActivoATerminal(c.getActivoEnUso().getTerminalDeOrigen(), LocalTime.now());
     }
     public ArrayList<Activo> crearActivosParaLote(TipoDeActivo nombre, int cantidad, Terminal terminal, int precio, int tarifa, int puntos){
         ArrayList<Activo> activos = new ArrayList<>();
@@ -29,9 +30,9 @@ public class Administrador extends Usuario {
         }return activos;
     }
 
-    public Lote crearLoteDeCompraDeActivos(String nombreDelLote, TipoDeActivo nombre, int cantidad, Terminal terminal, int precio, int tarifa, int puntos){
+    public Lote crearLoteDeCompraDeActivos(String nombreDelLote, TipoDeActivo nombre, int cantidad, Terminal terminal, int precio, int tarifa, int puntos, int codigo){
         ArrayList<Activo> activos = this.crearActivosParaLote(nombre, cantidad, terminal, precio, tarifa, puntos);
-        Lote lote = new Lote(activos, terminal, nombreDelLote);
+        Lote lote = new Lote(activos, terminal, nombreDelLote, codigo);
         for (int i = 0; i<activos.size(); i++){
             this.adjudicarLoteAlActivo(lote, activos.get(i));
         }
@@ -42,7 +43,12 @@ public class Administrador extends Usuario {
         activo.cambiarLote(lote);
     }
 
-    public void adjudicarActivoAlCliente(Cliente c, TipoDeActivo tipodeactivo, Lote lote){
-        c.setActivoEnUso(lote.activosDelLote.get(1)); //Codigo a cambiar, solo para probar
+    @Override
+    public boolean isAdmin() {
+        return true;
+    }
+
+    public LocalTime cambiarHora (int hora, int minutos){
+        return LocalTime.of(hora, minutos);
     }
 }

@@ -1,20 +1,20 @@
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Lote {
+public class Lote implements Serializable {
 
     ArrayList<Activo> activosDelLote;
     Terminal terminal;
     String nombreDelLote;
-    public static int codigo = 1;
-    int codigoReal;
+    int codigoLote;
     //todo Cambiar responsabilidad del codigo al operador, por persistencia
 
-    public Lote(ArrayList<Activo> activos, Terminal terminal, String nombre){
+    public Lote(ArrayList<Activo> activos, Terminal terminal, String nombre, int codigo){
         activosDelLote = activos;
         this.terminal = terminal;
         nombreDelLote = nombre;
-        codigoReal = this.codigo++;
+        codigoLote = codigo;
     }
 
     public String getNombreDelLote() {
@@ -22,7 +22,7 @@ public class Lote {
     }
 
     public int getCodigo(){
-        return codigoReal;
+        return codigoLote;
     }
 
     public Activo getActivoPorCodigo(int codigo) throws IOException {

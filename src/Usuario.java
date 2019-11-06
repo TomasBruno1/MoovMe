@@ -11,4 +11,6 @@ public abstract class Usuario implements Serializable {
     public String getNombreDeUsuario() {
         return nombreDeUsuario;
     }
+
+    public abstract boolean isAdmin();
 }

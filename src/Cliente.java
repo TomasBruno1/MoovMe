@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.*;
 
@@ -36,10 +37,14 @@ public class Cliente extends Usuario {
        }
     }
 
-    public void usarActivo(Activo activo){
-        //todo distintos puntos segun el tiempo de entrega
-        puntosPorZona.replace(activo.terminalDeOrigen.getZona(), puntosPorZona.get(activo.terminalDeOrigen.getZona()) + activo.getPuntos());
-        puntosPorZonaFijo.replace(activo.terminalDeOrigen.getZona(), puntosPorZonaFijo.get(activo.terminalDeOrigen.getZona()) + activo.getPuntos());
+    public void devolverActivo(boolean devolvioActivoATiempo){
+        if (devolvioActivoATiempo){
+            puntosPorZona.replace(activoEnUso.terminalDeOrigen.getZona(), (int) (puntosPorZona.get(activoEnUso.terminalDeOrigen.getZona()) + activoEnUso.getPuntos()*1.2));
+            puntosPorZonaFijo.replace(activoEnUso.terminalDeOrigen.getZona(), (int) (puntosPorZonaFijo.get(activoEnUso.terminalDeOrigen.getZona()) + activoEnUso.getPuntos()*1.2));
+        }else{
+            puntosPorZona.replace(activoEnUso.terminalDeOrigen.getZona(),(puntosPorZona.get(activoEnUso.terminalDeOrigen.getZona()) + activoEnUso.getPuntos()));
+            puntosPorZonaFijo.replace(activoEnUso.terminalDeOrigen.getZona(),(puntosPorZonaFijo.get(activoEnUso.terminalDeOrigen.getZona()) + activoEnUso.getPuntos()));
+        }
     }
 
     public Activo getActivoEnUso() throws IOException {
@@ -47,9 +52,9 @@ public class Cliente extends Usuario {
         else return activoEnUso;
     }
     
-    public void setActivoEnUso(Activo activoEnUso) {
+    public void setActivoEnUso(Activo activoEnUso, LocalTime horaEnQueSeAlquilo,LocalTime horaEstimadaDeDevolucion) throws IOException {
         this.activoEnUso = activoEnUso;
-        //todo AGREGAR QUE USA EL ACTIVO ESTADO CAMBIAR AIUDA.
+        this.activoEnUso.retirarActivoDeTerminal(horaEnQueSeAlquilo, horaEstimadaDeDevolucion);
     }
 
     public Multa getMulta() {
@@ -62,11 +67,16 @@ public class Cliente extends Usuario {
     }
 
     public int obtenerPrecioPorUso(int minutos){
-        //todo cambiar de resoponsabilidad al activo??
         return activoEnUso.getPrecioFijo() + activoEnUso.getPrecioDeTarifa()* minutos;
     }
 
     public boolean getBlocked() {
         return isBlocked;
+    }
+
+
+    @Override
+    public boolean isAdmin() {
+        return false;
     }
 }

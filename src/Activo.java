@@ -1,6 +1,8 @@
 import java.io.IOException;
+import java.io.Serializable;
+import java.time.LocalTime;
 
-public class Activo {
+public class Activo implements Serializable {
     int puntos;
     int tarifaMin;
     Terminal terminalDeOrigen;
@@ -13,6 +15,9 @@ public class Activo {
     TipoDeActivo nombre;
     Lote lote;
     Status status;
+    LocalTime tiempoEnElQueSeAlquilo;
+    LocalTime tiempoEstimadoDeDevolucion;
+
 
     public Activo(TipoDeActivo nombre, Terminal terminalDeOrigen, int precio, int tarifaMin, int puntos) {
         this.nombre = nombre;
@@ -38,9 +43,24 @@ public class Activo {
         status = new Disponible();
     }
 
-    public void devolverActivoATerminal (Terminal unaTerminal) throws IOException {
+    public void retirarActivoDeTerminal(LocalTime horaEnLaQueSeAlquilo, LocalTime horaEstimadaDeDevolucion) throws IOException {
+        terminalActual = null;
+        status = status.usar();
+        tiempoEnElQueSeAlquilo = horaEnLaQueSeAlquilo;
+        tiempoEstimadoDeDevolucion = horaEstimadaDeDevolucion;
+    }
+
+    public boolean devolverActivoATerminal (Terminal unaTerminal, LocalTime horaAChequear) throws IOException {
         terminalActual = unaTerminal;
-        status.Devolver();
+        status = status.devolver();
+        if(horaAChequear.isAfter(tiempoEstimadoDeDevolucion)) {
+            tiempoEstimadoDeDevolucion = null;
+            return true;
+        }
+        else{
+            tiempoEstimadoDeDevolucion = null;
+            return false;
+        }
     }
 
     public Terminal getTerminalActual() {

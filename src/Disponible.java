@@ -6,11 +6,11 @@ public class Disponible extends Status {
         codigo = 1;
     }
 
-    public Disponible Devolver()throws IOException {
+    public Disponible devolver()throws IOException {
         throw new IOException("Ya esta devuelto");
     }
 
-    public EnUso Usar(){
+    public EnUso usar(){
         return new EnUso();
     }
 }

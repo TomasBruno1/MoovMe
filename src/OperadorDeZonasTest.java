@@ -158,7 +158,7 @@ public class OperadorDeZonasTest {
         TipoDeActivo tipoDeActivo = new TipoDeActivo("auto");
         Zona suZona = operadorDeZonas.getZonas().get(0);
         Terminal suTerminal = new Terminal(suZona, "Joe");
-        Lote unLote = new Lote(activos, suTerminal, "Lote1");
+        Lote unLote = new Lote(activos, suTerminal, "Lote1",1);
         activos.add(new Activo(tipoDeActivo, suTerminal,10,10, 10));
 
         //actions

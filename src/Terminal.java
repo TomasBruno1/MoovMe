@@ -37,9 +37,10 @@ public class Terminal implements Serializable {
     public ArrayList<Activo>  activosDeTerminal(){
         ArrayList<Activo> activos = new ArrayList<>();
         for (Lote lote : lotes) {
-            for (Activo activo :
-                    lote.getActivosDelLote()){
-                activos.add(activo);
+            for (Activo activo : lote.getActivosDelLote()){
+                if(activo.getStatus().getCodigoStatus()==1){
+                    activos.add(activo);
+                }
             }
         }
         return activos;

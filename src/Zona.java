@@ -30,6 +30,6 @@ HashSet<Terminal> terminales;
     public Terminal getTerminal (String nombre) throws IOException {
         for (Terminal terminal: terminales) {
             if (terminal.getNombre().equals(nombre))return terminal;
-        }throw new IOException("Zona no encontrada");
+        }throw new IOException("Terminal no encontrada");
     }
 }

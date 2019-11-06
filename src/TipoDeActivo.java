@@ -1,4 +1,6 @@
-public class TipoDeActivo {
+import java.io.Serializable;
+
+public class TipoDeActivo implements Serializable {
     String nombre;
     public TipoDeActivo(String tipo){
         nombre= tipo;

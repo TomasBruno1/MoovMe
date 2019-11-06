@@ -13,7 +13,7 @@ public class ZonaTest {
         ArrayList<Activo> activos = new ArrayList<>();
         TipoDeActivo tipoDeActivo = new TipoDeActivo("auto");
         activos.add(new Activo(tipoDeActivo, unaTerminal,10,10, 10));
-        Lote unLote = new Lote (activos, unaTerminal,"Lote1");
+        Lote unLote = new Lote (activos, unaTerminal,"Lote1", 1);
 
         //actions
         unaTerminal.agregarLote(unLote);
@@ -30,7 +30,7 @@ public class ZonaTest {
         ArrayList<Activo> activos = new ArrayList<>();
         TipoDeActivo tipoDeActivo = new TipoDeActivo("auto");
         activos.add(new Activo(tipoDeActivo, unaTerminal,10,10,10));
-        Lote unLote = new Lote (activos, unaTerminal,"Lote1");
+        Lote unLote = new Lote (activos, unaTerminal,"Lote1",1);
         unaTerminal.agregarLote(unLote);
 
         //actions
@@ -47,7 +47,7 @@ public class ZonaTest {
         ArrayList<Activo> activos = new ArrayList<>();
         TipoDeActivo tipoDeActivo = new TipoDeActivo("auto");
         activos.add(new Activo(tipoDeActivo, unaTerminal,10,10,10));
-        Lote unLote = new Lote (activos, unaTerminal,"Lote1");
+        Lote unLote = new Lote (activos, unaTerminal,"Lote1",1);
         unaTerminal.agregarLote(unLote);
         ArrayList<Activo> activosEncontrados = new ArrayList<>();
 

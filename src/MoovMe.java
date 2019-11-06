@@ -1,9 +1,13 @@
 import java.io.*;
+import java.time.LocalTime;
 import java.util.Iterator;
 
 public class MoovMe {
     static OperadorDeUsuarios operadorDeUsuarios = new OperadorDeUsuarios();
     static OperadorDeZonas operadorDeZonas = new OperadorDeZonas();
+    static LocalTime horaDelSistema = LocalTime.of(0,0);
+    //todo ranking de puntos
+    //todo devolver activo en clienteScreen
 
     public static void main(String[] args) {
         loadFiles();
@@ -109,7 +113,8 @@ public class MoovMe {
                     "7. Ver lista Clientes" + "\n" +
                     "8. Dar de alta nuevo tipo de activo" + "\n" +
                     "9. Comprar activos para zona" + "\n" +
-                    "10. Cerrar sesion" + "\n");
+                    "10. Cambiar hora" + "\n" +
+                    "11. Cerrar sesion" + "\n");
 
             switch  (Scanner.getInt("Ingrese una opcion: ")){
                 case 1:
@@ -140,7 +145,34 @@ public class MoovMe {
                     comprarLoteActivosParaZona();
                     break;
                 case 10:
+                    cambiarHoraScreen();
+                    return;
+                case 11:
                     operadorDeUsuarios.cerrarSesion();
+                    return;
+                default:
+                    System.out.println("Opcion invalida");
+                    break;
+            }
+        }
+    }
+
+    private static void cambiarHoraScreen() {
+        System.out.println("\n" + "------------------------------------" + "\n" +
+                "MOOVME ADMIN" + "\n" +
+                operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" +
+                "Cambiar Hora"+ "\n"+
+                "1. Ingresar hora" + "\n" +
+                "2. Volver" + "\n");
+
+        while (true) {
+            switch (Scanner.getInt("Ingrese una opcion: ")) {
+                case 1:
+                    int hora = Scanner.getInt("Ingrese el hora: ");
+                    int minuto = Scanner.getInt("Ingrese los minutos: ");
+                    horaDelSistema = ((Administrador) operadorDeUsuarios.getUsuarioActivo()).cambiarHora(hora, minuto);
+                    break;
+                case 2:
                     return;
                 default:
                     System.out.println("Opcion invalida");
@@ -174,7 +206,7 @@ public class MoovMe {
                         Zona suZona = operadorDeZonas.getZona(nombreZona);
                         Terminal suTerminal = suZona.getTerminal(nombreTerminal);
 
-                        operadorDeZonas.agregarLoteAZona(((Administrador)operadorDeUsuarios.getUsuarioActivo()).crearLoteDeCompraDeActivos(nombreLote, tipoDeActivo, cantidad, suTerminal, precio, tarifa,puntos), suZona.getNombre(), suTerminal);
+                        operadorDeZonas.agregarLoteAZona(((Administrador)operadorDeUsuarios.getUsuarioActivo()).crearLoteDeCompraDeActivos(nombreLote, tipoDeActivo, cantidad, suTerminal, precio, tarifa,puntos, operadorDeUsuarios.getCodigoActual()), suZona.getNombre(), suTerminal);
                         System.out.println("Lote agregado a "+ nombreZona);
                         return;
                     } catch (IOException e) {
@@ -372,8 +404,7 @@ public class MoovMe {
             switch  (Scanner.getInt("Ingrese una opcion: ")){
                 case 1:
                     showAlquilarActivoScreen();
-
-
+                    break;
                 case 2:
                     operadorDeUsuarios.cerrarSesion();
                     return;
@@ -410,7 +441,12 @@ public class MoovMe {
                 switch (Scanner.getInt("Ingrese una opcion: ")) {
                     case 1:
                         String nombreDelTipoDeActivoElegido = Scanner.getString("Ingrese un tipo de Activo: ");
-                        ((Cliente) operadorDeUsuarios.getUsuarioActivo()).setActivoEnUso(suZona.getTerminal(nombreDeSuTerminal).activosDeTerminal().get(0));
+                        int hora = Scanner.getInt("Ingrese hora estimada de devolucion: ");
+                        int minuto = Scanner.getInt("Ingrese minuto estimado de devolucion: ");
+                        LocalTime horaEstimadaDeDevolucion = LocalTime.of(hora, minuto);
+                        //todo trycatchear nullpointer
+                        ((Cliente) operadorDeUsuarios.getUsuarioActivo()).setActivoEnUso(suZona.getTerminal(nombreDeSuTerminal).activosDeTerminal().get(0), horaDelSistema, horaEstimadaDeDevolucion);
+                        System.out.println("Activo alquilado");
                         break;
                     case 2:
                         return;

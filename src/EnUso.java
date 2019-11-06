@@ -5,11 +5,11 @@ public EnUso(){
     codigo = 0;
 }
 
-    public EnUso Usar()throws IOException {
+    public EnUso usar()throws IOException {
     throw new IOException("Ya esta en uso");
     }
 
-    public Disponible Devolver(){
+    public Disponible devolver(){
     return new Disponible();
     }
 

@@ -1,15 +1,14 @@
 import java.io.IOException;
+import java.io.Serializable;
 
-public abstract class Status {
+public abstract class Status implements Serializable {
     int codigo;
-
-
 
     public int getCodigoStatus() {
         return codigo;
     }
 
-    public abstract EnUso Usar() throws IOException;
-    public abstract Disponible Devolver() throws IOException;
+    public abstract EnUso usar() throws IOException;
+    public abstract Disponible devolver() throws IOException;
 
 }

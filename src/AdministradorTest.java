@@ -2,17 +2,18 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.time.LocalTime;
 
 public class AdministradorTest {
     Administrador admin = new Administrador("admin", "admin");
 
     @Test
-    public void testBloquearCliente() {
+    public void testBloquearCliente() throws IOException {
         //setup
         Cliente unCliente = new Cliente("nomcliente", 123,"contrasena");
         TipoDeActivo unTipoDeActivo = new TipoDeActivo("auto");
         Activo unActivo = new Activo(unTipoDeActivo, new Terminal(new ZonaSur(), "Joe"),10,10, 10);
-        unCliente.setActivoEnUso(unActivo);
+        unCliente.setActivoEnUso(unActivo, LocalTime.MIDNIGHT, LocalTime.NOON);
 
         //actions
         try {
@@ -26,12 +27,12 @@ public class AdministradorTest {
     }
 
     @Test
-    public void testDesbloquearCliente() {
+    public void testDesbloquearCliente() throws IOException {
         //setup
         Cliente unCliente = new Cliente("nomcliente", 123,"contrasena");
         TipoDeActivo unTipoDeActivo = new TipoDeActivo("auto");
         Activo unActivo = new Activo(unTipoDeActivo, new Terminal(new ZonaSur(), "Joe"),10,10,10);
-        unCliente.setActivoEnUso(unActivo);
+        unCliente.setActivoEnUso(unActivo, LocalTime.MIDNIGHT, LocalTime.NOON);
         try {
             admin.bloquearCliente(unCliente);
         } catch (IOException e) {
@@ -51,7 +52,7 @@ public class AdministradorTest {
         Cliente unCliente = new Cliente("nomcliente", 123,"contrasena");
         TipoDeActivo unTipoDeActivo = new TipoDeActivo("auto");
         Activo unActivo = new Activo(unTipoDeActivo, new Terminal(new ZonaSur(), "Joe"),10,10, 10);
-        unCliente.setActivoEnUso(unActivo);
+        unCliente.setActivoEnUso(unActivo, LocalTime.MIDNIGHT, LocalTime.NOON);
 
         //actions
         admin.multarCliente(unCliente);
@@ -67,7 +68,7 @@ public class AdministradorTest {
         Lote unLote = null;
 
         //actions
-        unLote = admin.crearLoteDeCompraDeActivos("Lote1", tipoDeActivo, 10, new Terminal(new ZonaSur(), "Joe"), 10,10,10);
+        unLote = admin.crearLoteDeCompraDeActivos("Lote1", tipoDeActivo, 10, new Terminal(new ZonaSur(), "Joe"), 10,10,10,1);
 
         //assertion
         Assert.assertEquals("Lote1", unLote.getNombreDelLote());
