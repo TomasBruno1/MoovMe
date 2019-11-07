@@ -68,12 +68,11 @@ public class AdministradorTest {
         Lote unLote = null;
 
         //actions
-        unLote = admin.crearLoteDeCompraDeActivos("Lote1", tipoDeActivo, 10, new Terminal(new ZonaSur(), "Joe"), 10,10,10,1);
+        unLote = admin.crearLoteDeCompraDeActivos( tipoDeActivo, 10, new Terminal(new ZonaSur(), "Joe"), 10,10,10,1);
 
         //assertion
-        Assert.assertEquals("Lote1", unLote.getNombreDelLote());
         Assert.assertEquals(1, unLote.getCodigo());
-        Assert.assertEquals("auto", unLote.getActivoPorCodigo(1).getNombre().getNombre());
+        Assert.assertEquals("auto", unLote.getActivoPorCodigo(1).getTipoDeActivo().getNombre());
 
     }
 }

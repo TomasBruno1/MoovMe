@@ -37,6 +37,11 @@ public class Cliente extends Usuario {
        }
     }
 
+    public void bloquearCliente() throws IOException {
+        multa = new Multa(this);
+        activoEnUso.devolverActivoATerminal(activoEnUso.getTerminalDeOrigen(), LocalTime.now());
+    }
+
     public void devolverActivo(boolean devolvioActivoATiempo){
         if (devolvioActivoATiempo){
             puntosPorZona.replace(activoEnUso.terminalDeOrigen.getZona(), (int) (puntosPorZona.get(activoEnUso.terminalDeOrigen.getZona()) + activoEnUso.getPuntos()*1.2));
@@ -45,6 +50,7 @@ public class Cliente extends Usuario {
             puntosPorZona.replace(activoEnUso.terminalDeOrigen.getZona(),(puntosPorZona.get(activoEnUso.terminalDeOrigen.getZona()) + activoEnUso.getPuntos()));
             puntosPorZonaFijo.replace(activoEnUso.terminalDeOrigen.getZona(),(puntosPorZonaFijo.get(activoEnUso.terminalDeOrigen.getZona()) + activoEnUso.getPuntos()));
         }
+        activoEnUso = null;
     }
 
     public Activo getActivoEnUso() throws IOException {
@@ -64,6 +70,11 @@ public class Cliente extends Usuario {
     public void pagarMulta(){
       multa.pagarMulta();
       isBlocked = false;
+    }
+
+    public boolean tieneActivoEnUso (){
+        if (activoEnUso != null) return true;
+        else return false;
     }
 
     public int obtenerPrecioPorUso(int minutos){

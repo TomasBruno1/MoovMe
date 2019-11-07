@@ -130,10 +130,10 @@ public class MoovMe {
                     desbloquearCliente();
                     break;
                 case 5:
-                    verListaAdmins();
+                    eliminarCliente();
                     break;
                 case 6:
-                    eliminarCliente();
+                    verListaAdmins();
                     break;
                 case 7:
                     verListaClientes();
@@ -192,7 +192,6 @@ public class MoovMe {
         while (true) {
             switch (Scanner.getInt("Ingrese una opcion: ")) {
                 case 1:
-                    String nombreLote = Scanner.getString("Ingrese el nombre del lote: ");
                     String tipoActivoNombre = Scanner.getString("Ingrese el tipo del activo: ");
                     int cantidad = Scanner.getInt("Ingrese la cantidad de activos: ");
                     String nombreZona = Scanner.getString("Ingrese el nombre de la zona: ");
@@ -206,7 +205,7 @@ public class MoovMe {
                         Zona suZona = operadorDeZonas.getZona(nombreZona);
                         Terminal suTerminal = suZona.getTerminal(nombreTerminal);
 
-                        operadorDeZonas.agregarLoteAZona(((Administrador)operadorDeUsuarios.getUsuarioActivo()).crearLoteDeCompraDeActivos(nombreLote, tipoDeActivo, cantidad, suTerminal, precio, tarifa,puntos, operadorDeUsuarios.getCodigoActual()), suZona.getNombre(), suTerminal);
+                        operadorDeZonas.agregarLoteAZona(((Administrador)operadorDeUsuarios.getUsuarioActivo()).crearLoteDeCompraDeActivos( tipoDeActivo, cantidad, suTerminal, precio, tarifa,puntos, operadorDeZonas.getCodigoLote()), suZona.getNombre(), suTerminal);
                         System.out.println("Lote agregado a "+ nombreZona);
                         return;
                     } catch (IOException e) {
@@ -399,13 +398,24 @@ public class MoovMe {
                 "MOOVME CLIENTE" + "\n" +
                 operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n"+
                 "1. Alquilar Activo" + "\n"+
-                "2. Cerrar sesion" + "\n");
+                "2. Devolver Activo" + "\n"+
+                "3. Cerrar sesion" + "\n");
 
             switch  (Scanner.getInt("Ingrese una opcion: ")){
                 case 1:
+                    if (((Cliente)operadorDeUsuarios.getUsuarioActivo()).tieneActivoEnUso()){
+                        System.out.println("Ya tiene un activo alquilado");
+                        break;
+                    }
                     showAlquilarActivoScreen();
                     break;
                 case 2:
+                    if (((Cliente)operadorDeUsuarios.getUsuarioActivo()).tieneActivoEnUso()){
+                        showDevolverActivoScreen();
+                        break;
+                    }else System.out.println("No hay un activo alquilado");
+                    break;
+                case 3:
                     operadorDeUsuarios.cerrarSesion();
                     return;
                 default:
@@ -413,8 +423,28 @@ public class MoovMe {
                     break;
             }
 
-
         }
+    }
+
+    private static void showDevolverActivoScreen() {
+
+
+        String nombreZona = Scanner.getString("Ingrese su zona: ");
+        try {
+            Zona unaZona = operadorDeZonas.getZona(nombreZona);
+            String nombreTerminal = Scanner.getString("Ingrese el nombre de la terminal a la que devuelve su activo: ");
+            Terminal unaTerminal = unaZona.getTerminal(nombreTerminal);
+            if (((Cliente)operadorDeUsuarios.getUsuarioActivo()).tieneActivoEnUso()){
+                Activo suActivo= ((Cliente)operadorDeUsuarios.getUsuarioActivo()).getActivoEnUso();
+                ((Cliente)operadorDeUsuarios.getUsuarioActivo()).devolverActivo(((Cliente)operadorDeUsuarios.getUsuarioActivo()).getActivoEnUso().devolverActivoATerminal(unaTerminal, horaDelSistema));
+                System.out.println("Activo devuelto");
+                if(!suActivo.estaEnZona())((Cliente)operadorDeUsuarios.getUsuarioActivo()).bloquearCliente();
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());;
+        }
+
+
     }
 
     private static void showAlquilarActivoScreen() {
@@ -444,10 +474,10 @@ public class MoovMe {
                         int hora = Scanner.getInt("Ingrese hora estimada de devolucion: ");
                         int minuto = Scanner.getInt("Ingrese minuto estimado de devolucion: ");
                         LocalTime horaEstimadaDeDevolucion = LocalTime.of(hora, minuto);
-                        //todo trycatchear nullpointer
-                        ((Cliente) operadorDeUsuarios.getUsuarioActivo()).setActivoEnUso(suZona.getTerminal(nombreDeSuTerminal).activosDeTerminal().get(0), horaDelSistema, horaEstimadaDeDevolucion);
+                        TipoDeActivo tipoDeActivo=  operadorDeZonas.getTipoActivo(nombreDelTipoDeActivoElegido);
+                        ((Cliente) operadorDeUsuarios.getUsuarioActivo()).setActivoEnUso(suZona.getTerminal(nombreDeSuTerminal).activosDeTerminalPorTipo(tipoDeActivo).get(0), horaDelSistema, horaEstimadaDeDevolucion);
                         System.out.println("Activo alquilado");
-                        break;
+                        return;
                     case 2:
                         return;
                     default:
@@ -457,6 +487,10 @@ public class MoovMe {
 
         } catch (IOException e) {
             System.out.println(e.getMessage());
+        } catch (NullPointerException e){
+            System.out.println("No hay activos disponibles");
+        }catch (IndexOutOfBoundsException e){
+            System.out.println("No hay activos disponibles");
         }
 
     }

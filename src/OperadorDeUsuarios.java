@@ -8,7 +8,6 @@ public class OperadorDeUsuarios implements Serializable {
     ArrayList<Usuario> usuarios;
     Usuario usuarioActivo;
     OperadorDeZonas operadorDeZonas;
-    int codigo = 0;
 
     public OperadorDeUsuarios(){
         usuarios = new ArrayList<>();
@@ -71,14 +70,14 @@ public class OperadorDeUsuarios implements Serializable {
     public ArrayList<Administrador> getAdmins(){
         ArrayList<Administrador> administradores = new ArrayList<>();
         for (Usuario usuario: usuarios) {
-            if (usuario instanceof Administrador) administradores.add((Administrador) usuario);
+            if (usuario.isAdmin()) administradores.add((Administrador) usuario);
         }
         return  administradores;
     }
     public ArrayList<Cliente> getClientes(){
         ArrayList<Cliente> clientes = new ArrayList<>();
         for (Usuario usuario: usuarios) {
-            if (usuario instanceof Cliente) clientes.add((Cliente) usuario);
+            if (!usuario.isAdmin()) clientes.add((Cliente) usuario);
         }
         return  clientes;
     }
@@ -94,7 +93,7 @@ public class OperadorDeUsuarios implements Serializable {
 
     public void eliminarCliente (String nombre) throws IOException {
         for (Usuario usuario: usuarios) {
-            if (usuario instanceof Cliente){
+            if (!usuario.isAdmin()){
                 if (usuario.getNombreDeUsuario().equals(nombre)){
                     usuarios.remove(usuario);
                     return;
@@ -105,7 +104,7 @@ public class OperadorDeUsuarios implements Serializable {
 
     public void eliminarAdmin (String nombre) throws IOException {
         for (Usuario usuario: usuarios) {
-            if (usuario instanceof Administrador){
+            if (usuario.isAdmin()){
                 if (usuario.getNombreDeUsuario().equals(nombre)){
                     if (getAdmins().size() == 1) throw new IOException("No se pueden eliminar todos los admins. ");
                     if (usuarioActivo.getNombreDeUsuario().equals(nombre)) throw new IOException("No te puedes eliminar a ti mismo. ");
@@ -125,7 +124,4 @@ public class OperadorDeUsuarios implements Serializable {
 
     }
 
-    public int getCodigoActual() {
-        return codigo;
-    }
 }

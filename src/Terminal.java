@@ -46,11 +46,23 @@ public class Terminal implements Serializable {
         return activos;
     }
 
+    public ArrayList<Activo>  activosDeTerminalPorTipo(TipoDeActivo unTipoDeActivo){
+        ArrayList<Activo> activos = new ArrayList<>();
+        for (Lote lote : lotes) {
+            for (Activo activo : lote.getActivosDelLote()){
+                if(activo.getStatus().getCodigoStatus()==1 && activo.getTipoDeActivo().getNombre().equals(unTipoDeActivo.getNombre())){
+                    activos.add(activo);
+                }
+            }
+        }
+        return activos;
+    }
+
     public void mostrarActivosDeTerminal() {
         HashSet<String> nombresDeTipoDeActivo = new HashSet<String>();
         for (Activo activo : activosDeTerminal()) {
             if(activo.getStatus().getCodigoStatus()==1){
-                nombresDeTipoDeActivo.add(activo.getNombre().getNombre());
+                nombresDeTipoDeActivo.add(activo.getTipoDeActivo().getNombre());
             }
         }
         System.out.println(nombresDeTipoDeActivo.toString());

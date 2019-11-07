@@ -19,9 +19,7 @@ public class Administrador extends Usuario {
     }
 
     public void multarCliente(Cliente c) throws IOException {
-        Multa multa = new Multa(c);
-        c.multa = multa;
-        c.getActivoEnUso().devolverActivoATerminal(c.getActivoEnUso().getTerminalDeOrigen(), LocalTime.now());
+        c.bloquearCliente();
     }
     public ArrayList<Activo> crearActivosParaLote(TipoDeActivo nombre, int cantidad, Terminal terminal, int precio, int tarifa, int puntos){
         ArrayList<Activo> activos = new ArrayList<>();
@@ -30,9 +28,9 @@ public class Administrador extends Usuario {
         }return activos;
     }
 
-    public Lote crearLoteDeCompraDeActivos(String nombreDelLote, TipoDeActivo nombre, int cantidad, Terminal terminal, int precio, int tarifa, int puntos, int codigo){
+    public Lote crearLoteDeCompraDeActivos( TipoDeActivo nombre, int cantidad, Terminal terminal, int precio, int tarifa, int puntos, int codigo){
         ArrayList<Activo> activos = this.crearActivosParaLote(nombre, cantidad, terminal, precio, tarifa, puntos);
-        Lote lote = new Lote(activos, terminal, nombreDelLote, codigo);
+        Lote lote = new Lote(activos, terminal, codigo);
         for (int i = 0; i<activos.size(); i++){
             this.adjudicarLoteAlActivo(lote, activos.get(i));
         }

@@ -12,15 +12,15 @@ public class Activo implements Serializable {
     public static int codigo = 1;
     int codigoReal;
     int precioFijo;
-    TipoDeActivo nombre;
+    TipoDeActivo tipoDeActivo;
     Lote lote;
     Status status;
     LocalTime tiempoEnElQueSeAlquilo;
     LocalTime tiempoEstimadoDeDevolucion;
 
 
-    public Activo(TipoDeActivo nombre, Terminal terminalDeOrigen, int precio, int tarifaMin, int puntos) {
-        this.nombre = nombre;
+    public Activo(TipoDeActivo tipoDeActivo, Terminal terminalDeOrigen, int precio, int tarifaMin, int puntos) {
+        this.tipoDeActivo = tipoDeActivo;
         this.terminalDeOrigen = terminalDeOrigen;
         this.terminalActual = terminalDeOrigen;
         estaEnZona = true;
@@ -98,11 +98,9 @@ public class Activo implements Serializable {
     public int getPuntos(){
         return this.puntos;
     }
-    public boolean getSiEstaEnZona(){
-        return estaEnZona;
-    }
-    public TipoDeActivo getNombre() {
-        return nombre;
+
+    public TipoDeActivo getTipoDeActivo() {
+        return tipoDeActivo;
     }
 
     public Lote getLote() {

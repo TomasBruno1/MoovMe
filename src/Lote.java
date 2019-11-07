@@ -6,20 +6,15 @@ public class Lote implements Serializable {
 
     ArrayList<Activo> activosDelLote;
     Terminal terminal;
-    String nombreDelLote;
     int codigoLote;
     //todo Cambiar responsabilidad del codigo al operador, por persistencia
 
-    public Lote(ArrayList<Activo> activos, Terminal terminal, String nombre, int codigo){
+    public Lote(ArrayList<Activo> activos, Terminal terminal,  int codigo){
         activosDelLote = activos;
         this.terminal = terminal;
-        nombreDelLote = nombre;
         codigoLote = codigo;
     }
 
-    public String getNombreDelLote() {
-        return nombreDelLote;
-    }
 
     public int getCodigo(){
         return codigoLote;

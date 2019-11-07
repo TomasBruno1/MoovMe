@@ -13,14 +13,13 @@ public class ZonaTest {
         ArrayList<Activo> activos = new ArrayList<>();
         TipoDeActivo tipoDeActivo = new TipoDeActivo("auto");
         activos.add(new Activo(tipoDeActivo, unaTerminal,10,10, 10));
-        Lote unLote = new Lote (activos, unaTerminal,"Lote1", 1);
+        Lote unLote = new Lote (activos, unaTerminal, 1);
 
         //actions
         unaTerminal.agregarLote(unLote);
 
         //assertion
         Assert.assertEquals(1, unaTerminal.getLotes().size());
-        Assert.assertEquals("Lote1", unaTerminal.getLotes().get(0).getNombreDelLote());
 
     }
 
@@ -30,7 +29,7 @@ public class ZonaTest {
         ArrayList<Activo> activos = new ArrayList<>();
         TipoDeActivo tipoDeActivo = new TipoDeActivo("auto");
         activos.add(new Activo(tipoDeActivo, unaTerminal,10,10,10));
-        Lote unLote = new Lote (activos, unaTerminal,"Lote1",1);
+        Lote unLote = new Lote (activos, unaTerminal,1);
         unaTerminal.agregarLote(unLote);
 
         //actions
@@ -47,7 +46,7 @@ public class ZonaTest {
         ArrayList<Activo> activos = new ArrayList<>();
         TipoDeActivo tipoDeActivo = new TipoDeActivo("auto");
         activos.add(new Activo(tipoDeActivo, unaTerminal,10,10,10));
-        Lote unLote = new Lote (activos, unaTerminal,"Lote1",1);
+        Lote unLote = new Lote (activos, unaTerminal,41);
         unaTerminal.agregarLote(unLote);
         ArrayList<Activo> activosEncontrados = new ArrayList<>();
 
@@ -56,7 +55,7 @@ public class ZonaTest {
 
         //assertion
         Assert.assertEquals(1, activosEncontrados.size());
-        Assert.assertEquals("auto", activosEncontrados.get(0).getNombre().getNombre());
+        Assert.assertEquals("auto", activosEncontrados.get(0).getTipoDeActivo().getNombre());
 
     }
 }

@@ -158,7 +158,7 @@ public class OperadorDeZonasTest {
         TipoDeActivo tipoDeActivo = new TipoDeActivo("auto");
         Zona suZona = operadorDeZonas.getZonas().get(0);
         Terminal suTerminal = new Terminal(suZona, "Joe");
-        Lote unLote = new Lote(activos, suTerminal, "Lote1",1);
+        Lote unLote = new Lote(activos, suTerminal, 1);
         activos.add(new Activo(tipoDeActivo, suTerminal,10,10, 10));
 
         //actions
@@ -171,6 +171,5 @@ public class OperadorDeZonasTest {
         //assertion
         Assert.assertEquals(1, operadorDeZonas.getZona(suZona.getNombre()).getTerminal(suTerminal.getNombre()).getLotes().size());
         Assert.assertEquals(1, operadorDeZonas.getZona(suZona.getNombre()).getTerminal(suTerminal.getNombre()).getLotes().get(0).getCodigo());
-        Assert.assertEquals("Lote1", operadorDeZonas.getZona(suZona.getNombre()).getTerminal(suTerminal.getNombre()).getLotes().get(0).getNombreDelLote());
     }
 }

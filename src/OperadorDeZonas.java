@@ -6,6 +6,8 @@ public class OperadorDeZonas implements Serializable {
     public ArrayList<Zona> zonas;
     public ArrayList<TipoDeActivo> tipoDeActivos;
     OperadorDeUsuarios operadorDeUsuarios;
+    int codigoActivo;
+    int codigoLote;
 
     public OperadorDeZonas () {
         zonas = new ArrayList<>();
@@ -78,5 +80,13 @@ public class OperadorDeZonas implements Serializable {
                 return;
             }
         }throw new IOException("Zona no encontrada");
+    }
+
+    public int getCodigoActivo() {
+        return codigoActivo;
+    }
+
+    public int getCodigoLote() {
+        return codigoLote;
     }
 }
