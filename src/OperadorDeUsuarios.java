@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 
 //todo usar polimorfismo para instanceof
 
@@ -8,11 +10,13 @@ public class OperadorDeUsuarios implements Serializable {
     ArrayList<Usuario> usuarios;
     Usuario usuarioActivo;
     OperadorDeZonas operadorDeZonas;
+    HashSet<Descuento> descuentosDisponibles;
 
     public OperadorDeUsuarios(){
         usuarios = new ArrayList<>();
         usuarios.add(new Administrador("admin", "admin"));
         usuarioActivo = null;
+        descuentosDisponibles = new HashSet<>();
     }
 
     public void setOperadorDeZonas(OperadorDeZonas operadorDeZonas) {
@@ -45,6 +49,40 @@ public class OperadorDeUsuarios implements Serializable {
             }
         }throw new IOException("Nombre de usuario incorrecto. ");
 
+    }
+
+    public ArrayList<Descuento> ofrecerDescuentos (Cliente unCliente) throws IOException {
+        ArrayList<Descuento> descuentosDisponiblesAMostrar = new ArrayList<>();
+        for (Descuento descuento: descuentosDisponibles) {
+            if(descuento.getUnTipoDeActivo().getNombre().equals(unCliente.getActivoEnUso().getTipoDeActivo().getNombre())&&
+                    descuento.getZonaParaDescuento().getNombre().equals(unCliente.getActivoEnUso().getTerminalDeOrigen().getZona().getNombre())){
+                descuentosDisponiblesAMostrar.add(descuento);
+            }
+        }
+        return descuentosDisponiblesAMostrar;
+    }
+
+    public Descuento getDescuentoPorDescripcion (String descripcion) throws IOException {
+        Iterator<Descuento>  iteratorDescuento = descuentosDisponibles.iterator();
+        while ( iteratorDescuento.hasNext()){
+            if (descripcion.equals(iteratorDescuento.next().getDescripcion())) return iteratorDescuento.next();
+        }throw new IOException("Descuento no econtrado");
+    }
+
+    public HashSet<Descuento> getDescuentosDisponibles() {
+        return descuentosDisponibles;
+    }
+
+    public void agregarDescuento(Administrador admin, String descripcion, TipoDeActivo unTipoDeActivo, int puntosMinParaUsar, Zona zonaParaDescuento, int descuentoNumerico){
+        descuentosDisponibles.add(admin.crearDescuento(descripcion, unTipoDeActivo, puntosMinParaUsar, zonaParaDescuento, descuentoNumerico)) ;
+    }
+
+    public void eliminarDescuento(String desDescuento) throws IOException {
+        descuentosDisponibles.remove(getDescuentoPorDescripcion(desDescuento));
+    }
+
+    public void darDescuentoACliente (Cliente unCliente, String descripcion) throws IOException {
+        unCliente.setDescuentoEnUso(getDescuentoPorDescripcion(descripcion));
     }
 
 

@@ -6,8 +6,8 @@ public class OperadorDeZonas implements Serializable {
     public ArrayList<Zona> zonas;
     public ArrayList<TipoDeActivo> tipoDeActivos;
     OperadorDeUsuarios operadorDeUsuarios;
-    int codigoActivo;
-    int codigoLote;
+    int codigoActivoActual;
+    int codigoLoteActual;
 
     public OperadorDeZonas () {
         zonas = new ArrayList<>();
@@ -45,6 +45,7 @@ public class OperadorDeZonas implements Serializable {
     }
 
 
+
     public void checkTipoActivo (String nombre) throws IOException {
         for (TipoDeActivo tipodeactivo: tipoDeActivos) {
             if (tipodeactivo.getNombre().equals(nombre)) return;
@@ -72,21 +73,30 @@ public class OperadorDeZonas implements Serializable {
         }throw new IOException("Zona no encontrada");
     }
 
+    public void setCodigoActivoActual(int codigoActivoActual) {
+        this.codigoActivoActual = codigoActivoActual;
+    }
+
+    public void setCodigoLoteActual(int codigoLoteActual) {
+        this.codigoLoteActual = codigoLoteActual;
+    }
 
     public void agregarLoteAZona (Lote unLote, String nombreZona, Terminal terminal) throws IOException {
         for (Zona zona: zonas) {
             if (zona.getNombre().equals(nombreZona)){
                 zona.getTerminal(terminal.getNombre()).agregarLote(unLote);
+                setCodigoLoteActual(unLote.getCodigo()+1);
+                setCodigoActivoActual(unLote.getActivosDelLote().get(unLote.getActivosDelLote().size()-1).getCodigo()+1);
                 return;
             }
         }throw new IOException("Zona no encontrada");
     }
 
-    public int getCodigoActivo() {
-        return codigoActivo;
+    public int getCodigoActivoActual() {
+        return codigoActivoActual;
     }
 
-    public int getCodigoLote() {
-        return codigoLote;
+    public int getCodigoLoteActual() {
+        return codigoLoteActual;
     }
 }

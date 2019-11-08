@@ -1,6 +1,5 @@
 import java.io.*;
 import java.time.LocalTime;
-import java.util.Iterator;
 
 public class MoovMe {
     static OperadorDeUsuarios operadorDeUsuarios = new OperadorDeUsuarios();
@@ -114,7 +113,9 @@ public class MoovMe {
                     "8. Dar de alta nuevo tipo de activo" + "\n" +
                     "9. Comprar activos para zona" + "\n" +
                     "10. Cambiar hora" + "\n" +
-                    "11. Cerrar sesion" + "\n");
+                    "11. Agregar descuento" + "\n" +
+                    "12. Eliminar descuento" + "\n" +
+                    "13. Cerrar sesion" + "\n");
 
             switch  (Scanner.getInt("Ingrese una opcion: ")){
                 case 1:
@@ -148,7 +149,79 @@ public class MoovMe {
                     cambiarHoraScreen();
                     return;
                 case 11:
+                    agregarDescuentoScreen();
+                    return;
+                case 12:
+                    eliminarDescuentoScreen();
+                    return;
+                case 13:
                     operadorDeUsuarios.cerrarSesion();
+                    return;
+                default:
+                    System.out.println("Opcion invalida");
+                    break;
+            }
+        }
+    }
+
+    private static void eliminarDescuentoScreen() {
+        System.out.println("\n" + "------------------------------------" + "\n" +
+                "MOOVME ADMIN" + "\n" +
+                operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" +
+                "Agregar descuento"+ "\n"+
+                "1. Ingresar descripcion, tipo de activo, puntos minimo para usar, zona para descuento, descuento numerico" + "\n" +
+                "2. Volver" + "\n");
+
+        while (true) {
+            switch (Scanner.getInt("Ingrese una opcion: ")) {
+                case 1:
+                    try {
+
+                        String desDescuento = Scanner.getString("Ingrese descripcion del descuento: ");
+
+                        operadorDeUsuarios.eliminarDescuento(desDescuento);
+
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 2:
+                    return;
+                default:
+                    System.out.println("Opcion invalida");
+                    break;
+            }
+        }
+    }
+
+    private static void agregarDescuentoScreen() {
+        System.out.println("\n" + "------------------------------------" + "\n" +
+                "MOOVME ADMIN" + "\n" +
+                operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" +
+                "Agregar descuento"+ "\n"+
+                "1. Ingresar descripcion, tipo de activo, puntos minimo para usar, zona para descuento, descuento numerico" + "\n" +
+                "2. Volver" + "\n");
+
+        while (true) {
+            switch (Scanner.getInt("Ingrese una opcion: ")) {
+                case 1:
+                    try {
+
+                        String desDescuento = Scanner.getString("Ingrese descripcion del descuento: ");
+                        String nombreTipoDeActivo = Scanner.getString("Ingrese tipo de activo: ");
+                        TipoDeActivo tipoDeActivo = operadorDeZonas.getTipoActivo(nombreTipoDeActivo);
+                        int puntosMin = Scanner.getInt("Ingrese los puntos minimos para usar: ");
+                        String nombreZona = Scanner.getString("Ingrese Zona: ");
+                        Zona zona = operadorDeZonas.getZona(nombreZona);
+                        int descuentoNum = Scanner.getInt("Ingrese el descuento: ");
+
+                        operadorDeUsuarios.agregarDescuento(((Administrador)operadorDeUsuarios.getUsuarioActivo()),desDescuento, tipoDeActivo,puntosMin,zona,descuentoNum);
+
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 2:
                     return;
                 default:
                     System.out.println("Opcion invalida");
@@ -205,7 +278,8 @@ public class MoovMe {
                         Zona suZona = operadorDeZonas.getZona(nombreZona);
                         Terminal suTerminal = suZona.getTerminal(nombreTerminal);
 
-                        operadorDeZonas.agregarLoteAZona(((Administrador)operadorDeUsuarios.getUsuarioActivo()).crearLoteDeCompraDeActivos( tipoDeActivo, cantidad, suTerminal, precio, tarifa,puntos, operadorDeZonas.getCodigoLote()), suZona.getNombre(), suTerminal);
+                        operadorDeZonas.agregarLoteAZona(((Administrador)operadorDeUsuarios.getUsuarioActivo()).crearLoteDeCompraDeActivos( tipoDeActivo, cantidad, suTerminal, precio, tarifa,puntos, operadorDeZonas.getCodigoLoteActual(), operadorDeZonas.getCodigoActivoActual()), suZona.getNombre(), suTerminal);
+
                         System.out.println("Lote agregado a "+ nombreZona);
                         return;
                     } catch (IOException e) {
@@ -434,17 +508,51 @@ public class MoovMe {
             Zona unaZona = operadorDeZonas.getZona(nombreZona);
             String nombreTerminal = Scanner.getString("Ingrese el nombre de la terminal a la que devuelve su activo: ");
             Terminal unaTerminal = unaZona.getTerminal(nombreTerminal);
-            if (((Cliente)operadorDeUsuarios.getUsuarioActivo()).tieneActivoEnUso()){
-                Activo suActivo= ((Cliente)operadorDeUsuarios.getUsuarioActivo()).getActivoEnUso();
-                ((Cliente)operadorDeUsuarios.getUsuarioActivo()).devolverActivo(((Cliente)operadorDeUsuarios.getUsuarioActivo()).getActivoEnUso().devolverActivoATerminal(unaTerminal, horaDelSistema));
+            if (((Cliente) operadorDeUsuarios.getUsuarioActivo()).tieneActivoEnUso()) {
+                Activo suActivo = ((Cliente) operadorDeUsuarios.getUsuarioActivo()).getActivoEnUso();
+                showDescuentoScreen();
+
+                ((Cliente) operadorDeUsuarios.getUsuarioActivo()).devolverActivo(((Cliente) operadorDeUsuarios.getUsuarioActivo()).getActivoEnUso().devolverActivoATerminal(unaTerminal, horaDelSistema));
                 System.out.println("Activo devuelto");
-                if(!suActivo.estaEnZona())((Cliente)operadorDeUsuarios.getUsuarioActivo()).bloquearCliente();
+                if (!suActivo.estaEnZona()) ((Cliente) operadorDeUsuarios.getUsuarioActivo()).bloquearCliente();
             }
         } catch (IOException e) {
-            System.out.println(e.getMessage());;
+            System.out.println(e.getMessage());
+
         }
+    }
 
 
+    private static void showDescuentoScreen() {
+        while (true) {
+            System.out.println("\n" + "------------------------------------" + "\n" +
+                    "MOOVME CLIENTE" + "\n" +
+                    operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() + "\n" +
+                    "1. Usar descuentos" + "\n" +
+                    "2. No usar descuentos" + "\n");
+
+            switch (Scanner.getInt("Ingrese una opcion: ")) {
+                case 1:
+                    try {
+                        if (operadorDeUsuarios.ofrecerDescuentos((Cliente) operadorDeUsuarios.getUsuarioActivo()).size() != 0) {
+                            for (Descuento descuento : operadorDeUsuarios.ofrecerDescuentos((Cliente) operadorDeUsuarios.getUsuarioActivo())) {
+                                System.out.println(descuento.getDescripcion());
+                            }
+                            String descDescuento = Scanner.getString("Ingrese el descuento que quiere usar: ");
+                            operadorDeUsuarios.darDescuentoACliente((Cliente) operadorDeUsuarios.getUsuarioActivo(), descDescuento);
+
+                        } else System.out.println("No tiene descuento aplicables");
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 2:
+                    break;
+                default:
+                    System.out.println("Opcion invalida");
+                    break;
+            }
+        }
     }
 
     private static void showAlquilarActivoScreen() {

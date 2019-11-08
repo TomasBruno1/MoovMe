@@ -11,6 +11,7 @@ public class Cliente extends Usuario {
     ArrayList<Activo> activosUsados;
     Activo activoEnUso;
     int numeroDeTelefono;
+    Descuento descuentoEnUso;
 
     public Cliente(String nombre, int numeroDeTelefono, String contrasena){
 
@@ -23,6 +24,7 @@ public class Cliente extends Usuario {
         this.nombreDeUsuario = nombre;
         this.numeroDeTelefono = numeroDeTelefono;
         this.contrasena = contrasena;
+        descuentoEnUso = null;
     }
 
 
@@ -35,6 +37,10 @@ public class Cliente extends Usuario {
            puntosPorZonaFijo.put(zona, 0);
            puntosPorZona.put(zona, 0);
        }
+    }
+
+    public int getPuntosPorZona( Zona suZona) {
+        return puntosPorZona.get(suZona).intValue();
     }
 
     public void bloquearCliente() throws IOException {
@@ -57,8 +63,17 @@ public class Cliente extends Usuario {
         if(activoEnUso == null) throw new IOException("No se encontro un activo asociado.");
         else return activoEnUso;
     }
-    
-    public void setActivoEnUso(Activo activoEnUso, LocalTime horaEnQueSeAlquilo,LocalTime horaEstimadaDeDevolucion) throws IOException {
+
+    public Descuento getDescuentoEnUso() throws IOException {
+        if(descuentoEnUso == null) throw new IOException("No se encontro un descuento en uso.");
+        else return descuentoEnUso;
+    }
+
+    public void setDescuentoEnUso(Descuento descuentoEnUso) {
+        this.descuentoEnUso = descuentoEnUso;
+    }
+
+    public void setActivoEnUso(Activo activoEnUso, LocalTime horaEnQueSeAlquilo, LocalTime horaEstimadaDeDevolucion) throws IOException {
         this.activoEnUso = activoEnUso;
         this.activoEnUso.retirarActivoDeTerminal(horaEnQueSeAlquilo, horaEstimadaDeDevolucion);
     }
@@ -78,6 +93,7 @@ public class Cliente extends Usuario {
     }
 
     public int obtenerPrecioPorUso(int minutos){
+        //todo cambiar lo de hora
         return activoEnUso.getPrecioFijo() + activoEnUso.getPrecioDeTarifa()* minutos;
     }
 

@@ -9,7 +9,6 @@ public class Activo implements Serializable {
     Terminal terminalActual;
     int valorDeMulta;
     boolean estaEnZona;
-    public static int codigo = 1;
     int codigoReal;
     int precioFijo;
     TipoDeActivo tipoDeActivo;
@@ -19,7 +18,7 @@ public class Activo implements Serializable {
     LocalTime tiempoEstimadoDeDevolucion;
 
 
-    public Activo(TipoDeActivo tipoDeActivo, Terminal terminalDeOrigen, int precio, int tarifaMin, int puntos) {
+    public Activo(TipoDeActivo tipoDeActivo, Terminal terminalDeOrigen, int precio, int tarifaMin, int puntos, int codigo) {
         this.tipoDeActivo = tipoDeActivo;
         this.terminalDeOrigen = terminalDeOrigen;
         this.terminalActual = terminalDeOrigen;
@@ -27,7 +26,7 @@ public class Activo implements Serializable {
         this.tarifaMin = tarifaMin;
         precioFijo= precio;
         valorDeMulta= precio/2;
-        codigoReal = this.codigo++;
+        codigoReal = codigo;
         this.lote = null;
         this.puntos= puntos;
         status = new Disponible();
@@ -61,6 +60,10 @@ public class Activo implements Serializable {
             tiempoEstimadoDeDevolucion = null;
             return false;
         }
+    }
+
+    public LocalTime getTiempoEnElQueSeAlquilo() {
+        return tiempoEnElQueSeAlquilo;
     }
 
     public Terminal getTerminalActual() {

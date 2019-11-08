@@ -21,16 +21,21 @@ public class Administrador extends Usuario {
     public void multarCliente(Cliente c) throws IOException {
         c.bloquearCliente();
     }
-    public ArrayList<Activo> crearActivosParaLote(TipoDeActivo nombre, int cantidad, Terminal terminal, int precio, int tarifa, int puntos){
+    public ArrayList<Activo> crearActivosParaLote(TipoDeActivo nombre, int cantidad, Terminal terminal, int precio, int tarifa, int puntos, int codigoActivo){
         ArrayList<Activo> activos = new ArrayList<>();
         for (int i= 0; i<cantidad; i++){
-            activos.add(new Activo(nombre, terminal, precio, tarifa, puntos));
+            activos.add(new Activo(nombre, terminal, precio, tarifa, puntos, codigoActivo));
+            codigoActivo++;
         }return activos;
     }
 
-    public Lote crearLoteDeCompraDeActivos( TipoDeActivo nombre, int cantidad, Terminal terminal, int precio, int tarifa, int puntos, int codigo){
-        ArrayList<Activo> activos = this.crearActivosParaLote(nombre, cantidad, terminal, precio, tarifa, puntos);
-        Lote lote = new Lote(activos, terminal, codigo);
+    public Descuento crearDescuento (String descripcion, TipoDeActivo unTipoDeActivo, int puntosMinParaUsar, Zona zonaParaDescuento, int descuentoNumerico){
+        return new Descuento(descripcion, unTipoDeActivo, puntosMinParaUsar, zonaParaDescuento, descuentoNumerico);
+    }
+
+    public Lote crearLoteDeCompraDeActivos( TipoDeActivo nombre, int cantidad, Terminal terminal, int precio, int tarifa, int puntos, int codigoLote, int codigoActivo){
+        ArrayList<Activo> activos = this.crearActivosParaLote(nombre, cantidad, terminal, precio, tarifa, puntos, codigoActivo);
+        Lote lote = new Lote(activos, terminal, codigoLote);
         for (int i = 0; i<activos.size(); i++){
             this.adjudicarLoteAlActivo(lote, activos.get(i));
         }

@@ -159,7 +159,7 @@ public class OperadorDeZonasTest {
         Zona suZona = operadorDeZonas.getZonas().get(0);
         Terminal suTerminal = new Terminal(suZona, "Joe");
         Lote unLote = new Lote(activos, suTerminal, 1);
-        activos.add(new Activo(tipoDeActivo, suTerminal,10,10, 10));
+        activos.add(new Activo(tipoDeActivo, suTerminal,10,10, 10,1));
 
         //actions
         try {
