@@ -34,12 +34,12 @@ public class Activo implements Serializable {
 
     //Metodos
 
-    public void enUso(){
-        status = new EnUso();
+    public void enUso() throws IOException {
+        status = status.usar();
     }
 
-    public void disponible(){
-        status = new Disponible();
+    public void disponible() throws IOException {
+        status = status.devolver();
     }
 
     public void retirarActivoDeTerminal(LocalTime horaEnLaQueSeAlquilo, LocalTime horaEstimadaDeDevolucion) throws IOException {
@@ -62,6 +62,10 @@ public class Activo implements Serializable {
         }
     }
 
+    public LocalTime getTiempoEstimadoDeDevolucion() {
+        return tiempoEstimadoDeDevolucion;
+    }
+
     public LocalTime getTiempoEnElQueSeAlquilo() {
         return tiempoEnElQueSeAlquilo;
     }
@@ -78,19 +82,17 @@ public class Activo implements Serializable {
         return valorDeMulta;
     }
 
+    public boolean getEstaEnZona() {
+        return estaEnZona;
+    }
 
     public int getPrecioFijo(){
         return precioFijo;
     }
 
-    public boolean estaEnZona(){
-        if(!this.terminalActual.getZona().equals(this.terminalDeOrigen.getZona())){
-            estaEnZona = false;
-            return false;
-        }else {
-            estaEnZona = true;
-            return true;
-        }
+    public void checkEstaEnZona(Terminal unaTerminal){
+        if(unaTerminal.getZona().getNombre().equals(this.terminalDeOrigen.getZona().getNombre())) estaEnZona = true;
+        else estaEnZona = false;
     }
     public int getCodigo(){
         return codigoReal;

@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Iterator;
 
 public abstract class Zona implements Serializable {
 String nombre;
@@ -15,12 +16,21 @@ HashSet<Terminal> terminales;
     return valor;
 }
 
-    public void agregarTerminal(Terminal terminal){
-        terminales.add(terminal);
+    public void agregarTerminal(String nombreTerminal, Zona suZona) throws IOException {
+        for (Terminal terminal : terminales) {
+            if (terminal.getNombre().equals(nombreTerminal)) throw new IOException("La terminal ya existe");
+        }
+        terminales.add(new Terminal(suZona, nombreTerminal));
     }
 
-    public void eliminarTerminal(Terminal terminal){
-        terminales.remove(terminal);
+    public void eliminarTerminal(String nombreTerminal) throws IOException {
+        for (Terminal terminal : terminales) {
+            if (terminal.getNombre().equals(nombreTerminal)) {
+                terminales.remove(terminal);
+                return;
+            }
+        }throw new IOException("No se pudo encontrar la Terminal");
+
     }
 
     public HashSet<Terminal> getTerminales() {

@@ -5,8 +5,6 @@ public class MoovMe {
     static OperadorDeUsuarios operadorDeUsuarios = new OperadorDeUsuarios();
     static OperadorDeZonas operadorDeZonas = new OperadorDeZonas();
     static LocalTime horaDelSistema = LocalTime.of(0,0);
-    //todo ranking de puntos
-    //todo devolver activo en clienteScreen
 
     public static void main(String[] args) {
         loadFiles();
@@ -101,7 +99,7 @@ public class MoovMe {
         while(true){
             System.out.println("\n" + "------------------------------------" + "\n" +
                     "MOOVME ADMIN" + "\n" +
-                    operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +
+                    "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +
                     "\n" +
                     "1. Crear Nuevo Admin" + "\n" +
                     "2. Eliminar Admin" + "\n" +
@@ -115,7 +113,11 @@ public class MoovMe {
                     "10. Cambiar hora" + "\n" +
                     "11. Agregar descuento" + "\n" +
                     "12. Eliminar descuento" + "\n" +
-                    "13. Cerrar sesion" + "\n");
+                    "13. Agregar terminal" + "\n" +
+                    "14. Eliminar terminal" + "\n" +
+                    "15. Ver ranking" + "\n" +
+                    "16. Reiniciar ranking" + "\n" +
+                    "17. Cerrar sesion" + "\n");
 
             switch  (Scanner.getInt("Ingrese una opcion: ")){
                 case 1:
@@ -147,14 +149,31 @@ public class MoovMe {
                     break;
                 case 10:
                     cambiarHoraScreen();
-                    return;
+                    break;
                 case 11:
                     agregarDescuentoScreen();
-                    return;
+                    break;
                 case 12:
                     eliminarDescuentoScreen();
-                    return;
+                    break;
                 case 13:
+                    agregarTerminalScreen();
+                    break;
+                case 14:
+                    eliminarTerminalScreen();
+                    break;
+                case 15:
+                    rankingScreen();
+                    break;
+                case 16:
+                    try {
+                        operadorDeUsuarios.resetRanking();
+                        System.out.println("Ranking reinciado");
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 17:
                     operadorDeUsuarios.cerrarSesion();
                     return;
                 default:
@@ -164,12 +183,86 @@ public class MoovMe {
         }
     }
 
+    private static void eliminarTerminalScreen() {
+        System.out.println("\n" + "------------------------------------" + "\n" +
+                "MOOVME ADMIN" + "\n" +
+                "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" +
+                "Eliminar terminal"+ "\n"+
+                "1. Ingresar nombre de la terminal para eliminarla" + "\n" +
+                "2. Volver" + "\n");
+
+        while (true) {
+            switch (Scanner.getInt("Ingrese una opcion: ")) {
+                case 1:
+                    try {
+
+                        String nombreZona = Scanner.getString("Ingrese Zona de la Terminal: ");
+                        Zona zona = operadorDeZonas.getZona(nombreZona);
+
+                        String nombreTerminal = Scanner.getString("Ingrese el nombre de la Terminal: ");
+                        zona.eliminarTerminal(nombreTerminal);
+                        System.out.println("Terminal eliminada");
+
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 2:
+                    return;
+                default:
+                    System.out.println("Opcion invalida");
+                    break;
+            }
+        }
+    }
+
+    private static void agregarTerminalScreen() {
+        while (true) {
+            System.out.println("\n" + "------------------------------------" + "\n" +
+                    "MOOVME ADMIN" + "\n" +
+                    "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" +
+                    "Agregar Terminal"+ "\n"+
+                    "1. Ingresar zona de la terminal y su nombre" + "\n" +
+                    "2. Volver" + "\n");
+
+
+            switch (Scanner.getInt("Ingrese una opcion: ")) {
+                case 1:
+                    try {
+                        String nombreZona = Scanner.getString("Ingrese Zona de la Terminal: ");
+                        Zona zona = operadorDeZonas.getZona(nombreZona);
+
+                        String nombreTerminal = Scanner.getString("Ingrese el nombre de la Terminal: ");
+                        zona.agregarTerminal(nombreTerminal, zona);
+                        System.out.println("Terminal agregada");
+
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 2:
+                    return;
+                default:
+                    System.out.println("Opcion invalida");
+                    break;
+            }
+        }
+    }
+
+    private static void rankingScreen() {
+        try {
+            operadorDeUsuarios.imprimirRanking();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     private static void eliminarDescuentoScreen() {
         System.out.println("\n" + "------------------------------------" + "\n" +
                 "MOOVME ADMIN" + "\n" +
-                operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" +
-                "Agregar descuento"+ "\n"+
-                "1. Ingresar descripcion, tipo de activo, puntos minimo para usar, zona para descuento, descuento numerico" + "\n" +
+                "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" +
+                "Eliminar descuento"+ "\n"+
+                "1. Ingresar descripcion para eliminar descuento" + "\n" +
                 "2. Volver" + "\n");
 
         while (true) {
@@ -180,6 +273,7 @@ public class MoovMe {
                         String desDescuento = Scanner.getString("Ingrese descripcion del descuento: ");
 
                         operadorDeUsuarios.eliminarDescuento(desDescuento);
+                        System.out.println("Descuento eliminado");
 
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
@@ -195,14 +289,15 @@ public class MoovMe {
     }
 
     private static void agregarDescuentoScreen() {
-        System.out.println("\n" + "------------------------------------" + "\n" +
+        while (true) {
+            System.out.println("\n" + "------------------------------------" + "\n" +
                 "MOOVME ADMIN" + "\n" +
-                operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" +
+                    "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" +
                 "Agregar descuento"+ "\n"+
                 "1. Ingresar descripcion, tipo de activo, puntos minimo para usar, zona para descuento, descuento numerico" + "\n" +
                 "2. Volver" + "\n");
 
-        while (true) {
+
             switch (Scanner.getInt("Ingrese una opcion: ")) {
                 case 1:
                     try {
@@ -216,6 +311,7 @@ public class MoovMe {
                         int descuentoNum = Scanner.getInt("Ingrese el descuento: ");
 
                         operadorDeUsuarios.agregarDescuento(((Administrador)operadorDeUsuarios.getUsuarioActivo()),desDescuento, tipoDeActivo,puntosMin,zona,descuentoNum);
+                        System.out.println("Descuento agregado");
 
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
@@ -231,19 +327,21 @@ public class MoovMe {
     }
 
     private static void cambiarHoraScreen() {
-        System.out.println("\n" + "------------------------------------" + "\n" +
+        while (true) {
+
+            System.out.println("\n" + "------------------------------------" + "\n" +
                 "MOOVME ADMIN" + "\n" +
-                operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" +
+                    "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" +
                 "Cambiar Hora"+ "\n"+
                 "1. Ingresar hora" + "\n" +
                 "2. Volver" + "\n");
 
-        while (true) {
             switch (Scanner.getInt("Ingrese una opcion: ")) {
                 case 1:
                     int hora = Scanner.getInt("Ingrese el hora: ");
                     int minuto = Scanner.getInt("Ingrese los minutos: ");
                     horaDelSistema = ((Administrador) operadorDeUsuarios.getUsuarioActivo()).cambiarHora(hora, minuto);
+                    System.out.println("Hora cambiada");
                     break;
                 case 2:
                     return;
@@ -255,28 +353,33 @@ public class MoovMe {
     }
 
     private static void comprarLoteActivosParaZona() {
-        System.out.println("\n" + "------------------------------------" + "\n" +
+        while (true) {
+
+            System.out.println("\n" + "------------------------------------" + "\n" +
                 "MOOVME ADMIN" + "\n" +
-                operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" +
+                    "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" +
                 "Comprar lote de activos para zona"+ "\n"+
-                "1. Ingresar nombre del Lote, tipo de Activo, cantidad, nombre de la zona, precio, tarifa" + "\n" +
+                "1. Ingresar  tipo de Activo, cantidad, nombre de la zona, nombre de la terminal, precio, tarifa, puntos" + "\n" +
                 "2. Volver" + "\n");
 
-        while (true) {
             switch (Scanner.getInt("Ingrese una opcion: ")) {
                 case 1:
-                    String tipoActivoNombre = Scanner.getString("Ingrese el tipo del activo: ");
-                    int cantidad = Scanner.getInt("Ingrese la cantidad de activos: ");
-                    String nombreZona = Scanner.getString("Ingrese el nombre de la zona: ");
-                    String nombreTerminal = Scanner.getString("Ingrese el nombre de la terminal: ");
-                    int precio = Scanner.getInt("Ingrese el precio: ");
-                    int tarifa = Scanner.getInt("Ingrese la tarifa: ");
-                    int puntos = Scanner.getInt("Ingrese la puntos: ");
-
                     try{
+
+                        String tipoActivoNombre = Scanner.getString("Ingrese el tipo del activo: ");
                         TipoDeActivo tipoDeActivo =  operadorDeZonas.getTipoActivo(tipoActivoNombre);
+
+                        int cantidad = Scanner.getInt("Ingrese la cantidad de activos: ");
+                        String nombreZona = Scanner.getString("Ingrese el nombre de la zona: ");
                         Zona suZona = operadorDeZonas.getZona(nombreZona);
+
+                        String nombreTerminal = Scanner.getString("Ingrese el nombre de la terminal: ");
                         Terminal suTerminal = suZona.getTerminal(nombreTerminal);
+
+                        int precio = Scanner.getInt("Ingrese el precio: ");
+                        int tarifa = Scanner.getInt("Ingrese la tarifa: ");
+                        int puntos = Scanner.getInt("Ingrese la puntos: ");
+
 
                         operadorDeZonas.agregarLoteAZona(((Administrador)operadorDeUsuarios.getUsuarioActivo()).crearLoteDeCompraDeActivos( tipoDeActivo, cantidad, suTerminal, precio, tarifa,puntos, operadorDeZonas.getCodigoLoteActual(), operadorDeZonas.getCodigoActivoActual()), suZona.getNombre(), suTerminal);
 
@@ -296,14 +399,15 @@ public class MoovMe {
     }
 
     private static void crearTipoActivo() {
-        System.out.println("\n" + "------------------------------------" + "\n" +
+        while (true) {
+
+            System.out.println("\n" + "------------------------------------" + "\n" +
                 "MOOVME ADMIN" + "\n" +
-                operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" +
+                    "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" +
                 "Dar de alta tipo de activo"+ "\n"+
                 "1. Ingresar nombre del activo" + "\n" +
                 "2. Volver" + "\n");
 
-        while (true) {
             switch (Scanner.getInt("Ingrese una opcion: ")) {
                 case 1:
                     String nombreActivo = Scanner.getString("Ingrese el nombre del activo: ");
@@ -337,14 +441,15 @@ public class MoovMe {
     }
 
     private static void desbloquearCliente() {
-        System.out.println("\n" + "------------------------------------" + "\n" +
+        while (true) {
+
+            System.out.println("\n" + "------------------------------------" + "\n" +
                 "MOOVME ADMIN" + "\n" +
-                operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +
+                    "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +
                 "Desbloquear Cliente"+ "\n"+
                 "1. Ingresar nombre del cliente para desbloquear" + "\n" +
                 "2. Volver" + "\n");
 
-        while (true) {
             switch (Scanner.getInt("Ingrese una opcion: ")) {
                 case 1:
                     String nombreCliente = Scanner.getString("Ingrese el nombre del cliente a desbloquear: ");
@@ -366,14 +471,15 @@ public class MoovMe {
     }
 
     private static void bloquearCliente() {
-        System.out.println("\n" + "------------------------------------" + "\n" +
+        while (true){
+
+            System.out.println("\n" + "------------------------------------" + "\n" +
                     "MOOVME ADMIN" + "\n" +
-                    operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n"+
+                    "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n"+
                     "Bloquear Cliente"+ "\n"+
                     "1. Ingresar nombre del cliente para bloquear" + "\n" +
                     "2. Volver" + "\n");
 
-            while (true){
                 switch  (Scanner.getInt("Ingrese una opcion: ")){
                     case 1:
                         String nombreCliente = Scanner.getString("Ingrese el nombre del cliente a bloquear: ");
@@ -442,17 +548,19 @@ public class MoovMe {
     }
 
     private static void showMultaPaymentScreen() {
-        System.out.println("\n" + "------------------------------------" + "\n" +
+        while (true) {
+
+            System.out.println("\n" + "------------------------------------" + "\n" +
                 operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() + "! TU USUARIO ESTA BLOQUEADO!" + "\n" +
                 "Puedes pagar tu multa de " +
                 ((Cliente)operadorDeUsuarios.getUsuarioActivo()).multa.getValorDeMulta() + " pesos para desbloquearte." + "\n"+
                 "1. Pagar Multa" + "\n" +
                 "2. Cancelar" + "\n");
 
-        while (true) {
             switch (Scanner.getInt("Ingrese una opcion: ")) {
                 case 1:
                     ((Cliente) operadorDeUsuarios.getUsuarioActivo()).pagarMulta();
+                    System.out.println("Multa pagada");
 
                 case 2:
                     homeScreen();
@@ -470,10 +578,22 @@ public class MoovMe {
         while (true){
         System.out.println("\n" + "------------------------------------" + "\n" +
                 "MOOVME CLIENTE" + "\n" +
-                operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n"+
-                "1. Alquilar Activo" + "\n"+
-                "2. Devolver Activo" + "\n"+
-                "3. Cerrar sesion" + "\n");
+                "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" );
+        if(((Cliente) operadorDeUsuarios.getUsuarioActivo()).tieneActivoEnUso()) {
+            try {
+                System.out.println("Su activo actual es: "+
+                        ((Cliente) operadorDeUsuarios.getUsuarioActivo()).getActivoEnUso().getTipoDeActivo().getNombre()+"\n"+
+                "Codigo: "+ ((Cliente) operadorDeUsuarios.getUsuarioActivo()).getActivoEnUso().getCodigo()+"\n");
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        System.out.println(
+                        "1. Alquilar Activo" + "\n"+
+                        "2. Devolver Activo" + "\n"+
+                        "3. Ver Puntos acumulados por zona" + "\n"+
+                        "4. Ver Ranking" + "\n"+
+                        "5. Cerrar sesion" + "\n");
 
             switch  (Scanner.getInt("Ingrese una opcion: ")){
                 case 1:
@@ -485,11 +605,21 @@ public class MoovMe {
                     break;
                 case 2:
                     if (((Cliente)operadorDeUsuarios.getUsuarioActivo()).tieneActivoEnUso()){
-                        showDevolverActivoScreen();
+                        int resultado = showDevolverActivoScreen();
+                        if(resultado == 1) {
+                            System.out.println("Fuiste bloqueado");
+                            return;
+                        }
                         break;
                     }else System.out.println("No hay un activo alquilado");
                     break;
                 case 3:
+                    puntosScreen();
+                    break;
+                case 4:
+                    rankingScreen();
+                    break;
+                case 5:
                     operadorDeUsuarios.cerrarSesion();
                     return;
                 default:
@@ -500,26 +630,52 @@ public class MoovMe {
         }
     }
 
-    private static void showDevolverActivoScreen() {
-
-
-        String nombreZona = Scanner.getString("Ingrese su zona: ");
+    private static void puntosScreen() {
         try {
+            System.out.println("Puntos Zona Sur: " + ((Cliente) operadorDeUsuarios.getUsuarioActivo()).getPuntosPorZona(operadorDeZonas.getZona("ZonaSur")));
+            System.out.println("Puntos Zona Norte: " + ((Cliente) operadorDeUsuarios.getUsuarioActivo()).getPuntosPorZona(operadorDeZonas.getZona("ZonaNorte")));
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+
+
+    private static int showDevolverActivoScreen() {
+
+        try {
+            System.out.println("Su activo costara: "+ ((Cliente)operadorDeUsuarios.getUsuarioActivo()).getActivoEnUso().getPrecioFijo());
+
+            String nombreZona = Scanner.getString("Ingrese su zona: ");
+
             Zona unaZona = operadorDeZonas.getZona(nombreZona);
             String nombreTerminal = Scanner.getString("Ingrese el nombre de la terminal a la que devuelve su activo: ");
             Terminal unaTerminal = unaZona.getTerminal(nombreTerminal);
             if (((Cliente) operadorDeUsuarios.getUsuarioActivo()).tieneActivoEnUso()) {
                 Activo suActivo = ((Cliente) operadorDeUsuarios.getUsuarioActivo()).getActivoEnUso();
-                showDescuentoScreen();
+                if (operadorDeUsuarios.ofrecerDescuentos((Cliente) operadorDeUsuarios.getUsuarioActivo()).size() != 0) {
+                    showDescuentoScreen();
+                    System.out.println("El precio con el descuento aplicado es de: "+ ((Cliente) operadorDeUsuarios.getUsuarioActivo()).getActivoEnUso().getPrecioFijo()*((Cliente) operadorDeUsuarios.getUsuarioActivo()).getDescuentoEnUso().getDescuentoNumerico());
+                }
+                suActivo.checkEstaEnZona(unaTerminal);
 
-                ((Cliente) operadorDeUsuarios.getUsuarioActivo()).devolverActivo(((Cliente) operadorDeUsuarios.getUsuarioActivo()).getActivoEnUso().devolverActivoATerminal(unaTerminal, horaDelSistema));
-                System.out.println("Activo devuelto");
-                if (!suActivo.estaEnZona()) ((Cliente) operadorDeUsuarios.getUsuarioActivo()).bloquearCliente();
+                if (!(suActivo.getEstaEnZona())){
+                    ((Cliente) operadorDeUsuarios.getUsuarioActivo()).bloquearCliente();
+                    return 1;
+                }else {
+
+                    ((Cliente) operadorDeUsuarios.getUsuarioActivo()).devolverActivo(((Cliente) operadorDeUsuarios.getUsuarioActivo()).getActivoEnUso().devolverActivoATerminal(unaTerminal, horaDelSistema));
+                    System.out.println("Activo devuelto");
+                    return  0;
+                }
             }
+            return  0;
         } catch (IOException e) {
             System.out.println(e.getMessage());
 
         }
+        return  0;
     }
 
 
@@ -527,9 +683,9 @@ public class MoovMe {
         while (true) {
             System.out.println("\n" + "------------------------------------" + "\n" +
                     "MOOVME CLIENTE" + "\n" +
-                    operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() + "\n" +
+                    "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() + "\n" +
                     "1. Usar descuentos" + "\n" +
-                    "2. No usar descuentos" + "\n");
+                    "2. Volver" + "\n");
 
             switch (Scanner.getInt("Ingrese una opcion: ")) {
                 case 1:
@@ -541,13 +697,13 @@ public class MoovMe {
                             String descDescuento = Scanner.getString("Ingrese el descuento que quiere usar: ");
                             operadorDeUsuarios.darDescuentoACliente((Cliente) operadorDeUsuarios.getUsuarioActivo(), descDescuento);
 
-                        } else System.out.println("No tiene descuento aplicables");
+                        } else System.out.println("No tiene descuentos aplicables");
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
                     }
                     break;
                 case 2:
-                    break;
+                    return;
                 default:
                     System.out.println("Opcion invalida");
                     break;
@@ -558,7 +714,7 @@ public class MoovMe {
     private static void showAlquilarActivoScreen() {
         System.out.println("\n" + "------------------------------------" + "\n" +
                 "ALQUILER DE ACTIVOS" + "\n" +
-                operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() + "\n");
+                "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() + "\n");
         String nombreDeZona = Scanner.getString("En que zona se encuentra: ");
         try {
             Zona suZona = operadorDeZonas.getZona(nombreDeZona);
@@ -595,9 +751,7 @@ public class MoovMe {
 
         } catch (IOException e) {
             System.out.println(e.getMessage());
-        } catch (NullPointerException e){
-            System.out.println("No hay activos disponibles");
-        }catch (IndexOutOfBoundsException e){
+        } catch (NullPointerException | IndexOutOfBoundsException e){
             System.out.println("No hay activos disponibles");
         }
 
@@ -609,7 +763,7 @@ public class MoovMe {
         String contrasenaIngresada = Scanner.getString("Ingrese su contraseña: ");
         try {
             operadorDeUsuarios.agregarCliente(nombreIngresado, numTelIngresado,contrasenaIngresada);
-            System.out.println("Cliente agregado");
+            System.out.println("Cliente "+nombreIngresado + " agregado");
 
         } catch (IOException e) {
             System.out.println(e.getMessage());

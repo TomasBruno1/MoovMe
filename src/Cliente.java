@@ -39,13 +39,25 @@ public class Cliente extends Usuario {
        }
     }
 
+    public int getPuntosPorZonaFijo(Zona suZona) {
+        return puntosPorZonaFijo.getOrDefault(suZona, 0);
+    }
+
     public int getPuntosPorZona( Zona suZona) {
-        return puntosPorZona.get(suZona).intValue();
+        return puntosPorZona.getOrDefault(suZona, 0);
+    }
+
+
+
+    public void resetPuntosPorZonaFijo( Zona suZona) {
+        puntosPorZonaFijo.replace(suZona, getPuntosPorZonaFijo(suZona), 0);
     }
 
     public void bloquearCliente() throws IOException {
+        isBlocked = true;
         multa = new Multa(this);
         activoEnUso.devolverActivoATerminal(activoEnUso.getTerminalDeOrigen(), LocalTime.now());
+        activoEnUso = null;
     }
 
     public void devolverActivo(boolean devolvioActivoATiempo){

@@ -1,10 +1,6 @@
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-
-//todo usar polimorfismo para instanceof
+import java.util.*;
 
 public class OperadorDeUsuarios implements Serializable {
     ArrayList<Usuario> usuarios;
@@ -24,7 +20,6 @@ public class OperadorDeUsuarios implements Serializable {
     }
 
     public void adminCheck(String nombreIngresado, String contrasenaIngresada) throws IOException {
-        //todo ver si se puede reutilizar codigo con clienteCheck
         for (Usuario usuario : usuarios) {
             if(usuario.isAdmin()){
                 if (usuario.getNombreDeUsuario().equals(nombreIngresado) && usuario.getContrasena().equals(contrasenaIngresada)){
@@ -55,7 +50,8 @@ public class OperadorDeUsuarios implements Serializable {
         ArrayList<Descuento> descuentosDisponiblesAMostrar = new ArrayList<>();
         for (Descuento descuento: descuentosDisponibles) {
             if(descuento.getUnTipoDeActivo().getNombre().equals(unCliente.getActivoEnUso().getTipoDeActivo().getNombre())&&
-                    descuento.getZonaParaDescuento().getNombre().equals(unCliente.getActivoEnUso().getTerminalDeOrigen().getZona().getNombre())){
+                    descuento.getZonaParaDescuento().getNombre().equals(unCliente.getActivoEnUso().getTerminalDeOrigen().getZona().getNombre()) &&
+            descuento.getPuntosMinParaUsar()<unCliente.getPuntosPorZona(unCliente.getActivoEnUso().getTerminalDeOrigen().getZona())){
                 descuentosDisponiblesAMostrar.add(descuento);
             }
         }
@@ -160,6 +156,68 @@ public class OperadorDeUsuarios implements Serializable {
         Administrador nuevoAdmin = new Administrador(nombre, contrasena);
         usuarios.add(nuevoAdmin);
 
+    }
+
+    public Map<String, Integer> getRankingPorZona(Zona unaZona){
+        HashMap<String, Integer> ranking = new HashMap<>();
+
+            for (Usuario usuario : usuarios) {
+                if (!usuario.isAdmin()) {
+                    if (!(ranking.containsKey(usuario.getNombreDeUsuario()))) {
+                        ranking.put(usuario.getNombreDeUsuario(), ((Cliente) usuario).getPuntosPorZonaFijo(unaZona));
+                    }
+                }
+            }
+
+        return sortByValue(ranking);
+    }
+
+    public void clearRankingPorZona(Zona unaZona){
+        for (Usuario usuario : usuarios) {
+            if (!usuario.isAdmin()) {
+                ((Cliente) usuario).resetPuntosPorZonaFijo(unaZona);
+            }
+        }
+    }
+
+    public void resetRanking () throws IOException {
+        clearRankingPorZona(operadorDeZonas.getZona("ZonaSur"));
+        clearRankingPorZona(operadorDeZonas.getZona("ZonaNorte"));
+    }
+    
+    public void imprimirRanking () throws IOException {
+        System.out.println("\n" +"Ranking Zona Sur: ");
+        for (Map.Entry<String, Integer> entry :getRankingPorZona(operadorDeZonas.getZona("ZonaSur")).entrySet()) {
+            System.out.println(entry.getKey() + " = " + entry.getValue());
+        }
+        System.out.println("\n" +"Ranking Zona Norte: ");
+        for (Map.Entry<String, Integer> entry :getRankingPorZona(operadorDeZonas.getZona("ZonaNorte")).entrySet()) {
+            System.out.println(entry.getKey() + " = " + entry.getValue());
+        }
+    }
+
+    // function to sort hashmap by values
+    private static HashMap<String, Integer> sortByValue(HashMap<String, Integer> hm)
+    {
+        // Create a list from elements of HashMap
+        List<Map.Entry<String, Integer> > list =
+                new LinkedList<Map.Entry<String, Integer> >(hm.entrySet());
+
+        // Sort the list
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer> >() {
+            public int compare(Map.Entry<String, Integer> o1,
+                               Map.Entry<String, Integer> o2)
+            {
+                return (o2.getValue()).compareTo(o1.getValue());
+            }
+        });
+
+        // put data from sorted list to hashmap
+        HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>();
+        for (Map.Entry<String, Integer> aa : list) {
+            temp.put(aa.getKey(), aa.getValue());
+        }
+        return temp;
     }
 
 }

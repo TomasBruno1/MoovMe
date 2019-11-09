@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -7,9 +8,8 @@ public class Terminal implements Serializable {
     ArrayList<Lote> lotes;
     String nombre;
 
-    public Terminal(Zona zona, String nombre){
+    public Terminal(Zona zona, String nombre) {
         this.zona = zona;
-        zona.agregarTerminal(this);
         this.nombre = nombre;
         lotes = new ArrayList<>();
     }
