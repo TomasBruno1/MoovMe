@@ -3,6 +3,8 @@ import java.io.Serializable;
 import java.time.LocalTime;
 
 public class Activo implements Serializable {
+    public static final long serialVersionUID = 1L;
+
     int puntos;
     int tarifaMin;
     Terminal terminalDeOrigen;
@@ -24,11 +26,11 @@ public class Activo implements Serializable {
         this.terminalActual = terminalDeOrigen;
         estaEnZona = true;
         this.tarifaMin = tarifaMin;
-        precioFijo= precio;
-        valorDeMulta= precio/2;
+        precioFijo = precio;
+        valorDeMulta = precio*10;
         codigoReal = codigo;
         this.lote = null;
-        this.puntos= puntos;
+        this.puntos = puntos;
         status = new Disponible();
     }
 

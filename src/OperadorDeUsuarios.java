@@ -3,6 +3,8 @@ import java.io.Serializable;
 import java.util.*;
 
 public class OperadorDeUsuarios implements Serializable {
+    public static final long serialVersionUID = 5L;
+
     ArrayList<Usuario> usuarios;
     Usuario usuarioActivo;
     OperadorDeZonas operadorDeZonas;
@@ -51,7 +53,7 @@ public class OperadorDeUsuarios implements Serializable {
         for (Descuento descuento: descuentosDisponibles) {
             if(descuento.getUnTipoDeActivo().getNombre().equals(unCliente.getActivoEnUso().getTipoDeActivo().getNombre())&&
                     descuento.getZonaParaDescuento().getNombre().equals(unCliente.getActivoEnUso().getTerminalDeOrigen().getZona().getNombre()) &&
-            descuento.getPuntosMinParaUsar()<unCliente.getPuntosPorZona(unCliente.getActivoEnUso().getTerminalDeOrigen().getZona())){
+            descuento.getPuntosMinParaUsar()<=unCliente.getPuntosPorZona(unCliente.getActivoEnUso().getTerminalDeOrigen().getZona())){
                 descuentosDisponiblesAMostrar.add(descuento);
             }
         }
@@ -61,7 +63,8 @@ public class OperadorDeUsuarios implements Serializable {
     public Descuento getDescuentoPorDescripcion (String descripcion) throws IOException {
         Iterator<Descuento>  iteratorDescuento = descuentosDisponibles.iterator();
         while ( iteratorDescuento.hasNext()){
-            if (descripcion.equals(iteratorDescuento.next().getDescripcion())) return iteratorDescuento.next();
+            Descuento unDescuento = iteratorDescuento.next();
+            if (unDescuento.getDescripcion().equals(descripcion)) return unDescuento;
         }throw new IOException("Descuento no econtrado");
     }
 
@@ -187,12 +190,22 @@ public class OperadorDeUsuarios implements Serializable {
     
     public void imprimirRanking () throws IOException {
         System.out.println("\n" +"Ranking Zona Sur: ");
+        int i = 0;
+
         for (Map.Entry<String, Integer> entry :getRankingPorZona(operadorDeZonas.getZona("ZonaSur")).entrySet()) {
-            System.out.println(entry.getKey() + " = " + entry.getValue());
+            if (i < 10){
+                System.out.println(entry.getKey() + " = " + entry.getValue());
+                i++;
+            }
         }
+        i=0;
+
         System.out.println("\n" +"Ranking Zona Norte: ");
         for (Map.Entry<String, Integer> entry :getRankingPorZona(operadorDeZonas.getZona("ZonaNorte")).entrySet()) {
-            System.out.println(entry.getKey() + " = " + entry.getValue());
+            if (i < 10){
+                System.out.println(entry.getKey() + " = " + entry.getValue());
+                i++;
+            }
         }
     }
 

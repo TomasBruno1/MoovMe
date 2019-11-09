@@ -1,10 +1,11 @@
 import java.io.*;
+import java.time.DateTimeException;
 import java.time.LocalTime;
 
 public class MoovMe {
     static OperadorDeUsuarios operadorDeUsuarios = new OperadorDeUsuarios();
     static OperadorDeZonas operadorDeZonas = new OperadorDeZonas();
-    static LocalTime horaDelSistema = LocalTime.of(0,0);
+    static LocalTime horaDelSistema = LocalTime.now();
 
     public static void main(String[] args) {
         loadFiles();
@@ -58,6 +59,7 @@ public class MoovMe {
         while(true){
 
             System.out.println("\n" + "------------------------------------" + "\n" +
+                    horaDelSistema.toString() + "\n" +
                     "MOOVME" + "\n" +
                     "\n" +
                     "1. Crear Usuario" + "\n" +
@@ -66,21 +68,29 @@ public class MoovMe {
                     "4. Salir" + "\n");
             switch  (Scanner.getInt("Ingrese una opcion: ")){
                 case 1:
+                    clearScreen();
                     register();
                     break;
                 case 2:
+                    clearScreen();
                     userLogin();
                     break;
                 case 3:
+                    clearScreen();
                     adminLogin();
                     break;
                 case 4:
+                    clearScreen();
                     return;
                 default:
                     System.out.println("Opcion invalida");
                     break;
             }
         }
+    }
+
+    private static void clearScreen() {
+        for (int i = 0; i < 50; ++i) System.out.println();
     }
 
     private static void adminLogin() {
@@ -95,9 +105,11 @@ public class MoovMe {
     }
 
     private static void showAdminScreen() {
+        clearScreen();
         System.out.println("Inicio de sesion exitosa");
         while(true){
             System.out.println("\n" + "------------------------------------" + "\n" +
+                    horaDelSistema.toString() + "\n" +
                     "MOOVME ADMIN" + "\n" +
                     "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +
                     "\n" +
@@ -121,51 +133,67 @@ public class MoovMe {
 
             switch  (Scanner.getInt("Ingrese una opcion: ")){
                 case 1:
+                    clearScreen();
                     crearAdmin();
                     break;
                 case 2:
+                    clearScreen();
                     eliminarAdmin();
                     break;
                 case 3:
+                    clearScreen();
                     bloquearCliente();
                     break;
                 case 4:
+                    clearScreen();
                     desbloquearCliente();
                     break;
                 case 5:
+                    clearScreen();
                     eliminarCliente();
                     break;
                 case 6:
+                    clearScreen();
                     verListaAdmins();
                     break;
                 case 7:
+                    clearScreen();
                     verListaClientes();
                     break;
                 case 8:
+                    clearScreen();
                     crearTipoActivo();
                     break;
                 case 9:
+                    clearScreen();
                     comprarLoteActivosParaZona();
                     break;
                 case 10:
+                    clearScreen();
                     cambiarHoraScreen();
                     break;
                 case 11:
+                    clearScreen();
                     agregarDescuentoScreen();
                     break;
                 case 12:
+                    clearScreen();
                     eliminarDescuentoScreen();
                     break;
                 case 13:
+                    clearScreen();
                     agregarTerminalScreen();
                     break;
                 case 14:
+                    clearScreen();
                     eliminarTerminalScreen();
                     break;
                 case 15:
+                    clearScreen();
                     rankingScreen();
                     break;
                 case 16:
+                    clearScreen();
                     try {
                         operadorDeUsuarios.resetRanking();
                         System.out.println("Ranking reinciado");
@@ -174,6 +202,7 @@ public class MoovMe {
                     }
                     break;
                 case 17:
+                    clearScreen();
                     operadorDeUsuarios.cerrarSesion();
                     return;
                 default:
@@ -185,6 +214,7 @@ public class MoovMe {
 
     private static void eliminarTerminalScreen() {
         System.out.println("\n" + "------------------------------------" + "\n" +
+                horaDelSistema.toString() + "\n" +
                 "MOOVME ADMIN" + "\n" +
                 "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" +
                 "Eliminar terminal"+ "\n"+
@@ -201,13 +231,15 @@ public class MoovMe {
 
                         String nombreTerminal = Scanner.getString("Ingrese el nombre de la Terminal: ");
                         zona.eliminarTerminal(nombreTerminal);
+                        clearScreen();
                         System.out.println("Terminal eliminada");
 
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
                     }
-                    break;
+                    return;
                 case 2:
+                    clearScreen();
                     return;
                 default:
                     System.out.println("Opcion invalida");
@@ -219,6 +251,7 @@ public class MoovMe {
     private static void agregarTerminalScreen() {
         while (true) {
             System.out.println("\n" + "------------------------------------" + "\n" +
+                    horaDelSistema.toString() + "\n" +
                     "MOOVME ADMIN" + "\n" +
                     "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" +
                     "Agregar Terminal"+ "\n"+
@@ -234,6 +267,7 @@ public class MoovMe {
 
                         String nombreTerminal = Scanner.getString("Ingrese el nombre de la Terminal: ");
                         zona.agregarTerminal(nombreTerminal, zona);
+                        clearScreen();
                         System.out.println("Terminal agregada");
 
                     } catch (IOException e) {
@@ -241,6 +275,7 @@ public class MoovMe {
                     }
                     break;
                 case 2:
+                    clearScreen();
                     return;
                 default:
                     System.out.println("Opcion invalida");
@@ -259,6 +294,7 @@ public class MoovMe {
 
     private static void eliminarDescuentoScreen() {
         System.out.println("\n" + "------------------------------------" + "\n" +
+                horaDelSistema.toString() + "\n" +
                 "MOOVME ADMIN" + "\n" +
                 "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" +
                 "Eliminar descuento"+ "\n"+
@@ -273,6 +309,7 @@ public class MoovMe {
                         String desDescuento = Scanner.getString("Ingrese descripcion del descuento: ");
 
                         operadorDeUsuarios.eliminarDescuento(desDescuento);
+                        clearScreen();
                         System.out.println("Descuento eliminado");
 
                     } catch (IOException e) {
@@ -280,6 +317,7 @@ public class MoovMe {
                     }
                     break;
                 case 2:
+                    clearScreen();
                     return;
                 default:
                     System.out.println("Opcion invalida");
@@ -291,6 +329,7 @@ public class MoovMe {
     private static void agregarDescuentoScreen() {
         while (true) {
             System.out.println("\n" + "------------------------------------" + "\n" +
+                    horaDelSistema.toString() + "\n" +
                 "MOOVME ADMIN" + "\n" +
                     "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" +
                 "Agregar descuento"+ "\n"+
@@ -311,13 +350,15 @@ public class MoovMe {
                         int descuentoNum = Scanner.getInt("Ingrese el descuento: ");
 
                         operadorDeUsuarios.agregarDescuento(((Administrador)operadorDeUsuarios.getUsuarioActivo()),desDescuento, tipoDeActivo,puntosMin,zona,descuentoNum);
+                        clearScreen();
                         System.out.println("Descuento agregado");
 
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
                     }
-                    break;
+                    return;
                 case 2:
+                    clearScreen();
                     return;
                 default:
                     System.out.println("Opcion invalida");
@@ -330,6 +371,7 @@ public class MoovMe {
         while (true) {
 
             System.out.println("\n" + "------------------------------------" + "\n" +
+                    horaDelSistema.toString() + "\n" +
                 "MOOVME ADMIN" + "\n" +
                     "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" +
                 "Cambiar Hora"+ "\n"+
@@ -340,10 +382,16 @@ public class MoovMe {
                 case 1:
                     int hora = Scanner.getInt("Ingrese el hora: ");
                     int minuto = Scanner.getInt("Ingrese los minutos: ");
-                    horaDelSistema = ((Administrador) operadorDeUsuarios.getUsuarioActivo()).cambiarHora(hora, minuto);
+                    try {
+                        horaDelSistema = ((Administrador) operadorDeUsuarios.getUsuarioActivo()).cambiarHora(hora, minuto);
+                    }catch (DateTimeException e){
+                        System.out.println("La hora ingresada no es valida. ");
+                    }
+                    clearScreen();
                     System.out.println("Hora cambiada");
-                    break;
+                    return;
                 case 2:
+                    clearScreen();
                     return;
                 default:
                     System.out.println("Opcion invalida");
@@ -356,6 +404,7 @@ public class MoovMe {
         while (true) {
 
             System.out.println("\n" + "------------------------------------" + "\n" +
+                    horaDelSistema.toString() + "\n" +
                 "MOOVME ADMIN" + "\n" +
                     "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" +
                 "Comprar lote de activos para zona"+ "\n"+
@@ -382,14 +431,15 @@ public class MoovMe {
 
 
                         operadorDeZonas.agregarLoteAZona(((Administrador)operadorDeUsuarios.getUsuarioActivo()).crearLoteDeCompraDeActivos( tipoDeActivo, cantidad, suTerminal, precio, tarifa,puntos, operadorDeZonas.getCodigoLoteActual(), operadorDeZonas.getCodigoActivoActual()), suZona.getNombre(), suTerminal);
-
+                        clearScreen();
                         System.out.println("Lote agregado a "+ nombreZona);
                         return;
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
                     }
-                    break;
+                    return;
                 case 2:
+                    clearScreen();
                     return;
                 default:
                     System.out.println("Opcion invalida");
@@ -402,6 +452,7 @@ public class MoovMe {
         while (true) {
 
             System.out.println("\n" + "------------------------------------" + "\n" +
+                    horaDelSistema.toString() + "\n" +
                 "MOOVME ADMIN" + "\n" +
                     "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" +
                 "Dar de alta tipo de activo"+ "\n"+
@@ -413,13 +464,15 @@ public class MoovMe {
                     String nombreActivo = Scanner.getString("Ingrese el nombre del activo: ");
                     try {
                         operadorDeZonas.agregarTipoDeActivo(nombreActivo);
+                        clearScreen();
                         System.out.println("Tipo de Activo dado de alta");
                         return;
                     } catch (IOException e) {
                         System.out.println("Tipo de activo ya existe");
                     }
-                    break;
+                    return;
                 case 2:
+                    clearScreen();
                     return;
                 default:
                     System.out.println("Opcion invalida");
@@ -444,6 +497,7 @@ public class MoovMe {
         while (true) {
 
             System.out.println("\n" + "------------------------------------" + "\n" +
+                    horaDelSistema.toString() + "\n" +
                 "MOOVME ADMIN" + "\n" +
                     "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +
                 "Desbloquear Cliente"+ "\n"+
@@ -455,13 +509,15 @@ public class MoovMe {
                     String nombreCliente = Scanner.getString("Ingrese el nombre del cliente a desbloquear: ");
                     try {
                         ((Administrador) operadorDeUsuarios.getUsuarioActivo()).desbloquearCliente((Cliente) operadorDeUsuarios.getUsuario(nombreCliente));
+                        clearScreen();
                         System.out.println("Cliente desbloqueado");
                         return;
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
                     }
-                    break;
+                    return;
                 case 2:
+                    clearScreen();
                     return;
                 default:
                     System.out.println("Opcion invalida");
@@ -474,6 +530,7 @@ public class MoovMe {
         while (true){
 
             System.out.println("\n" + "------------------------------------" + "\n" +
+                    horaDelSistema.toString() + "\n" +
                     "MOOVME ADMIN" + "\n" +
                     "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n"+
                     "Bloquear Cliente"+ "\n"+
@@ -485,12 +542,13 @@ public class MoovMe {
                         String nombreCliente = Scanner.getString("Ingrese el nombre del cliente a bloquear: ");
                         try {
                             ((Administrador)operadorDeUsuarios.getUsuarioActivo()).bloquearCliente((Cliente) operadorDeUsuarios.getUsuario(nombreCliente));
+                            clearScreen();
                             System.out.println("Cliente bloqueado");
                             return;
                         } catch (IOException e) {
                             System.out.println(e.getMessage());
                         }
-                        break;
+                        return;
 
                     case 2:
                         return;
@@ -506,6 +564,7 @@ public class MoovMe {
         String nombreIngresado = Scanner.getString("Ingrese un nombre de usuario: ");
         try {
             operadorDeUsuarios.eliminarCliente(nombreIngresado);
+            clearScreen();
             System.out.println("Cliente eliminado");
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -516,6 +575,7 @@ public class MoovMe {
         String nombreIngresado = Scanner.getString("Ingrese un nombre de usuario: ");
         try {
             operadorDeUsuarios.eliminarAdmin(nombreIngresado);
+            clearScreen();
             System.out.println("Admin eliminado");
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -527,6 +587,7 @@ public class MoovMe {
         String contrasenaIngresada = Scanner.getString("Ingrese una contraseña: ");
         try {
             operadorDeUsuarios.agregarAdmin(nombreIngresado, contrasenaIngresada);
+            clearScreen();
             System.out.println("Admin agregado");
 
         } catch (IOException e) {
@@ -537,6 +598,7 @@ public class MoovMe {
     private static void userLogin() {
         String nombreIngresado = Scanner.getString("Ingrese su nombre de usuario: ");
         String contrasenaIngresada = Scanner.getString("Ingrese su contraseña: ");
+        clearScreen();
 
         try {
             operadorDeUsuarios.clienteCheck(nombreIngresado, contrasenaIngresada);
@@ -560,9 +622,11 @@ public class MoovMe {
             switch (Scanner.getInt("Ingrese una opcion: ")) {
                 case 1:
                     ((Cliente) operadorDeUsuarios.getUsuarioActivo()).pagarMulta();
+                    clearScreen();
                     System.out.println("Multa pagada");
 
                 case 2:
+                    clearScreen();
                     homeScreen();
                 default:
                     System.out.println("Opcion invalida");
@@ -577,6 +641,7 @@ public class MoovMe {
         System.out.println("Inicio de sesion exitosa");
         while (true){
         System.out.println("\n" + "------------------------------------" + "\n" +
+                horaDelSistema.toString() + "\n" +
                 "MOOVME CLIENTE" + "\n" +
                 "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() +"\n" );
         if(((Cliente) operadorDeUsuarios.getUsuarioActivo()).tieneActivoEnUso()) {
@@ -598,15 +663,18 @@ public class MoovMe {
             switch  (Scanner.getInt("Ingrese una opcion: ")){
                 case 1:
                     if (((Cliente)operadorDeUsuarios.getUsuarioActivo()).tieneActivoEnUso()){
+                        clearScreen();
                         System.out.println("Ya tiene un activo alquilado");
                         break;
                     }
+                    clearScreen();
                     showAlquilarActivoScreen();
                     break;
                 case 2:
                     if (((Cliente)operadorDeUsuarios.getUsuarioActivo()).tieneActivoEnUso()){
                         int resultado = showDevolverActivoScreen();
                         if(resultado == 1) {
+                            clearScreen();
                             System.out.println("Fuiste bloqueado");
                             return;
                         }
@@ -614,12 +682,15 @@ public class MoovMe {
                     }else System.out.println("No hay un activo alquilado");
                     break;
                 case 3:
+                    clearScreen();
                     puntosScreen();
                     break;
                 case 4:
+                    clearScreen();
                     rankingScreen();
                     break;
                 case 5:
+                    clearScreen();
                     operadorDeUsuarios.cerrarSesion();
                     return;
                 default:
@@ -645,7 +716,7 @@ public class MoovMe {
     private static int showDevolverActivoScreen() {
 
         try {
-            System.out.println("Su activo costara: "+ ((Cliente)operadorDeUsuarios.getUsuarioActivo()).getActivoEnUso().getPrecioFijo());
+            System.out.println("Su activo costara: "+ ((Cliente)operadorDeUsuarios.getUsuarioActivo()).getPrecio(horaDelSistema));
 
             String nombreZona = Scanner.getString("Ingrese su zona: ");
 
@@ -654,9 +725,11 @@ public class MoovMe {
             Terminal unaTerminal = unaZona.getTerminal(nombreTerminal);
             if (((Cliente) operadorDeUsuarios.getUsuarioActivo()).tieneActivoEnUso()) {
                 Activo suActivo = ((Cliente) operadorDeUsuarios.getUsuarioActivo()).getActivoEnUso();
+                clearScreen();
                 if (operadorDeUsuarios.ofrecerDescuentos((Cliente) operadorDeUsuarios.getUsuarioActivo()).size() != 0) {
                     showDescuentoScreen();
-                    System.out.println("El precio con el descuento aplicado es de: "+ ((Cliente) operadorDeUsuarios.getUsuarioActivo()).getActivoEnUso().getPrecioFijo()*((Cliente) operadorDeUsuarios.getUsuarioActivo()).getDescuentoEnUso().getDescuentoNumerico());
+                    System.out.println("El precio con el descuento aplicado es de: " + ((Cliente)operadorDeUsuarios.getUsuarioActivo()).getPrecio(horaDelSistema));
+                    ((Cliente) operadorDeUsuarios.getUsuarioActivo()).eliminarDescuento();
                 }
                 suActivo.checkEstaEnZona(unaTerminal);
 
@@ -682,6 +755,7 @@ public class MoovMe {
     private static void showDescuentoScreen() {
         while (true) {
             System.out.println("\n" + "------------------------------------" + "\n" +
+                    horaDelSistema.toString() + "\n" +
                     "MOOVME CLIENTE" + "\n" +
                     "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() + "\n" +
                     "1. Usar descuentos" + "\n" +
@@ -692,7 +766,7 @@ public class MoovMe {
                     try {
                         if (operadorDeUsuarios.ofrecerDescuentos((Cliente) operadorDeUsuarios.getUsuarioActivo()).size() != 0) {
                             for (Descuento descuento : operadorDeUsuarios.ofrecerDescuentos((Cliente) operadorDeUsuarios.getUsuarioActivo())) {
-                                System.out.println(descuento.getDescripcion());
+                                System.out.println(descuento.getDescripcion() + " " + descuento.getDescuentoNumerico());
                             }
                             String descDescuento = Scanner.getString("Ingrese el descuento que quiere usar: ");
                             operadorDeUsuarios.darDescuentoACliente((Cliente) operadorDeUsuarios.getUsuarioActivo(), descDescuento);
@@ -701,7 +775,7 @@ public class MoovMe {
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
                     }
-                    break;
+                    return;
                 case 2:
                     return;
                 default:
@@ -713,6 +787,7 @@ public class MoovMe {
 
     private static void showAlquilarActivoScreen() {
         System.out.println("\n" + "------------------------------------" + "\n" +
+                horaDelSistema.toString() + "\n" +
                 "ALQUILER DE ACTIVOS" + "\n" +
                 "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() + "\n");
         String nombreDeZona = Scanner.getString("En que zona se encuentra: ");
@@ -737,12 +812,18 @@ public class MoovMe {
                         String nombreDelTipoDeActivoElegido = Scanner.getString("Ingrese un tipo de Activo: ");
                         int hora = Scanner.getInt("Ingrese hora estimada de devolucion: ");
                         int minuto = Scanner.getInt("Ingrese minuto estimado de devolucion: ");
-                        LocalTime horaEstimadaDeDevolucion = LocalTime.of(hora, minuto);
-                        TipoDeActivo tipoDeActivo=  operadorDeZonas.getTipoActivo(nombreDelTipoDeActivoElegido);
-                        ((Cliente) operadorDeUsuarios.getUsuarioActivo()).setActivoEnUso(suZona.getTerminal(nombreDeSuTerminal).activosDeTerminalPorTipo(tipoDeActivo).get(0), horaDelSistema, horaEstimadaDeDevolucion);
+                        try {
+                            LocalTime horaEstimadaDeDevolucion = LocalTime.of(hora, minuto);
+                            TipoDeActivo tipoDeActivo=  operadorDeZonas.getTipoActivo(nombreDelTipoDeActivoElegido);
+                            ((Cliente) operadorDeUsuarios.getUsuarioActivo()).setActivoEnUso(suZona.getTerminal(nombreDeSuTerminal).activosDeTerminalPorTipo(tipoDeActivo).get(0), horaDelSistema, horaEstimadaDeDevolucion);
+                        }catch(DateTimeException e){
+                            System.out.println("La hora ingresada no es valida");
+                        }
+                        clearScreen();
                         System.out.println("Activo alquilado");
                         return;
                     case 2:
+                        clearScreen();
                         return;
                     default:
                         System.out.println("Opcion invalida");
@@ -763,6 +844,7 @@ public class MoovMe {
         String contrasenaIngresada = Scanner.getString("Ingrese su contraseña: ");
         try {
             operadorDeUsuarios.agregarCliente(nombreIngresado, numTelIngresado,contrasenaIngresada);
+            clearScreen();
             System.out.println("Cliente "+nombreIngresado + " agregado");
 
         } catch (IOException e) {

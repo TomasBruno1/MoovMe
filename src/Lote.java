@@ -3,6 +3,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Lote implements Serializable {
+    public static final long serialVersionUID = 3L;
 
     ArrayList<Activo> activosDelLote;
     Terminal terminal;

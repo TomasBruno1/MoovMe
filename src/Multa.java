@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.io.Serializable;
 
 public class Multa implements Serializable {
+    public static final long serialVersionUID = 4L;
 
     Activo activoAsociado;
     int valor;

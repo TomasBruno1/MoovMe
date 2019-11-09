@@ -1,6 +1,8 @@
 import java.io.Serializable;
 
 public class Descuento implements Serializable {
+    public static final long serialVersionUID = 2L;
+
     String descripcion;
     TipoDeActivo unTipoDeActivo;
     int puntosMinParaUsar;

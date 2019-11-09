@@ -1,6 +1,7 @@
 import java.io.IOException;
 
 public class Disponible extends Status {
+    public static final long serialVersionUID = 14L;
 
     public Disponible(){
         codigo = 1;

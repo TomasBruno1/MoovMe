@@ -1,7 +1,8 @@
-import java.util.ArrayList;
 import java.util.HashSet;
 
 public class ZonaNorte extends Zona{
+    public static final long serialVersionUID = 16L;
+
     public ZonaNorte() {
         valor = 50;
         nombre = "ZonaNorte";

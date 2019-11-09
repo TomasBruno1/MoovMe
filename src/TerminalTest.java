@@ -3,8 +3,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
-
 public class TerminalTest {
     Terminal unaTerminal = new Terminal(new ZonaSur(), "Terminal1");
 

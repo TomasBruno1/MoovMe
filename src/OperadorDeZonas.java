@@ -3,6 +3,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class OperadorDeZonas implements Serializable {
+    public static final long serialVersionUID = 6L;
+
     public ArrayList<Zona> zonas;
     public ArrayList<TipoDeActivo> tipoDeActivos;
     OperadorDeUsuarios operadorDeUsuarios;

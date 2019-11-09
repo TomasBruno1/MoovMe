@@ -1,7 +1,9 @@
 import java.io.IOException;
 
 public class EnUso extends Status {
-public EnUso(){
+    public static final long serialVersionUID = 15L;
+
+    public EnUso(){
     codigo = 0;
 }
 

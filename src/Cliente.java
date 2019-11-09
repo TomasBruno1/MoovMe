@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.*;
 
 public class Cliente extends Usuario {
+    public static final long serialVersionUID = 13L;
+
+
     Multa multa;
     HashMap<Zona, Integer> puntosPorZona;
     HashMap<Zona, Integer> puntosPorZonaFijo;
@@ -83,6 +86,7 @@ public class Cliente extends Usuario {
 
     public void setDescuentoEnUso(Descuento descuentoEnUso) {
         this.descuentoEnUso = descuentoEnUso;
+        puntosPorZona.replace(descuentoEnUso.getZonaParaDescuento(), puntosPorZona.get(descuentoEnUso.getZonaParaDescuento()) - descuentoEnUso.getPuntosMinParaUsar());
     }
 
     public void setActivoEnUso(Activo activoEnUso, LocalTime horaEnQueSeAlquilo, LocalTime horaEstimadaDeDevolucion) throws IOException {
@@ -117,5 +121,17 @@ public class Cliente extends Usuario {
     @Override
     public boolean isAdmin() {
         return false;
+    }
+
+    public void eliminarDescuento() {
+        descuentoEnUso = null;
+    }
+
+    public double getPrecio(LocalTime horaDelSistema) {
+        if(descuentoEnUso != null){
+            return obtenerPrecioPorUso(horaDelSistema.toSecondOfDay()/60 - activoEnUso.getTiempoEnElQueSeAlquilo().toSecondOfDay()/60) * ((double)(100 - descuentoEnUso.getDescuentoNumerico())/100);
+        }
+
+        return obtenerPrecioPorUso(horaDelSistema.toSecondOfDay()/60 - activoEnUso.getTiempoEnElQueSeAlquilo().toSecondOfDay()/60);
     }
 }

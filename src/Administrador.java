@@ -3,6 +3,8 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Administrador extends Usuario {
+    public static final long serialVersionUID = 12L;
+
     public Administrador(String nombre, String contrasena){
         this.nombreDeUsuario = nombre;
         this.contrasena = contrasena;

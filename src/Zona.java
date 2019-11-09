@@ -1,12 +1,13 @@
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Iterator;
 
 public abstract class Zona implements Serializable {
-String nombre;
-int valor;
-HashSet<Terminal> terminales;
+    public static final long serialVersionUID = 11L;
+
+    String nombre;
+    int valor;
+    HashSet<Terminal> terminales;
 
     public String getNombre() {
         return nombre;

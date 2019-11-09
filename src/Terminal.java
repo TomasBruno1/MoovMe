@@ -1,9 +1,10 @@
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Terminal implements Serializable {
+    public static final long serialVersionUID = 8L;
+
     Zona zona;
     ArrayList<Lote> lotes;
     String nombre;
