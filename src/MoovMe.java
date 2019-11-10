@@ -726,8 +726,8 @@ public class MoovMe {
             if (((Cliente) operadorDeUsuarios.getUsuarioActivo()).tieneActivoEnUso()) {
                 Activo suActivo = ((Cliente) operadorDeUsuarios.getUsuarioActivo()).getActivoEnUso();
                 clearScreen();
-                if (operadorDeUsuarios.ofrecerDescuentos((Cliente) operadorDeUsuarios.getUsuarioActivo()).size() != 0) {
-                    showDescuentoScreen();
+                showDescuentoScreen();
+                if (((Cliente) operadorDeUsuarios.getUsuarioActivo()).getDescuentoEnUso() != null) {
                     System.out.println("El precio con el descuento aplicado es de: " + ((Cliente)operadorDeUsuarios.getUsuarioActivo()).getPrecio(horaDelSistema));
                     ((Cliente) operadorDeUsuarios.getUsuarioActivo()).eliminarDescuento();
                 }
@@ -759,7 +759,7 @@ public class MoovMe {
                     "MOOVME CLIENTE" + "\n" +
                     "Usuario: " +operadorDeUsuarios.getUsuarioActivo().getNombreDeUsuario() + "\n" +
                     "1. Usar descuentos" + "\n" +
-                    "2. Volver" + "\n");
+                    "2. No usar descuento" + "\n");
 
             switch (Scanner.getInt("Ingrese una opcion: ")) {
                 case 1:

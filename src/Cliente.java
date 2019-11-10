@@ -80,11 +80,11 @@ public class Cliente extends Usuario {
     }
 
     public Descuento getDescuentoEnUso() throws IOException {
-        if(descuentoEnUso == null) throw new IOException("No se encontro un descuento en uso.");
-        else return descuentoEnUso;
+        return descuentoEnUso;
     }
 
-    public void setDescuentoEnUso(Descuento descuentoEnUso) {
+    public void setDescuentoEnUso(Descuento descuentoEnUso) throws IOException {
+        if(this.descuentoEnUso != null)throw new IOException("Ya tiene un descuento en uso");
         this.descuentoEnUso = descuentoEnUso;
         puntosPorZona.replace(descuentoEnUso.getZonaParaDescuento(), puntosPorZona.get(descuentoEnUso.getZonaParaDescuento()) - descuentoEnUso.getPuntosMinParaUsar());
     }
