@@ -187,7 +187,7 @@ public class OperadorDeUsuarios implements Serializable {
         HashSet<String> nombresTopRanking = new HashSet<>();
         int i = 0;
         for (Map.Entry<String, Integer> entry :getRankingPorZona(operadorDeZonas.getZona("ZonaSur")).entrySet()) {
-            if (i < 10){
+            if (i < 3){
                 nombresTopRanking.add(entry.getKey());
                 i++;
             }
@@ -195,7 +195,7 @@ public class OperadorDeUsuarios implements Serializable {
         i=0;
 
         for (Map.Entry<String, Integer> entry :getRankingPorZona(operadorDeZonas.getZona("ZonaNorte")).entrySet()) {
-            if (i < 10){
+            if (i < 3){
                 nombresTopRanking.add(entry.getKey());
                 i++;
             }
@@ -206,7 +206,7 @@ public class OperadorDeUsuarios implements Serializable {
             for (Usuario usuario :
                     usuarios) {
                 if (usuario.getNombreDeUsuario().equals(nombre)) {
-                    ((Cliente) usuario).setDescuentoEnUso(new Descuento("DESCUENTO POR TOP 10!", new TipoDeActivo("cualquiera"), 0, operadorDeZonas.getZona("ZonaSur"), 50));
+                    ((Cliente) usuario).setDescuentoEnUso(new Descuento("DESCUENTO POR TOP 3!", new TipoDeActivo("cualquiera"), 0, operadorDeZonas.getZona("ZonaSur"), 50));
                 }
             }
         }

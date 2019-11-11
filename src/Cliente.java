@@ -109,7 +109,6 @@ public class Cliente extends Usuario {
     }
 
     public int obtenerPrecioPorUso(int minutos){
-        //todo cambiar lo de hora
         return activoEnUso.getPrecioFijo() + activoEnUso.getPrecioDeTarifa()* minutos;
     }
 
